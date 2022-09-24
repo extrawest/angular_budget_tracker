@@ -11,7 +11,7 @@ export const environment = {
     storageBucket: 'budget-tracker-c1791.appspot.com',
     messagingSenderId: '811395747144',
     appId: '1:811395747144:web:d43870c351e4d07cf8377d',
-    measurementId: 'G-ZVJYSMETK4'
+    measurementId: 'G-ZVJYSMETK4',
   },
 };
 
