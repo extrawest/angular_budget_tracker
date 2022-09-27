@@ -1,0 +1,60 @@
+<div class="login-card">
+  <div class="text-center mb-6">
+    <h1 class="mb-3">Sign in</h1>
+    <div class="text-gray-400 text-lg">
+      New here?
+      <a [routerLink]="['../', AuthRoute.Register]" class="font-semibold">Create an Account</a>
+    </div>
+  </div>
+  <form>
+    <div class="form-control form-control-lg mb-6">
+      <label class="form-label">Email</label>
+      <input
+        pInputText
+        class="w-full"
+        type="email"
+        aria-describedby="email"
+      />
+    </div>
+
+    <div class="form-control form-control-lg mb-6">
+      <div class="flex align-items-center mb-2">
+        <label class="form-label mb-0">Password</label>
+        <a routerLink="/register" class="ml-auto font-semibold">Forgot password?</a>
+      </div>
+      <p-password
+        [feedback]="false"
+        [toggleMask]="true"
+        inputStyleClass="w-full"
+        styleClass="w-full"
+      ></p-password>
+    </div>
+
+    <button
+      pButton
+      class="w-full p-button-lg mb-3"
+      type="button"
+      label="Continue"
+    ></button>
+
+    <p-divider align="center" class="block mb-5">OR</p-divider>
+
+    <a href="#" pButton class="p-button-light p-button-lg w-full mb-5">
+      <img
+        src="/assets/images/icons/google.svg"
+        class="p-button-icon p-button-icon-left"
+        alt="Google"
+      >
+      Continue with Google
+    </a>
+
+    <a href="#" pButton class="btn-flex flex-center p-button-light p-button-lg w-full">
+      <img
+        src="/assets/images/icons/facebook.svg"
+        class="p-button-icon p-button-icon-left"
+        alt="Google"
+      >
+      Continue with Facebook
+    </a>
+  </form>
+</div>

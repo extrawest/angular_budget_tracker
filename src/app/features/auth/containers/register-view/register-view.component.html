@@ -1,0 +1,102 @@
+<div class="register-card">
+  <div class="text-center mb-6">
+    <h1 class="mb-3">Create an Account</h1>
+    <div class="text-gray-400 text-lg">
+      Already have an account?
+      <a [routerLink]="['../', AuthRoute.Login]" class="font-semibold">Sign in here</a>
+    </div>
+  </div>
+  <form>
+    <div class="grid">
+      <div class="col-6">
+        <a href="#" pButton class="p-button-light-primary p-button-lg w-full">
+          <img
+            src="/assets/images/icons/google.svg"
+            class="p-button-icon p-button-icon-left"
+            alt="Google"
+          >
+          Sign up with Google
+        </a>
+      </div>
+      <div class="col-6">
+        <a href="#" pButton class="p-button-light-primary p-button-lg w-full">
+          <img
+            src="/assets/images/icons/facebook.svg"
+            class="p-button-icon p-button-icon-left"
+            alt="Google"
+          >
+          Sign up with Facebook
+        </a>
+      </div>
+
+      <p-divider align="center" class="col-12">OR</p-divider>
+
+      <div class="col-6">
+        <div class="form-control form-control-lg mb-3">
+          <label class="form-label">Firstname</label>
+          <input
+            pInputText
+            class="w-full"
+            type="email"
+            aria-describedby="email"
+          />
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="form-control form-control-lg mb-3">
+          <label class="form-label">Lastname</label>
+          <input
+            pInputText
+            class="w-full"
+            type="email"
+            aria-describedby="email"
+          />
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="form-control form-control-lg mb-3">
+          <label class="form-label">Email</label>
+          <input
+            pInputText
+            class="w-full"
+            type="email"
+            aria-describedby="email"
+          />
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="form-control form-control-lg mb-3">
+          <label class="form-label">Password</label>
+          <p-password
+            [feedback]="false"
+            [toggleMask]="true"
+            inputStyleClass="w-full"
+            styleClass="w-full"
+          ></p-password>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="form-control form-control-lg mb-4">
+          <label class="form-label">Confirm Password</label>
+          <p-password
+            [feedback]="false"
+            [toggleMask]="true"
+            inputStyleClass="w-full"
+            styleClass="w-full"
+          ></p-password>
+        </div>
+      </div>
+    </div>
+
+    <button
+      pButton
+      class="w-full p-button-lg"
+      type="button"
+      label="Continue"
+    ></button>
+  </form>
+</div>

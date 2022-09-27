@@ -4,10 +4,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
 
 import { AppRoutingModule } from './app-routing.module';
+import { ErrorViewComponent } from './containers/error-view';
 import { RootViewComponent } from './containers/root-view';
 
 @NgModule({
-  declarations: [RootViewComponent],
+  declarations: [
+    RootViewComponent,
+    ErrorViewComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

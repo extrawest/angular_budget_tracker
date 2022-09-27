@@ -1,9 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { DashboardViewComponent } from './containers/dashboard-view/dashboard-view.component';
+import { DashboardViewComponent } from './containers';
 
-const routes: Routes = [{ path: '', component: DashboardViewComponent }];
+const routes: Routes = [
+  {
+    path: '',
+    component: DashboardViewComponent,
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

@@ -1,0 +1,9 @@
+@import "../../../../styles/theme/components/variables";
+
+.register-card {
+  background-color: $card-bg;
+  border-radius: $border-radius-lg;
+  display: block;
+  width: 600px;
+  padding: 50px;
+}

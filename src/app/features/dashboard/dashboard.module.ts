@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { DashboardViewComponent } from './containers/dashboard-view';
+import { DashboardViewComponent } from './containers';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 
 @NgModule({
