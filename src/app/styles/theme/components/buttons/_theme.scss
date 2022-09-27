@@ -1,0 +1,189 @@
+//
+// Buttons Theme
+//
+
+// Base
+.p-button {
+  $name: 'primary';
+  $value: $primary;
+  $color: theme-inverse-color($name);
+  $icon-color: theme-inverse-color($name);
+  $border-color: $value;
+  $bg-color: $value;
+
+  $color-active: theme-inverse-color($name);
+  $icon-color-active: theme-inverse-color($name);
+  $border-color-active: theme-active-color($name);
+  $bg-color-active: theme-active-color($name);
+
+  @include button-custom-variant($color, $icon-color, $border-color, $bg-color, $color-active, $icon-color-active, $border-color-active, $bg-color-active);
+}
+
+// Theme colors
+@each $name, $value in $theme-colors {
+	// Base
+	.p-button.p-button-#{$name} {
+		$color: theme-inverse-color($name);
+		$icon-color: theme-inverse-color($name);
+		$border-color: $value;
+		$bg-color: $value;
+
+		$color-active: theme-inverse-color($name);
+		$icon-color-active: theme-inverse-color($name);
+		$border-color-active: theme-active-color($name);
+		$bg-color-active: theme-active-color($name);
+
+		@include button-custom-variant($color, $icon-color, $border-color, $bg-color, $color-active, $icon-color-active, $border-color-active, $bg-color-active);
+	}
+
+	// Light
+	@if (theme-light-color($name)) {
+		.p-button.p-button-light-#{$name} {
+			$color: $value;
+			$icon-color: $value;
+			$border-color: theme-light-color($name);
+			$bg-color: theme-light-color($name);
+
+			$color-active: theme-inverse-color($name);
+			$icon-color-active: theme-inverse-color($name);
+			$border-color-active: $value;
+			$bg-color-active: $value;
+
+			@include button-custom-variant($color, $icon-color, $border-color, $bg-color, $color-active, $icon-color-active, $border-color-active, $bg-color-active);
+		}
+	}
+
+	@if ( $btn-extended-variants == true or $name == primary or $name == light ) {
+		.p-button.p-button-bg-#{$name} {
+			$color: null;
+			$icon-color: null;
+			$border-color: $value;
+			$bg-color: $value;
+
+			$color-active: null;
+			$icon-color-active: null;
+			$border-color-active: null;
+			$bg-color-active: null;
+
+			@include button-custom-variant($color, $icon-color, $border-color, $bg-color, $color-active, $icon-color-active, $border-color-active, $bg-color-active);
+		}
+
+		.p-button.p-button-active-#{$name} {
+			$color: null;
+			$icon-color: null;
+			$border-color: null;
+			$bg-color: null;
+
+			$color-active: theme-inverse-color($name);
+			$icon-color-active: theme-inverse-color($name);
+			$border-color-active: $value;
+			$bg-color-active: $value;
+
+			@include button-custom-variant($color, $icon-color, $border-color, $bg-color, $color-active, $icon-color-active, $border-color-active, $bg-color-active);
+		}
+
+		@if (theme-light-color($name)) {
+			.p-button.p-button-active-light-#{$name} {
+				$color: null;
+				$icon-color: null;
+				$border-color: null;
+				$bg-color: null;
+
+				$color-active: $value;
+				$icon-color-active: $value;
+				$border-color-active: theme-light-color($name);
+				$bg-color-active: theme-light-color($name);
+
+				@include button-custom-variant($color, $icon-color, $border-color, $bg-color, $color-active, $icon-color-active, $border-color-active, $bg-color-active);
+
+				// Don't change the border color for outline style
+				&.btn-outline:not(.btn-outline-default) {
+					border-color: $value !important;
+				}
+			}
+		}
+	}
+}
+
+// Theme text colors
+@each $name, $value in $theme-text-colors {
+	@if ( $btn-extended-variants == true or $name == primary or $name == muted ) {
+		// Text and icon colors
+		.p-button.p-button-color-#{$name} {
+			$color: $value;
+			$icon-color: $value;
+			$bg-color: null;
+			$border-color: null;
+
+			$color-active: null;
+			$icon-color-active: null;
+			$border-color-active: null;
+			$bg-color-active: null;
+
+			@include button-custom-variant($color, $icon-color, $border-color, $bg-color, $color-active, $icon-color-active, $border-color-active, $bg-color-active);
+		}
+
+		// Text and icon colors active state
+		.p-button.p-button-active-color-#{$name} {
+			$color: null;
+			$icon-color: null;
+			$border-color: null;
+			$bg-color: null;
+
+			$color-active: $value;
+			$icon-color-active: $value;
+			$border-color-active: null;
+			$bg-color-active: null;
+
+			@include button-custom-variant($color, $icon-color, $border-color, $bg-color, $color-active, $icon-color-active, $border-color-active, $bg-color-active);
+		}
+
+		// Text colors
+		.p-button.p-button-text-#{$name} {
+			$color: $value;
+			$icon-color: null;
+			$bg-color: null;
+			$border-color: null;
+
+			$color-active: null;
+			$icon-color-active: null;
+			$border-color-active: null;
+			$bg-color-active: null;
+
+			@include button-custom-variant($color, $icon-color, $border-color, $bg-color, $color-active, $icon-color-active, $border-color-active, $bg-color-active);
+		}
+
+		// Text colors active state
+		.p-button.p-button-active-text-#{$name} {
+			$color: null;
+			$icon-color: null;
+			$bg-color: null;
+			$border-color: null;
+
+			$color-active: $value;
+			$icon-color-active: null;
+			$border-color-active: null;
+			$bg-color-active: null;
+
+			@include button-custom-variant($color, $icon-color, $border-color, $bg-color, $color-active, $icon-color-active, $border-color-active, $bg-color-active);
+		}
+	}
+}
+
+// Outline dashed style
+.p-button.p-button-outline.p-button-outline-dashed.p-button-outline-default {
+	border-width: 1px;
+	border-style: dashed;
+
+	$color: $light-inverse;
+	$icon-color: $light-inverse;
+	$border-color: $gray-300;
+	$bg-color: null;
+
+	$color-active: $primary;
+	$icon-color-active: $primary;
+	$border-color-active: $primary;
+	$bg-color-active: $primary-light;
+
+	@include button-custom-variant($color, $icon-color, $border-color, $bg-color, $color-active, $icon-color-active, $border-color-active, $bg-color-active);
+}
