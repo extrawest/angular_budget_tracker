@@ -38,9 +38,9 @@
 
     .btn-check:checked + &,
     .btn-check:active + &,
-    &:focus:not(.btn-active),
-    &:hover:not(.btn-active),
-    &:active:not(.btn-active),
+    &:focus:not(.btn-active):not([disabled]),
+    &:hover:not(.btn-active):not([disabled]),
+    &:active:not(.btn-active):not([disabled]),
     &.active,
     &.show,
     .show > & {

@@ -28,7 +28,7 @@
 .p-inputtext {
   background-color: $input-solid-bg;
 	box-shadow: none !important;
-  border-color: $input-solid-bg;
+  border-color: $input-solid-bg !important;
   @include placeholder($input-solid-placeholder-color);
   color: $input-solid-color;
   transition: $transition-input;

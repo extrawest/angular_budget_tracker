@@ -6,88 +6,73 @@
       <a [routerLink]="['../', AuthRoute.Login]" class="font-semibold">Sign in here</a>
     </div>
   </div>
-  <form>
+  <form [formGroup]="form">
     <div class="grid">
-      <div class="col-6">
-        <a href="#" pButton class="p-button-light-primary p-button-lg w-full">
+      <div class="col-12">
+        <button pButton (click)="onSignUpWithGoogle()" class="p-button-light-primary p-button-lg w-full">
           <img
             src="/assets/images/icons/google.svg"
             class="p-button-icon p-button-icon-left"
             alt="Google"
           >
           Sign up with Google
-        </a>
+        </button>
       </div>
-      <div class="col-6">
-        <a href="#" pButton class="p-button-light-primary p-button-lg w-full">
+      <div class="col-12">
+        <button pButton (click)="onSignUpWithFacebook()" class="p-button-light-primary p-button-lg w-full">
           <img
             src="/assets/images/icons/facebook.svg"
             class="p-button-icon p-button-icon-left"
             alt="Google"
           >
           Sign up with Facebook
-        </a>
+        </button>
       </div>
 
       <p-divider align="center" class="col-12">OR</p-divider>
-
-      <div class="col-6">
-        <div class="form-control form-control-lg mb-3">
-          <label class="form-label">Firstname</label>
-          <input
-            pInputText
-            class="w-full"
-            type="email"
-            aria-describedby="email"
-          />
-        </div>
-      </div>
-
-      <div class="col-6">
-        <div class="form-control form-control-lg mb-3">
-          <label class="form-label">Lastname</label>
-          <input
-            pInputText
-            class="w-full"
-            type="email"
-            aria-describedby="email"
-          />
-        </div>
-      </div>
 
       <div class="col-12">
         <div class="form-control form-control-lg mb-3">
           <label class="form-label">Email</label>
           <input
             pInputText
+            formControlName="email"
             class="w-full"
             type="email"
             aria-describedby="email"
           />
+          <app-error [control]="form.get('email')!" field="Email address"></app-error>
         </div>
       </div>
 
       <div class="col-12">
         <div class="form-control form-control-lg mb-3">
           <label class="form-label">Password</label>
-          <p-password
+          <input
+            pPassword
             [feedback]="false"
-            [toggleMask]="true"
-            inputStyleClass="w-full"
-            styleClass="w-full"
-          ></p-password>
+            formControlName="password"
+            type="password"
+            class="w-full"
+            aria-describedby="password"
+          />
+          <app-error [control]="form.get('password')!" field="Password"></app-error>
         </div>
       </div>
 
       <div class="col-12">
         <div class="form-control form-control-lg mb-4">
           <label class="form-label">Confirm Password</label>
-          <p-password
+          <input
+            pPassword
             [feedback]="false"
-            [toggleMask]="true"
-            inputStyleClass="w-full"
-            styleClass="w-full"
-          ></p-password>
+            formControlName="confirmPassword"
+            type="password"
+            class="w-full"
+            aria-describedby="password"
+          />
+          <app-error [control]="form.get('confirmPassword')!" field="Password confirmation"></app-error>
+          <app-error [control]="form" field="password"></app-error>
         </div>
       </div>
     </div>
@@ -97,6 +82,8 @@
       class="w-full p-button-lg"
       type="button"
       label="Continue"
+      [disabled]="!form.valid"
+      (click)="onSubmit()"
     ></button>
   </form>
 </div>

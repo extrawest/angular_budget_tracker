@@ -279,10 +279,6 @@
           }
         ],
         "array-bracket-spacing": ["error", "never"],
-        "array-element-newline": ["error", "always"],
-        "array-bracket-newline": ["error", {
-          "multiline": true
-        }],
         "padded-blocks": [
           "error",
           "never",

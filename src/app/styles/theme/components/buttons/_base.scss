@@ -8,6 +8,7 @@
 	outline: none !important;
   align-items: center;
   justify-content: center;
+  font-weight: 500;
 
 	// Reset focus shadow
 	&:not(.btn-shadow):not(.shadow):not(.shadow-sm):not(.shadow-lg) {
@@ -63,7 +64,6 @@
 	}
 
   &.p-button-lg {
-    font-weight: 500;
     font-size: 1.15rem;
   }
 

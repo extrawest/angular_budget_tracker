@@ -1,10 +1,18 @@
 import { NgModule } from '@angular/core';
+import { AuthPipe, canActivate } from '@angular/fire/auth-guard';
 import { RouterModule, Routes } from '@angular/router';
+import { User } from 'firebase/auth';
+import { map } from 'rxjs';
 
-import { AuthViewComponent } from './containers/auth-view';
+import { AuthViewComponent } from '../../containers/auth-view';
+
 import { LoginViewComponent } from './containers/login-view';
 import { RegisterViewComponent } from './containers/register-view';
+import { VerifyEmailViewComponent } from './containers/verify-email-view';
 import { AuthRoute } from './enums/auth-route.enum';
+
+const notVerifiedOnly = (user: User | null): boolean => !!user && !user.emailVerified;
+const redirectNotVerifiedToHome = (): AuthPipe => map(user => notVerifiedOnly(user) || ['/']);
 
 const routes: Routes = [
   {
@@ -23,6 +31,11 @@ const routes: Routes = [
       {
         path: AuthRoute.Register,
         component: RegisterViewComponent,
+      },
+      {
+        path: AuthRoute.VerifyEmail,
+        component: VerifyEmailViewComponent,
+        ...canActivate(redirectNotVerifiedToHome),
       },
     ],
   },

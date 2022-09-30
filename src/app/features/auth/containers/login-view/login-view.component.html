@@ -6,15 +6,17 @@
       <a [routerLink]="['../', AuthRoute.Register]" class="font-semibold">Create an Account</a>
     </div>
   </div>
-  <form>
+  <form [formGroup]="form">
     <div class="form-control form-control-lg mb-6">
       <label class="form-label">Email</label>
       <input
         pInputText
+        formControlName="email"
         class="w-full"
         type="email"
         aria-describedby="email"
       />
+      <app-error [control]="form.get('email')!" field="Email address"></app-error>
     </div>
 
     <div class="form-control form-control-lg mb-6">
@@ -22,16 +24,20 @@
         <label class="form-label mb-0">Password</label>
         <a routerLink="/register" class="ml-auto font-semibold">Forgot password?</a>
       </div>
-      <p-password
+      <input
+        pPassword
         [feedback]="false"
-        [toggleMask]="true"
-        inputStyleClass="w-full"
-        styleClass="w-full"
-      ></p-password>
+        formControlName="password"
+        type="password"
+        class="w-full"
+        aria-describedby="password"
+      />
+      <app-error [control]="form.get('password')!" field="Password"></app-error>
     </div>
 
     <button
       pButton
+      (click)="onSubmit()"
       class="w-full p-button-lg mb-3"
       type="button"
       label="Continue"
@@ -39,22 +45,22 @@
 
     <p-divider align="center" class="block mb-5">OR</p-divider>
 
-    <a href="#" pButton class="p-button-light p-button-lg w-full mb-5">
+    <button pButton (click)="onSignUpWithGoogle()" class="p-button-light p-button-lg w-full mb-5">
       <img
         src="/assets/images/icons/google.svg"
         class="p-button-icon p-button-icon-left"
         alt="Google"
       >
       Continue with Google
-    </a>
+    </button>
 
-    <a href="#" pButton class="btn-flex flex-center p-button-light p-button-lg w-full">
+    <button pButton (click)="onSignUpWithFacebook()" class="p-button-light p-button-lg w-full">
       <img
         src="/assets/images/icons/facebook.svg"
         class="p-button-icon p-button-icon-left"
         alt="Google"
       >
       Continue with Facebook
-    </a>
+    </button>
   </form>
 </div>

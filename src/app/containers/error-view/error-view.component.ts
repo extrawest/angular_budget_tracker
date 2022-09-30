@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'app-error-view',
@@ -6,9 +6,5 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   styleUrls: ['./error-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ErrorViewComponent implements OnInit {
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+export class ErrorViewComponent {
 }
