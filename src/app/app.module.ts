@@ -5,7 +5,9 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LetModule, PushModule } from '@ngrx/component';
 import { StoreModule } from '@ngrx/store';
+import { SharedModule } from 'primeng/api';
 
 import { environment } from '../environments/environment';
 
@@ -21,12 +23,15 @@ import { RootViewComponent } from './containers/root-view';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    LetModule,
+    PushModule,
     AppRoutingModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()),
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     StoreModule.forRoot({}, {}),
+    SharedModule,
   ],
   bootstrap: [RootViewComponent],
 })

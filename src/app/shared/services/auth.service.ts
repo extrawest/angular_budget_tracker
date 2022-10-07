@@ -3,14 +3,14 @@ import {
   Auth,
   createUserWithEmailAndPassword, onAuthStateChanged,
   sendEmailVerification,
-  signInWithEmailAndPassword, signInWithPopup, signOut,
+  signInWithEmailAndPassword, signInWithPopup, signOut, UserCredential,
 } from '@angular/fire/auth';
 import {
   AngularFirestore,
   AngularFirestoreDocument,
 } from '@angular/fire/compat/firestore';
 import { AuthProvider, FacebookAuthProvider, GoogleAuthProvider, User } from 'firebase/auth';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, from, Observable } from 'rxjs';
 
 import { IUser } from '../../models/user.model';
 
@@ -31,19 +31,12 @@ export class AuthService {
     });
   }
 
-  public async login(email: string, password: string): Promise<User> {
-    const { user } = await signInWithEmailAndPassword(this.auth, email, password);
-
-    return user;
+  public login(email: string, password: string): Observable<UserCredential> {
+    return from(signInWithEmailAndPassword(this.auth, email, password));
   }
 
-  public async register(email: string, password: string): Promise<User> {
-    const { user } = await createUserWithEmailAndPassword(this.auth, email, password);
-
-    this.sendEmailVerification(user);
-    this.setUserData(user);
-
-    return user;
+  public register(email: string, password: string): Observable<UserCredential> {
+    return from(createUserWithEmailAndPassword(this.auth, email, password));
   }
 
   public async signInWithGoogle(): Promise<User> {
@@ -54,12 +47,12 @@ export class AuthService {
     return this.signInWithPopup(new FacebookAuthProvider());
   }
 
-  public async sendEmailVerification(user: User): Promise<void> {
-    return sendEmailVerification(user);
+  public sendEmailVerification(user: User): Observable<void> {
+    return from(sendEmailVerification(user));
   }
 
-  public async signOut(): Promise<void> {
-    return signOut(this.auth);
+  public signOut(): Observable<void> {
+    return from(signOut(this.auth));
   }
 
   private async signInWithPopup(provider: AuthProvider): Promise<User> {

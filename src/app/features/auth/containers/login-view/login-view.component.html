@@ -6,17 +6,19 @@
       <a [routerLink]="['../', AuthRoute.Register]" class="font-semibold">Create an Account</a>
     </div>
   </div>
+
+  <p-messages class="block mb-5"></p-messages>
+
   <form [formGroup]="form">
     <div class="form-control form-control-lg mb-6">
       <label class="form-label">Email</label>
       <input
         pInputText
         formControlName="email"
-        class="w-full"
         type="email"
         aria-describedby="email"
       />
-      <app-error [control]="form.get('email')!" field="Email address"></app-error>
+      <app-error [control]="form.controls.email" field="Email address"></app-error>
     </div>
 
     <div class="form-control form-control-lg mb-6">
@@ -24,43 +26,36 @@
         <label class="form-label mb-0">Password</label>
         <a routerLink="/register" class="ml-auto font-semibold">Forgot password?</a>
       </div>
-      <input
-        pPassword
+      <p-password
         [feedback]="false"
+        [toggleMask]="true"
         formControlName="password"
-        type="password"
-        class="w-full"
         aria-describedby="password"
-      />
-      <app-error [control]="form.get('password')!" field="Password"></app-error>
+        (onBlur)="form.controls.password.markAsTouched()"
+      ></p-password>
+      <app-error [control]="form.controls.password" field="Password"></app-error>
     </div>
 
     <button
       pButton
+      [loading]="processing"
+      [label]="processing ? 'Processing...' : 'Continue'"
+      [iconPos]="'right'"
       (click)="onSubmit()"
-      class="w-full p-button-lg mb-3"
-      type="button"
-      label="Continue"
+      class="w-full btn-primary btn-lg mb-3"
+      type="submit"
     ></button>
-
-    <p-divider align="center" class="block mb-5">OR</p-divider>
-
-    <button pButton (click)="onSignUpWithGoogle()" class="p-button-light p-button-lg w-full mb-5">
-      <img
-        src="/assets/images/icons/google.svg"
-        class="p-button-icon p-button-icon-left"
-        alt="Google"
-      >
-      Continue with Google
-    </button>
-
-    <button pButton (click)="onSignUpWithFacebook()" class="p-button-light p-button-lg w-full">
-      <img
-        src="/assets/images/icons/facebook.svg"
-        class="p-button-icon p-button-icon-left"
-        alt="Google"
-      >
-      Continue with Facebook
-    </button>
   </form>
+
+  <p-divider align="center" class="block mb-5">OR</p-divider>
+
+  <button pButton (click)="onSignUpWithGoogle()" class="btn-light btn-lg w-full mb-3">
+    <app-svg-icon icon="google"></app-svg-icon>
+    Continue with Google
+  </button>
+
+  <button pButton (click)="onSignUpWithFacebook()" class="btn-light btn-lg w-full">
+    <app-svg-icon icon="facebook"></app-svg-icon>
+    Continue with Facebook
+  </button>
 </div>

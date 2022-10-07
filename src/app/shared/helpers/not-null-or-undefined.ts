@@ -1,3 +1,1 @@
-export function isNotNullOrUndefined<T>(value: T): boolean {
-  return value !== undefined && value !== null;
-}
+export const isNotNullOrUndefined = <T>(value: T | null | undefined): value is T => value !== undefined && value !== null;

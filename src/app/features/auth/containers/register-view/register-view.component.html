@@ -6,30 +6,54 @@
       <a [routerLink]="['../', AuthRoute.Login]" class="font-semibold">Sign in here</a>
     </div>
   </div>
-  <form [formGroup]="form">
+
+  <p-messages class="block mb-5"></p-messages>
+
+  <div class="grid">
+    <div class="col-6">
+      <button pButton (click)="onSignUpWithGoogle()" class="btn-light btn-lg w-full">
+        <app-svg-icon icon="google"></app-svg-icon>
+        Sign up with Google
+      </button>
+    </div>
+    <div class="col-6">
+      <button pButton (click)="onSignUpWithFacebook()" class="btn-light btn-lg w-full">
+        <app-svg-icon icon="facebook"></app-svg-icon>
+        Sign up with Facebook
+      </button>
+    </div>
+  </div>
+
+  <p-divider align="center" class="col-12">OR</p-divider>
+
+  <form [formGroup]="form" autocomplete="off">
     <div class="grid">
-      <div class="col-12">
-        <button pButton (click)="onSignUpWithGoogle()" class="p-button-light-primary p-button-lg w-full">
-          <img
-            src="/assets/images/icons/google.svg"
-            class="p-button-icon p-button-icon-left"
-            alt="Google"
-          >
-          Sign up with Google
-        </button>
-      </div>
-      <div class="col-12">
-        <button pButton (click)="onSignUpWithFacebook()" class="p-button-light-primary p-button-lg w-full">
-          <img
-            src="/assets/images/icons/facebook.svg"
-            class="p-button-icon p-button-icon-left"
-            alt="Google"
-          >
-          Sign up with Facebook
-        </button>
+
+      <div class="col-6">
+        <div class="form-control form-control-lg mb-3">
+          <label class="form-label">Firstname</label>
+          <input
+            pInputText
+            formControlName="firstname"
+            type="text"
+            aria-describedby="firstname"
+          />
+          <app-error [control]="form.controls.firstname" field="Firstname"></app-error>
+        </div>
       </div>
 
-      <p-divider align="center" class="col-12">OR</p-divider>
+      <div class="col-6">
+        <div class="form-control form-control-lg mb-3">
+          <label class="form-label">Lastname</label>
+          <input
+            pInputText
+            formControlName="lastname"
+            type="text"
+            aria-describedby="lastname"
+          />
+          <app-error [control]="form.controls.lastname" field="Lastname"></app-error>
+        </div>
+      </div>
 
       <div class="col-12">
         <div class="form-control form-control-lg mb-3">
@@ -37,7 +61,6 @@
           <input
             pInputText
             formControlName="email"
-            class="w-full"
             type="email"
             aria-describedby="email"
           />
@@ -48,15 +71,14 @@
       <div class="col-12">
         <div class="form-control form-control-lg mb-3">
           <label class="form-label">Password</label>
-          <input
-            pPassword
+          <p-password
             [feedback]="false"
+            [toggleMask]="true"
             formControlName="password"
-            type="password"
-            class="w-full"
             aria-describedby="password"
-          />
-          <app-error [control]="form.get('password')!" field="Password"></app-error>
+            (onBlur)="form.controls.password.markAsTouched()"
+          ></p-password>
+          <app-error [control]="form.controls.password" field="Password"></app-error>
         </div>
       </div>
 
@@ -68,7 +90,6 @@
             [feedback]="false"
             formControlName="confirmPassword"
             type="password"
-            class="w-full"
             aria-describedby="password"
           />
           <app-error [control]="form.get('confirmPassword')!" field="Password confirmation"></app-error>
@@ -77,13 +98,16 @@
       </div>
     </div>
 
-    <button
-      pButton
-      class="w-full p-button-lg"
-      type="button"
-      label="Continue"
-      [disabled]="!form.valid"
-      (click)="onSubmit()"
-    ></button>
+    <div class="text-center">
+      <button
+        pButton
+        [loading]="processing"
+        [label]="processing ? 'Processing...' : 'Continue'"
+        [iconPos]="'right'"
+        (click)="onSubmit()"
+        class="btn-lg btn-primary"
+        type="submit"
+      ></button>
+    </div>
   </form>
 </div>

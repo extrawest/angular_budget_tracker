@@ -1,0 +1,82 @@
+.p-message {
+  // Theme colors
+  @each $type, $color in $alert-colors {
+    &.p-message-#{$type} {
+      background-color: theme-light-color($type);
+      border: 1px solid $color;
+      color: $color;
+
+      .p-message-icon {
+        &::before {
+          content: map-get($alert-icons, $type);
+        }
+      }
+
+      .p-message-close,
+      .p-message-close-icon {
+        color: $color;
+      }
+    }
+  }
+
+  .p-message-wrapper {
+    $padding-left: $alert-padding + 2.5rem + 1rem;
+    $padding-right: $alert-padding + 1.5rem + 1rem;
+
+    flex-direction: column;
+    padding: $alert-padding $padding-right $alert-padding $padding-left;
+    position: relative;
+    align-items: stretch;
+    justify-content: center;
+    min-height: $alert-padding * 2 + 2.5rem;
+  }
+
+  .p-message-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    left: $alert-padding;
+
+    &::before {
+      font-size: 2.5rem;
+    }
+  }
+
+  .p-message-icon,
+  .p-message-close {
+    position: absolute !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    top: $alert-padding;
+    bottom: $alert-padding;
+    font-family: $font-family-icon-outlined;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+    line-height: 1;
+  }
+
+  .p-message-detail {
+    margin: 0;
+  }
+
+  .p-message-close {
+    border-radius: unset;
+    right: $alert-padding;
+
+    &:hover,
+    &:focus {
+      background-color: unset;
+      box-shadow: unset;
+    }
+  }
+
+  .p-message-close-icon {
+    font-style: normal;
+    font-size: 1.25rem;
+
+    &::before {
+      content: 'close';
+    }
+  }
+}

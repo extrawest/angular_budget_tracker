@@ -14,12 +14,13 @@
 		}
 	}
 
-    .bg-#{$color} {
-		--bg-color: #{red($value)}, #{green($value)}, #{blue($value)};
+  .bg-#{$color} {
+    --bg-color: #{red($value)}, #{green($value)}, #{blue($value)};
+    background-color: $value !important;
 
-        &.hoverable:hover {
-		   background-color: theme-active-color($color) !important;
-       }
+    &.hoverable:hover {
+      background-color: theme-active-color($color) !important;
+    }
 	}
 
 	@if (theme-light-color($color)) {
@@ -137,49 +138,6 @@
     &:hover {
         transition: $transition-base;
     }
-}
-
-// Background image helpers
-// Background repeat
-.bgi-no-repeat {
-	background-repeat: no-repeat;
-}
-
-// Background positions
-.bgi-position-y-top {
-	background-position-y: top;
-}
-
-.bgi-position-y-bottom {
-	background-position-y: bottom;
-}
-
-.bgi-position-y-center {
-	background-position-y: center;
-}
-
-.bgi-position-x-start {
-	background-position-x: left;
-}
-
-.bgi-position-x-end {
-	background-position-x: right;
-}
-
-.bgi-position-x-center {
-	background-position-x: center;
-}
-
-.bgi-position-top {
-	background-position: 0 top;
-}
-
-.bgi-position-bottom {
-	background-position: 0 bottom;
-}
-
-.bgi-position-center {
-	background-position: center;
 }
 
 

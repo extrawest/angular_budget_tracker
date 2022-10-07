@@ -12,9 +12,11 @@
 
   background-color: $body-bg;
   box-shadow: $card-box-shadow;
+  color: $dark;
 
   // Header
   .p-card-header {
+    border-bottom: 1px solid $card-border-color;
     display: flex;
     justify-content: space-between;
     align-items: stretch;
@@ -24,9 +26,11 @@
     background-color: transparent;
 
     // Title
-    .p-card-title {
+    .card-title {
       display: flex;
-      align-items: center;
+      align-items: start;
+      flex-direction: column;
+      justify-content: center;
       margin: $card-header-py;
       margin-left: 0;
 
@@ -52,13 +56,13 @@
       }
 
       &,
-      .p-card-label {
+      .card-label {
         font-weight: 500;
         font-size: 1.275rem;
         color: $dark;
       }
 
-      .p-card-label {
+      .card-label {
         margin: 0 0.75rem 0 0;
         flex-wrap: wrap;
       }
@@ -75,6 +79,13 @@
       }
     }
 
+    .card-subtitle {
+      font-weight: 500;
+      font-size: 1.075rem;
+      margin-top: 0.25rem;
+      color: $gray-400;
+    }
+
     // Toolbar
     .p-card-toolbar {
       display: flex;
@@ -87,6 +98,10 @@
   // Body
   .p-card-body {
     padding: $card-py $card-px;
+  }
+
+  .p-card-content {
+    padding: 0;
   }
 
   // Footer
@@ -151,6 +166,7 @@
   // Flush borders
   &.p-card-flush {
     > .p-card-header {
+      padding-top: $card-py;
       border-bottom: 0;
     }
 

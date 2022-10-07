@@ -1,0 +1,81 @@
+<header class="header">
+  <div class="container flex justify-content-between">
+    <div class="flex align-items-center flex-shrink-0 mr-3">
+      <a routerLink="/">
+        <img src="assets/images/logo-full.svg" alt="" height="30px" />
+      </a>
+    </div>
+
+    <div class="flex align-items-center flex-shrink-0 ml-3">
+      <button pButton class="btn-icon btn-active-color-primary btn-color-white ml-1">
+        <app-svg-icon icon="comment"></app-svg-icon>
+        <span class="bullet bg-success absolute top-0 left-50 translate-middle animation-blink"></span>
+      </button>
+
+      <button pButton class="btn-icon btn-active-color-primary btn-color-white ml-1" (click)="themeMenu.toggle($event)">
+        <app-svg-icon icon="sun"></app-svg-icon>
+      </button>
+
+      <p-overlayPanel #themeMenu [showCloseIcon]="false" [style]="{ minWidth: '175px' }">
+        <div class="py-3">
+          <div class="menu-item px-2">
+            <a href="#" class="menu-link py-2 px-3 text-gray-700 active">
+              <app-svg-icon icon="sun" size="sm" class="inline-block mr-3"></app-svg-icon>
+              Light
+            </a>
+          </div>
+          <div class="menu-item px-2">
+            <a class="menu-link py-2 px-3 text-gray-700 bg-transparent text-hover-primary" (click)="themeMenu.hide()">
+              <app-svg-icon icon="moon" size="sm" class="inline-block mr-3"></app-svg-icon>
+              Dark
+            </a>
+          </div>
+        </div>
+      </p-overlayPanel>
+
+      <ng-container *ngIf="user$ | async as user">
+        <p-avatar
+          [label]="user.displayName?.charAt(0)"
+          (click)="userMenu.toggle($event)"
+          class="ml-3 cursor-pointer"
+        ></p-avatar>
+
+        <p-overlayPanel #userMenu [showCloseIcon]="false">
+          <div class="py-3">
+            <div class="menu-item flex align-items-center py-3 px-4">
+              <p-avatar
+                [label]="user.displayName?.charAt(0)"
+                size="large"
+                class="mr-3"
+                styleClass="bg-dark text-light"
+              ></p-avatar>
+              <div>
+                <div class="flex mb-1">
+                  <h3 class="mb-0">{{ user.displayName }}</h3>
+
+                  <app-svg-icon *ngIf="user.emailVerified" icon="verified" size="sm" class="ml-2 text-primary"></app-svg-icon>
+                </div>
+                <span class="text-muted">{{ user.email }}</span>
+              </div>
+            </div>
+
+            <div class="separator my-2"></div>
+
+            <div class="menu-item px-4">
+              <a [routerLink]="DashboardRoute.Account" (click)="userMenu.hide()" class="menu-link">My Profile</a>
+            </div>
+
+            <div class="separator my-2"></div>
+
+            <div class="menu-item px-4">
+              <a routerLink="/" class="menu-link">Language</a>
+            </div>
+            <div class="menu-item px-4">
+              <a (click)="onLogout()" class="menu-link">Sign Out</a>
+            </div>
+          </div>
+        </p-overlayPanel>
+      </ng-container>
+    </div>
+  </div>
+</header>

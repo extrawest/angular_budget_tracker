@@ -34,6 +34,7 @@
   transition: $transition-input;
   line-height: 1.5;
   font-weight: 500;
+  width: 100%;
 
   &:enabled {
     &:hover {
@@ -81,6 +82,35 @@
 
   &.p-inputtext-sm {
     padding: calc(#{$btn-padding-y-sm} + #{$btn-border-width}) calc(#{$btn-padding-x-sm} + #{$btn-border-width});
+  }
+}
+
+.p-password {
+  width: 100%;
+}
+
+.p-password-mask {
+  & > div {
+    position: relative;
+  }
+
+  .pi {
+    position: absolute;
+    top: 50%;
+    right: 1.5rem !important;
+    color: $text-muted !important;
+    margin: 0;
+    font-family: $font-family-icon-outlined;
+    transform: translate(0, -50%);
+    cursor: pointer;
+  }
+
+  .pi-eye::before {
+    content: 'visibility_off';
+  }
+
+  .pi-eye-slash::before {
+    content: 'visibility';
   }
 }
 

@@ -1,0 +1,36 @@
+@import '../../../styles/theme/init';
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+
+  & + & {
+    padding-left: .5rem;
+    padding-right: 0;
+
+    &::before {
+      content: "•";
+      margin-right: .5rem;
+    }
+  }
+
+  & > a {
+    color: $gray-600;
+
+    &:hover {
+      color: $primary;
+    }
+  }
+
+  & > span {
+    color: $gray-500;
+  }
+}

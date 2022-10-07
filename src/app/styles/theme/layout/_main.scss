@@ -11,3 +11,33 @@ body {
 .text-page-bg {
 	color: $page-bg;
 }
+
+.container {
+  max-width: 1320px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.bullet {
+  background-color: $success;
+  border-radius: 50%;
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  flex-shrink: 0;
+}
+
+.translate-middle {
+  transform: translate(-50%, -50%);
+}
+
+.animation-blink {
+  animation: animationBlink 1s steps(5, start) infinite;
+}
+
+@keyframes animationBlink {
+  100% {
+    visibility: hidden;
+  }
+}

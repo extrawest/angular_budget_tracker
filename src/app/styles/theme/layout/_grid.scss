@@ -1,0 +1,10 @@
+.grid {
+  margin-top: 0;
+  margin-left: -1 * $grid-gutter-width;
+  margin-right: -1 * $grid-gutter-width;
+}
+
+[class^="col-"] {
+  padding-left: $grid-gutter-width;
+  padding-right: $grid-gutter-width;
+}
