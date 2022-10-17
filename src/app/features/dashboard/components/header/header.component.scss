@@ -10,3 +10,31 @@
 .avatar-menu {
   position: relative;
 }
+
+.wallets-btn {
+  color: #84859a;
+  border-color: #3d3c51;
+  background-color: transparent;
+  height: 35px;
+  width: 200px;
+  justify-content: space-between;
+
+  &:hover {
+    border-color: #2e2d42 !important;
+    background-color: #2e2d42 !important;
+  }
+
+  .icon {
+    margin-left: auto;
+    margin-right: -.5rem;
+  }
+}
+
+.add-wallet-btn {
+  color: #7e8299;
+  border: none;
+  background-color: #2e2d42;
+  height: 35px;
+  width: 35px;
+  margin-left: 1rem;
+}

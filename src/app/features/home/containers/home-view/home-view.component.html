@@ -1,31 +1,12 @@
 <div class="grid">
-  <div class="col-6">
-    <div class="grid">
-      <div class="col-6">
-        <p-card>
-          <ng-template pTemplate="header">
-            Header content here
-          </ng-template>
-          sads
-        </p-card>
-      </div>
-      <div class="col-6">
-        <p-card>
-          <ng-template pTemplate="header">
-            Header content here
-          </ng-template>
-          sads
-        </p-card>
-      </div>
-    </div>
+  <div class="col-8">
+    <app-transactions></app-transactions>
   </div>
-  <div class="col-6">
-    <div class="grid">
-      <div class="col-12">
-        <p-card>
-          sads
-        </p-card>
-      </div>
-    </div>
+  <div class="col-4">
+    <app-categories
+      [categories]="categories$ | async"
+      [loading]="categoriesLoading$ | async"
+      (addCategory)="onAddCategory()"
+    ></app-categories>
   </div>
 </div>

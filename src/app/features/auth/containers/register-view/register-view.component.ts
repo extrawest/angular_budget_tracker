@@ -42,12 +42,10 @@ export class RegisterViewComponent {
       return;
     }
 
-    const { email, password } = this.form.getRawValue();
+    const { email, password, firstname, lastname } = this.form.getRawValue();
 
     this.processing = true;
-    this.authService.register(email, password).pipe(
-      switchMap(({ user }) => this.authService.sendEmailVerification(user)),
-    ).subscribe({
+    this.authService.register(email, password, `${firstname} ${lastname}`).subscribe({
       error: (error) => {
         this.processing = false;
         this.messageService.add({
@@ -64,10 +62,22 @@ export class RegisterViewComponent {
   }
 
   public onSignUpWithGoogle(): void {
-    this.authService.signInWithGoogle();
+    this.authService.signInWithGoogle().catch((error) => {
+      this.messageService.add({
+        severity: MessageType.Danger,
+        detail: getErrorMessage(error.code),
+        closable: true,
+      });
+    });
   }
 
   public onSignUpWithFacebook(): void {
-    this.authService.signInWithFacebook();
+    this.authService.signInWithFacebook().catch((error) => {
+      this.messageService.add({
+        severity: MessageType.Danger,
+        detail: getErrorMessage(error.code),
+        closable: true,
+      });
+    });
   }
 }

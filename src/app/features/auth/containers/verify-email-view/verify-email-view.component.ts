@@ -17,6 +17,6 @@ export class VerifyEmailViewComponent {
   constructor(private readonly authService: AuthService) { }
 
   public onResendVerificationEmail(user: User): void {
-    this.authService.sendEmailVerification(user);
+    this.authService.sendEmailVerification(user).subscribe();
   }
 }

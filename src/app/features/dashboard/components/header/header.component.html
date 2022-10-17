@@ -1,9 +1,21 @@
 <header class="header">
   <div class="container flex justify-content-between">
     <div class="flex align-items-center flex-shrink-0 mr-3">
-      <a routerLink="/">
+      <a routerLink="/" class="mr-5">
         <img src="assets/images/logo-full.svg" alt="" height="30px" />
       </a>
+
+      <button pButton class="btn-color-gray-500 btn-active-color-white btn-sm wallets-btn" (click)="menu.toggle($event)">
+        Credit card
+        <span class="icon material-icons-outlined">
+          keyboard_arrow_down
+        </span>
+      </button>
+      <p-menu #menu [popup]="true" [model]="walletMenu"></p-menu>
+
+      <button pButton class="btn-outline btn-active-primary btn-icon add-wallet-btn">
+        <span class="material-icons-outlined">add</span>
+      </button>
     </div>
 
     <div class="flex align-items-center flex-shrink-0 ml-3">

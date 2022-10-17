@@ -59,12 +59,24 @@ export class LoginViewComponent {
   public onSignUpWithGoogle(): void {
     this.authService.signInWithGoogle().then(() => {
       this.redirectToHomePage();
+    }).catch((error) => {
+      this.messageService.add({
+        severity: MessageType.Danger,
+        detail: getErrorMessage(error.code),
+        closable: true,
+      });
     });
   }
 
   public onSignUpWithFacebook(): void {
     this.authService.signInWithFacebook().then(() => {
       this.redirectToHomePage();
+    }).catch((error) => {
+      this.messageService.add({
+        severity: MessageType.Danger,
+        detail: getErrorMessage(error.code),
+        closable: true,
+      });
     });
   }
 

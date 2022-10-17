@@ -3,28 +3,21 @@ import {
   Auth,
   createUserWithEmailAndPassword, onAuthStateChanged,
   sendEmailVerification,
-  signInWithEmailAndPassword, signInWithPopup, signOut, UserCredential,
+  signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile, UserCredential,
 } from '@angular/fire/auth';
-import {
-  AngularFirestore,
-  AngularFirestoreDocument,
-} from '@angular/fire/compat/firestore';
 import { AuthProvider, FacebookAuthProvider, GoogleAuthProvider, User } from 'firebase/auth';
-import { BehaviorSubject, from, Observable } from 'rxjs';
+import { BehaviorSubject, filter, forkJoin, from, Observable, switchMap, tap } from 'rxjs';
 
-import { IUser } from '../../models/user.model';
+import { isNotNullOrUndefined } from '../helpers/not-null-or-undefined';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  public currentUser$: Observable<User | null>;
+  public currentUser$: Observable<User>;
 
   private readonly currentUserSubject$ = new BehaviorSubject<User | null>(null);
 
-  constructor(
-    private readonly firestore: AngularFirestore,
-    private readonly auth: Auth,
-  ) {
-    this.currentUser$ = this.currentUserSubject$.asObservable();
+  constructor(private readonly auth: Auth) {
+    this.currentUser$ = this.currentUserSubject$.asObservable().pipe(filter(isNotNullOrUndefined));
 
     onAuthStateChanged(this.auth, (user) => {
       this.currentUserSubject$.next(user);
@@ -35,8 +28,15 @@ export class AuthService {
     return from(signInWithEmailAndPassword(this.auth, email, password));
   }
 
-  public register(email: string, password: string): Observable<UserCredential> {
-    return from(createUserWithEmailAndPassword(this.auth, email, password));
+  public register(email: string, password: string, displayName: string): Observable<any> {
+    return from(createUserWithEmailAndPassword(this.auth, email, password)).pipe(
+      switchMap(({ user }) => forkJoin([
+        this.sendEmailVerification(user),
+        updateProfile(user, {
+          displayName,
+        }),
+      ])),
+    );
   }
 
   public async signInWithGoogle(): Promise<User> {
@@ -58,22 +58,6 @@ export class AuthService {
   private async signInWithPopup(provider: AuthProvider): Promise<User> {
     const { user } = await signInWithPopup(this.auth, provider);
 
-    await this.setUserData(user);
-
     return user;
-  }
-
-  private async setUserData(user: User): Promise<void> {
-    const userRef: AngularFirestoreDocument<IUser> = this.firestore.doc(`users/${user.uid}`);
-
-    const userData: IUser = {
-      uid: user.uid,
-      email: user.email,
-      displayName: user.displayName,
-      photoURL: user.photoURL,
-      emailVerified: user.emailVerified,
-    };
-
-    return userRef.set(userData, { merge: true });
   }
 }
