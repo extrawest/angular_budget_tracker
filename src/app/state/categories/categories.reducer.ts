@@ -3,7 +3,9 @@ import { Action, createReducer, on } from '@ngrx/store';
 
 import { Category } from '../../models/category.model';
 
-import { fromCategoriesActions } from './categories.actions';
+import {
+  addCategoryError, loadCategories, loadCategoriesError, loadCategoriesSuccess,
+} from './categories.actions';
 
 export interface CategoriesState {
   data: Category[];
@@ -22,7 +24,7 @@ export const initialCategoriesState: CategoriesState = {
 export const categoriesReducer = createReducer(
   initialCategoriesState,
   on(
-    fromCategoriesActions.getCategories,
+    loadCategories,
     state => ({
       ...state,
       loaded: false,
@@ -31,18 +33,18 @@ export const categoriesReducer = createReducer(
     }),
   ),
   on(
-    fromCategoriesActions.getCategoriesSuccess,
+    loadCategoriesSuccess,
     (state, { categories }) => ({
       ...state,
       data: categories,
       loaded: true,
       loading: false,
       error: null,
-    }
-    ),
+    }),
   ),
   on(
-    fromCategoriesActions.getCategoriesError,
+    addCategoryError,
+    loadCategoriesError,
     (state, { error }) => ({
       ...state,
       loaded: false,

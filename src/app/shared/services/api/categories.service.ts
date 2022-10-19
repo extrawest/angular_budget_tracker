@@ -15,7 +15,7 @@ export class CategoriesApiService {
     return this.firestore.collection<Category>(
       this.collectionPath,
       (ref) => ref.where('userId', '==', userId),
-    ).valueChanges({ idField: 'id' });
+    ).valueChanges();
   }
 
   public addCategory(category: Partial<Category>): Observable<Category> {

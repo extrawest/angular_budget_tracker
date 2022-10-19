@@ -5,26 +5,26 @@ import { AddCategoryParams } from '../../models/add-category-params';
 import { Category } from '../../models/category.model';
 
 export enum CategoriesActionTypes {
-  GetCategories = '[Categories] Get Categories',
-  GetCategoriesSuccess = '[Categories] Get Categories Success',
-  GetCategoriesError = '[Categories] Get Categories Error',
+  LoadCategories = '[Categories] Load Categories',
+  LoadCategoriesSuccess = '[Categories] Load Categories Success',
+  LoadCategoriesError = '[Categories] Load Categories Error',
 
   AddCategory = '[Categories] Add Category',
   AddCategorySuccess = '[Categories] Add Category Success',
   AddCategoryError = '[Categories] Add Category Error',
 }
 
-export const getCategories = createAction(
-  CategoriesActionTypes.GetCategories,
+export const loadCategories = createAction(
+  CategoriesActionTypes.LoadCategories,
 );
 
-export const getCategoriesSuccess = createAction(
-  CategoriesActionTypes.GetCategoriesSuccess,
+export const loadCategoriesSuccess = createAction(
+  CategoriesActionTypes.LoadCategoriesSuccess,
   props<{ categories: Category[] }>(),
 );
 
-export const getCategoriesError = createAction(
-  CategoriesActionTypes.GetCategoriesError,
+export const loadCategoriesError = createAction(
+  CategoriesActionTypes.LoadCategoriesError,
   props<{ error: HttpErrorResponse }>(),
 );
 
@@ -42,13 +42,3 @@ export const addCategoryError = createAction(
   CategoriesActionTypes.AddCategoryError,
   props<{ error: HttpErrorResponse }>(),
 );
-
-export const fromCategoriesActions = {
-  getCategories,
-  getCategoriesSuccess,
-  getCategoriesError,
-
-  addCategory,
-  addCategorySuccess,
-  addCategoryError,
-};

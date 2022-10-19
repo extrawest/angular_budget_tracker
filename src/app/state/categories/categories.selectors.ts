@@ -6,14 +6,22 @@ import { CategoriesState } from './categories.reducer';
 
 const getState = createFeatureSelector<CategoriesState>(StoreKey.Categories);
 
-const getCategories = createSelector(getState, (state) => state.data);
+export const getCategories = createSelector(
+  getState,
+  (state) => state.data,
+);
 
-const getCategoriesLoading = createSelector(getState, (state) => state.loading);
+export const getCategoriesLoading = createSelector(
+  getState,
+  (state) => state.loading,
+);
 
-const getCategoriesError = createSelector(getState, (state) => state.error);
+export const getCategoriesLoaded = createSelector(
+  getState,
+  (state) => state.loaded,
+);
 
-export const categoriesQuery = {
-  getCategories,
-  getCategoriesLoading,
-  getCategoriesError,
-};
+export const getCategoriesError = createSelector(
+  getState,
+  (state) => state.error,
+);

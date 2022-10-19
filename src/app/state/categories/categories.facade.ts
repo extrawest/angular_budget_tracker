@@ -4,17 +4,23 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { AddCategoryParams } from '../../models/add-category-params';
-import { Category } from '../../models/category.model';
 
-import { addCategoryError, addCategorySuccess, CategoriesActionTypes, fromCategoriesActions } from './categories.actions';
+import {
+  addCategory,
+  addCategoryError,
+  addCategorySuccess,
+  CategoriesActionTypes,
+  loadCategories
+} from './categories.actions';
 import { CategoriesState } from './categories.reducer';
-import { categoriesQuery } from './categories.selectors';
+import {getCategories, getCategoriesError, getCategoriesLoaded, getCategoriesLoading} from "./categories.selectors";
 
 @Injectable({ providedIn: 'root' })
 export class CategoriesFacade {
-  public readonly categories$ = this.store.select(categoriesQuery.getCategories);
-  public readonly categoriesLoading$ = this.store.select(categoriesQuery.getCategoriesLoading);
-  public readonly categoriesError$ = this.store.select(categoriesQuery.getCategoriesError);
+  public readonly categories$ = this.store.select(getCategories);
+  public readonly categoriesLoading$ = this.store.select(getCategoriesLoading);
+  public readonly categoriesLoaded$ = this.store.select(getCategoriesLoaded);
+  public readonly categoriesError$ = this.store.select(getCategoriesError);
 
   public readonly onAddCategorySuccess$: Observable<ReturnType<typeof addCategorySuccess>> = this.actions$.pipe(
     ofType(CategoriesActionTypes.AddCategorySuccess),
@@ -28,11 +34,11 @@ export class CategoriesFacade {
     private readonly store: Store<CategoriesState>,
   ) {}
 
-  public getCategories(): void {
-    this.store.dispatch(fromCategoriesActions.getCategories());
+  public loadCategories(): void {
+    this.store.dispatch(loadCategories());
   }
 
   public addCategory(params: AddCategoryParams): void {
-    this.store.dispatch(fromCategoriesActions.addCategory({ params }));
+    this.store.dispatch(addCategory({ params }));
   }
 }
