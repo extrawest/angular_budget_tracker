@@ -1,0 +1,26 @@
+<p-card class="block mb-5" [styleClass]="styleClass">
+  <ng-container *ngIf="isHeaderVisible">
+    <ng-template pTemplate="header">
+      <h3 *ngIf="title && subtitle" class="card-title">
+        <span *ngIf="title" class="card-label">{{ title }}</span>
+        <span *ngIf="subtitle" class="card-subtitle">Categories list & statistics</span>
+      </h3>
+
+      <div class="header-actions">
+        <ng-content select="[header-actions]"></ng-content>
+      </div>
+    </ng-template>
+  </ng-container>
+
+  <ng-container *ngIf="!loading && !error && loaded">
+    <ng-content></ng-content>
+  </ng-container>
+
+  <ng-container *ngIf="!loading && !error">
+    <ng-content select="[no-data]"></ng-content>
+  </ng-container>
+
+  <ng-container *ngIf="error">
+    <ng-content select="[error]"></ng-content>
+  </ng-container>
+</p-card>
