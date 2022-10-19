@@ -1,30 +1,14 @@
-<p-card class="block mb-5" styleClass="p-card-flush">
-  <ng-template pTemplate="header">
-    <h3 class="card-title">
-      <span class="card-label">Categories</span>
-      <span class="card-subtitle">Categories list & statistics</span>
-    </h3>
-
-    <div>
-      <button pButton type="button" class="btn-sm btn-light btn-icon ml-3" (click)="popup.toggle($event)">
-        <span class="material-icons-outlined">more_vert</span>
-      </button>
-      <p-menu #popup [popup]="true" [model]="menu"></p-menu>
+<ul class="category-list">
+  <li *ngFor="let category of categories" class="category">
+    <div class="category-title">
+      <h4 class="category-name">{{ category.name }}</h4>
+      <span class="text-gray-400 mt-1">{{ category.description }}</span>
     </div>
-  </ng-template>
-
-  <ul class="category-list">
-    <li *ngFor="let category of categories" class="category">
-      <div class="category-title">
-        <h4 class="category-name">{{ category.name }}</h4>
-        <span class="text-gray-400 mt-1">{{ category.description }}</span>
-      </div>
-      <div>
-        <span class="text-xl font-semibold mr-3">357</span>
-        <p-tag value="2.6%" styleClass="p-tag-light-success">
-          <app-svg-icon icon="long-arrow-up"></app-svg-icon>
-        </p-tag>
-      </div>
-    </li>
-  </ul>
-</p-card>
+    <div>
+      <span class="text-xl font-semibold mr-3">357</span>
+      <p-tag value="2.6%" styleClass="p-tag-light-success">
+        <app-svg-icon icon="long-arrow-up"></app-svg-icon>
+      </p-tag>
+    </div>
+  </li>
+</ul>

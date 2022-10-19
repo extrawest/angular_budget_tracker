@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { ChangeDetectionStrategy, Component, Input} from '@angular/core';
 
 import { Category } from '../../../../models/category.model';
 
@@ -11,18 +10,4 @@ import { Category } from '../../../../models/category.model';
 })
 export class CategoriesComponent {
   @Input() categories: Category[];
-  @Input() loading: boolean;
-
-  @Output() addCategory = new EventEmitter<void>();
-
-  public readonly menu: MenuItem[] = [{
-    label: 'Add category',
-    command: () => this.onAddCategory(),
-  }, {
-    label: 'Edit categories',
-  }];
-
-  public onAddCategory(): void {
-    this.addCategory.emit();
-  }
 }
