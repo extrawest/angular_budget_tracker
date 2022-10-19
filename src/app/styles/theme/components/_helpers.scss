@@ -7,3 +7,11 @@
 @import "helpers/borders";
 @import "helpers/text";
 @import "helpers/opacity";
+
+
+
+@keyframes spinner-border {
+  100% {
+    transform: rotate(360deg);
+  }
+}

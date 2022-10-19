@@ -1,4 +1,4 @@
-<p-card class="block mb-5" [styleClass]="styleClass">
+<p-card class="block mb-5" [styleClass]="styleClass" [styleClass]="loading && loaded ? 'p-card-loading' : ''">
   <ng-container *ngIf="isHeaderVisible">
     <ng-template pTemplate="header">
       <h3 *ngIf="title && subtitle" class="card-title">
@@ -12,8 +12,16 @@
     </ng-template>
   </ng-container>
 
-  <ng-container *ngIf="!loading && !error && loaded">
+  <ng-container *ngIf="loaded">
     <ng-content></ng-content>
+  </ng-container>
+
+  <ng-container *ngIf="loading && !loaded">
+    <p-skeleton styleClass="mb-3" height="2rem"></p-skeleton>
+    <p-skeleton styleClass="mb-3" height="2rem"></p-skeleton>
+    <p-skeleton styleClass="mb-3" height="2rem"></p-skeleton>
+    <p-skeleton styleClass="mb-3" height="2rem"></p-skeleton>
+    <p-skeleton width="45%" height="2rem"></p-skeleton>
   </ng-container>
 
   <ng-container *ngIf="!loading && !error">

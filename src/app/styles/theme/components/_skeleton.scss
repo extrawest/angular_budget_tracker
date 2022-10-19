@@ -1,0 +1,7 @@
+.p-skeleton {
+  background-color: $gray-200;
+
+  &::after {
+    background: linear-gradient(90deg, rgba($white, 0), rgba($white, .5), rgba($white, 0));
+  }
+}
