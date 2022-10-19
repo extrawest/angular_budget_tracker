@@ -1,0 +1,13 @@
+<div class="placeholder">
+  <div *ngIf="icon" class="text-gray-400 mb-3">
+    <app-svg-icon
+      [icon]="icon"
+      [size]="70"
+    ></app-svg-icon>
+  </div>
+
+  <div class="placeholder-content">
+    <p *ngIf="description" class="text-gray-600 text-xl mb-5">{{ description }}</p>
+    <ng-content></ng-content>
+  </div>
+</div>
