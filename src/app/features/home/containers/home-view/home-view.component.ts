@@ -45,7 +45,7 @@ export class HomeViewComponent implements OnInit {
   public onAddCategory(): void {
     this.dialogService.open(AddCategoryDialogComponent, {
       header: 'Add category',
-      width: '600px',
+      width: '900px',
     });
   }
 

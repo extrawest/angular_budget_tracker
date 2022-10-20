@@ -15,7 +15,7 @@
       <app-transactions [transactions]="transactions$ | async"></app-transactions>
 
       <app-data-placeholder no-data icon="no-data" description="There are no transactions yet">
-        <button pButton class="btn-primary">Add new transaction</button>
+        <button pButton class="btn-primary" (click)="onAddTransaction()">Add new transaction</button>
       </app-data-placeholder>
     </app-data-card>
   </div>
@@ -41,7 +41,7 @@
       ></app-categories>
 
       <app-data-placeholder no-data icon="no-data" description="There are no categories yet">
-        <button pButton class="btn-primary">Create new one</button>
+        <button pButton class="btn-primary" (click)="onAddCategory()">Create new one</button>
       </app-data-placeholder>
     </app-data-card>
   </div>

@@ -1,0 +1,29 @@
+<div class="grid">
+  <div class="col-12">
+    <div class="form-control form-control-lg mb-3">
+      <input
+        pInputText
+        type="text"
+        placeholder="Search Icon"
+        aria-describedby="name"
+      />
+    </div>
+  </div>
+
+  <div class="col-12">
+    <div class="icons-grid">
+
+      <ng-container *ngFor="let item of materialIconsList | keyvalue">
+        <button pButton (click)="onSelectIcon()" class="btn-icon btn-active-light btn-text-gray-700 btn-lg">
+          <span class="material-icons-outlined">{{ item.key }}</span>
+        </button>
+      </ng-container>
+
+    </div>
+  </div>
+</div>
+
+<div class="flex justify-content-end">
+  <button pButton cdkStepperPrevious class="btn-light mr-3">Previous</button>
+  <button pButton cdkStepperNext class="btn-primary">Continue</button>
+</div>

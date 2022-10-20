@@ -6,12 +6,34 @@
   .p-dialog-content {
     background-color: transparent;
     color: $gray-900;
+    padding: 1.75rem;
   }
 
   .p-dialog-header {
+    border-bottom: 1px solid #eff2f5;
+
     .p-dialog-title {
       font-size: 1.5rem;
       font-weight: 600;
+    }
+
+    .p-dialog-header-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+  }
+
+  .p-dialog-header-close-icon {
+    color: $gray-700;
+
+    &::before {
+      content: 'close';
+      font-family: $font-family-icon-round;
     }
   }
 }

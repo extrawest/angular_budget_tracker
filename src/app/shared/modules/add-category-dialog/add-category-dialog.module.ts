@@ -9,10 +9,23 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ValidationErrorsModule } from '../validation-errors';
 
 import { AddCategoryDialogComponent } from './add-category-dialog.component';
+import {StepsModule} from "primeng/steps";
+import {
+  CategoryColorViewComponent,
+  CategoryIconViewComponent,
+  CategoryNameViewComponent,
+  CategoryOverviewViewComponent
+} from "./components";
+import {StepperModule} from "../stepper";
+import {CategoryService} from "./services/category.service";
 
 @NgModule({
   declarations: [
     AddCategoryDialogComponent,
+    CategoryNameViewComponent,
+    CategoryIconViewComponent,
+    CategoryColorViewComponent,
+    CategoryOverviewViewComponent,
   ],
   imports: [
     CommonModule,
@@ -21,7 +34,12 @@ import { AddCategoryDialogComponent } from './add-category-dialog.component';
     ButtonModule,
     InputTextModule,
     InputTextareaModule,
+    StepsModule,
+    StepperModule,
     ValidationErrorsModule,
   ],
+  providers: [
+    CategoryService,
+  ]
 })
 export class AddCategoryDialogModule { }

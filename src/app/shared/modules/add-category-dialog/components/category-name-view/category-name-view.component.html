@@ -1,0 +1,35 @@
+<div [formGroup]="form">
+  <div class="grid">
+    <div class="col-12">
+      <div class="form-control form-control-lg mb-3">
+        <label class="form-label">Name</label>
+        <input
+          pInputText
+          formControlName="name"
+          type="text"
+          aria-describedby="name"
+        />
+        <app-error [control]="form.controls.name" field="Name"></app-error>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="form-control form-control-lg mb-3">
+        <label class="form-label">Description</label>
+        <textarea
+          pInputTextarea
+          formControlName="description"
+          type="text"
+          aria-describedby="description"
+          rows="3"
+          class="w-full"
+        ></textarea>
+        <app-error [control]="form.controls.description" field="Description"></app-error>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex justify-content-end">
+    <button pButton cdkStepperNext class="btn-primary">Continue</button>
+  </div>
+</div>
