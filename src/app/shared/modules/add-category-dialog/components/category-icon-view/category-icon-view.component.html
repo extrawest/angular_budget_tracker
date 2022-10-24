@@ -10,18 +10,6 @@
       />
     </div>
   </div>
-
-  <div *ngIf="icons$ | async as icons" class="col-12">
-    <div class="icons-grid">
-
-      <ng-container *ngFor="let icon of icons">
-        <button pButton (click)="onSelectIcon(icon.code)" class="btn-icon btn-active-light btn-text-gray-700 btn-lg">
-          <span class="material-icons-outlined">{{ icon.code }}</span>
-        </button>
-      </ng-container>
-
-    </div>
-  </div>
 </div>
 
 <div class="flex justify-content-end">
