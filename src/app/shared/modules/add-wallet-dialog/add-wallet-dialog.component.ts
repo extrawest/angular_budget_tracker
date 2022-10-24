@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'app-add-wallet-dialog',
@@ -6,9 +6,5 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   styleUrls: ['./add-wallet-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddWalletDialogComponent implements OnInit {
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+export class AddWalletDialogComponent {
 }

@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { createAction, props } from '@ngrx/store';
 
 import { AddCategoryParams } from '../../models/add-category-params';
-import {Transaction} from "../../models/transaction.model";
+import { Transaction } from '../../models/transaction.model';
 
 export enum TransactionsActionTypes {
   LoadTransactions = '[Transactions] Load Transactions',

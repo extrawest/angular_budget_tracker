@@ -4,20 +4,21 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { AddCategoryParams } from '../../models/add-category-params';
-import {
-  getTransactions,
-  getTransactionsError,
-  getTransactionsLoaded,
-  getTransactionsLoading
-} from "./transactions.selectors";
+
 import {
   addTransaction,
   addTransactionError,
   addTransactionSuccess,
   loadTransactions,
-  TransactionsActionTypes
-} from "./transactions.actions";
-import {TransactionsState} from "./transactions.reducer";
+  TransactionsActionTypes,
+} from './transactions.actions';
+import { TransactionsState } from './transactions.reducer';
+import {
+  getTransactions,
+  getTransactionsError,
+  getTransactionsLoaded,
+  getTransactionsLoading,
+} from './transactions.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class TransactionsFacade {

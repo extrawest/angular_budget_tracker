@@ -8,9 +8,9 @@ describe('CategoryColorViewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CategoryColorViewComponent ]
+      declarations: [CategoryColorViewComponent],
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(CategoryColorViewComponent);
     component = fixture.componentInstance;

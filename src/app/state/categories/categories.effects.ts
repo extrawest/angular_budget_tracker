@@ -2,16 +2,16 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { fetch, pessimisticUpdate } from '@nrwl/angular';
+import { take } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
-import {CategoriesApiService} from '../../shared/services/api/categories.service';
+import { CategoriesApiService } from '../../shared/services/api/categories.service';
 import { AuthService } from '../../shared/services/auth.service';
 
 import {
   addCategory, addCategoryError, addCategorySuccess,
   CategoriesActionTypes, loadCategories, loadCategoriesError, loadCategoriesSuccess,
 } from './categories.actions';
-import {take} from "rxjs";
 
 @Injectable()
 export class CategoriesEffects {

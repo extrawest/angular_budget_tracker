@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 
 import { AddCategoryDialogComponent } from '../../../../shared/modules/add-category-dialog';
-import {MenuItem} from "primeng/api";
-import {TransactionsFacade, CategoriesFacade} from "../../../../state";
-import {AddTransactionDialogComponent} from "../../../../shared/modules/add-transaction-dialog";
+import { AddTransactionDialogComponent } from '../../../../shared/modules/add-transaction-dialog';
+import { CategoriesFacade, TransactionsFacade } from '../../../../state';
 
 @Component({
   selector: 'app-home-view',

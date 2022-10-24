@@ -1,7 +1,8 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { StoreKey } from '../constants';
-import {transactionsAdapter, TransactionsState} from "./transactions.reducer";
+
+import { transactionsAdapter, TransactionsState } from './transactions.reducer';
 
 const { selectAll } = transactionsAdapter.getSelectors();
 

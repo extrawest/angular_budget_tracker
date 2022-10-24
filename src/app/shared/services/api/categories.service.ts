@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import {filter, from, Observable, switchMap, take} from 'rxjs';
+import { filter, from, Observable, switchMap, take } from 'rxjs';
 
 import { Category } from '../../../models/category.model';
 import { isNotNullOrUndefined } from '../../helpers/not-null-or-undefined';

@@ -8,9 +8,9 @@ describe('CategoryNameViewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CategoryNameViewComponent ]
+      declarations: [CategoryNameViewComponent],
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(CategoryNameViewComponent);
     component = fixture.componentInstance;

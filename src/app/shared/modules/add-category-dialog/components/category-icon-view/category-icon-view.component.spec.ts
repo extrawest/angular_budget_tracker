@@ -8,9 +8,9 @@ describe('CategoryIconViewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CategoryIconViewComponent ]
+      declarations: [CategoryIconViewComponent],
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(CategoryIconViewComponent);
     component = fixture.componentInstance;

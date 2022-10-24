@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import {filter, from, Observable, switchMap, take} from "rxjs";
-import {Transaction} from "../../../models/transaction.model";
-import {Category} from "../../../models/category.model";
-import {isNotNullOrUndefined} from "../../helpers/not-null-or-undefined";
+import { filter, from, Observable, switchMap, take } from 'rxjs';
+
+import { Category } from '../../../models/category.model';
+import { Transaction } from '../../../models/transaction.model';
+import { isNotNullOrUndefined } from '../../helpers/not-null-or-undefined';
 
 @Injectable({ providedIn: 'root' })
 export class TransactionsApiService {

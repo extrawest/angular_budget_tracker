@@ -1,7 +1,8 @@
-import { NgModule } from '@angular/core';
+import { CdkStepperModule } from '@angular/cdk/stepper';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+
 import { StepperComponent } from './stepper.component';
-import {CdkStepperModule} from "@angular/cdk/stepper";
 
 @NgModule({
   declarations: [StepperComponent],
@@ -12,6 +13,6 @@ import {CdkStepperModule} from "@angular/cdk/stepper";
   exports: [
     StepperComponent,
     CdkStepperModule,
-  ]
+  ],
 })
 export class StepperModule { }

@@ -1,9 +1,10 @@
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Action, createReducer, on } from '@ngrx/store';
 
-import {createEntityAdapter, EntityAdapter, EntityState} from "@ngrx/entity";
-import {Transaction} from "../../models/transaction.model";
-import {ItemState} from "../../models/item-state.model";
-import {loadTransactions, loadTransactionsError, loadTransactionsSuccess} from "./transactions.actions";
+import { ItemState } from '../../models/item-state.model';
+import { Transaction } from '../../models/transaction.model';
+
+import { loadTransactions, loadTransactionsError, loadTransactionsSuccess } from './transactions.actions';
 
 export type TransactionsState = ItemState<EntityState<Transaction>>;
 
@@ -16,7 +17,7 @@ export const initialTransactionsState: TransactionsState = {
   loading: false,
   loaded: false,
   error: null,
-}
+};
 
 export const transactionsReducer = createReducer(
   initialTransactionsState,

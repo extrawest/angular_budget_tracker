@@ -6,7 +6,7 @@ import {
   signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile, UserCredential,
 } from '@angular/fire/auth';
 import { AuthProvider, FacebookAuthProvider, GoogleAuthProvider, User } from 'firebase/auth';
-import { BehaviorSubject, filter, forkJoin, from, Observable, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, filter, forkJoin, from, Observable, switchMap } from 'rxjs';
 
 import { isNotNullOrUndefined } from '../helpers/not-null-or-undefined';
 

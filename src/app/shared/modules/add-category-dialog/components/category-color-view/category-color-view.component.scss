@@ -1,0 +1,14 @@
+.colors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 50px);
+  grid-gap: .25rem;
+  justify-content: space-between;
+}
+
+.color {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+}

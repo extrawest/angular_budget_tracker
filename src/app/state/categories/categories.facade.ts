@@ -10,10 +10,10 @@ import {
   addCategoryError,
   addCategorySuccess,
   CategoriesActionTypes,
-  loadCategories
+  loadCategories,
 } from './categories.actions';
 import { CategoriesState } from './categories.reducer';
-import {getCategories, getCategoriesError, getCategoriesLoaded, getCategoriesLoading} from "./categories.selectors";
+import { getCategories, getCategoriesError, getCategoriesLoaded, getCategoriesLoading } from './categories.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class CategoriesFacade {

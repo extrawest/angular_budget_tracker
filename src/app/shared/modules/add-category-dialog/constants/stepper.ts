@@ -1,11 +1,12 @@
-import {MenuItem} from "primeng/api";
+import { MenuItem } from 'primeng/api';
+
 import {
   CategoryColorViewComponent,
   CategoryIconViewComponent,
   CategoryNameViewComponent,
-  CategoryOverviewViewComponent
-} from "../components";
-import {StepConfig} from "../interfaces/stepper-config.interface";
+  CategoryOverviewViewComponent,
+} from '../components';
+import { StepConfig } from '../interfaces/stepper-config.interface';
 
 export const STEPPER_CONFIG: StepConfig[] = [
   {

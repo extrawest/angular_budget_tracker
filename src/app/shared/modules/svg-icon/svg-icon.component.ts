@@ -3,12 +3,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 @Component({
   selector: 'app-svg-icon',
   template: `
-    <svg
-      class="icon svg-icon"
-      [ngClass]="['svg-icon-' + size]"
-      [style.width.px]="size"
-      [style.height.px]="size"
-    >
+    <svg [ngClass]="['svg-icon-' + size]" [style.width.px]="size" [style.height.px]="size" class="icon svg-icon">
       <use attr.xlink:href="assets/icons/symbol-defs.svg#{{ icon }}"></use>
     </svg>
   `,

@@ -1,4 +1,4 @@
-import {ComponentType} from "@angular/cdk/overlay";
+import { ComponentType } from '@angular/cdk/overlay';
 
 export interface StepConfig<T = any> {
   title: string;

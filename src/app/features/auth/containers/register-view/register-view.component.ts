@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { switchMap } from 'rxjs';
 
 import { AppRoute } from '../../../../enums/app-route.enum';
 import { MessageType } from '../../../../enums/message-type.enum';
@@ -50,7 +49,7 @@ export class RegisterViewComponent {
         this.processing = false;
         this.messageService.add({
           severity: MessageType.Danger,
-          detail: getErrorMessage(error.code),
+          detail: getErrorMessage(String(error.code)),
           closable: true,
         });
       },
@@ -65,7 +64,7 @@ export class RegisterViewComponent {
     this.authService.signInWithGoogle().catch((error) => {
       this.messageService.add({
         severity: MessageType.Danger,
-        detail: getErrorMessage(error.code),
+        detail: getErrorMessage(String(error.code)),
         closable: true,
       });
     });
@@ -75,7 +74,7 @@ export class RegisterViewComponent {
     this.authService.signInWithFacebook().catch((error) => {
       this.messageService.add({
         severity: MessageType.Danger,
-        detail: getErrorMessage(error.code),
+        detail: getErrorMessage(String(error.code)),
         closable: true,
       });
     });

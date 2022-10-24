@@ -1,5 +1,5 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {HttpErrorResponse} from "@angular/common/http";
+import { HttpErrorResponse } from '@angular/common/http';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-data-card',
@@ -10,7 +10,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 export class DataCardComponent {
   @Input() title: string;
   @Input() subtitle: string;
-  @Input() isHeaderVisible: boolean = true;
+  @Input() isHeaderVisible = true;
 
   @Input() loading: boolean;
   @Input() loaded: boolean;

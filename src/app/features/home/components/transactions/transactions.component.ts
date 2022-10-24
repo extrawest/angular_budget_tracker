@@ -1,5 +1,6 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {Transaction} from "../../../../models/transaction.model";
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+
+import { Transaction } from '../../../../models/transaction.model';
 
 @Component({
   selector: 'app-transactions',

@@ -1,0 +1,17 @@
+export const COLORS: string[] = [
+  'primary',
+  'secondary',
+  'success',
+  'info',
+  'warning',
+  'danger',
+  'dark',
+  'light',
+  'light-primary',
+  'light-secondary',
+  'light-success',
+  'light-info',
+  'light-warning',
+  'light-danger',
+  'light-dark',
+];

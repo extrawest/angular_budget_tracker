@@ -2,22 +2,22 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
+import { DropdownModule } from 'primeng/dropdown';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { StepsModule } from 'primeng/steps';
 
+import { StepperModule } from '../stepper';
 import { ValidationErrorsModule } from '../validation-errors';
 
 import { AddCategoryDialogComponent } from './add-category-dialog.component';
-import {StepsModule} from "primeng/steps";
 import {
   CategoryColorViewComponent,
   CategoryIconViewComponent,
   CategoryNameViewComponent,
-  CategoryOverviewViewComponent
-} from "./components";
-import {StepperModule} from "../stepper";
-import {CategoryService} from "./services/category.service";
+  CategoryOverviewViewComponent,
+} from './components';
 
 @NgModule({
   declarations: [
@@ -36,10 +36,8 @@ import {CategoryService} from "./services/category.service";
     InputTextareaModule,
     StepsModule,
     StepperModule,
+    DropdownModule,
     ValidationErrorsModule,
   ],
-  providers: [
-    CategoryService,
-  ]
 })
 export class AddCategoryDialogModule { }

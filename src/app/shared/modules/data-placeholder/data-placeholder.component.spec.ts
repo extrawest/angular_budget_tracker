@@ -8,9 +8,9 @@ describe('DataPlaceholderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DataPlaceholderComponent ]
+      declarations: [DataPlaceholderComponent],
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(DataPlaceholderComponent);
     component = fixture.componentInstance;

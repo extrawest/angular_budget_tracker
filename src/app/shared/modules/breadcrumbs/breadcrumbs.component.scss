@@ -1,5 +1,3 @@
-@import '../../../styles/theme/init';
-
 .breadcrumbs {
   display: flex;
   align-items: center;
@@ -20,17 +18,5 @@
       content: "•";
       margin-right: .5rem;
     }
-  }
-
-  & > a {
-    color: $gray-600;
-
-    &:hover {
-      color: $primary;
-    }
-  }
-
-  & > span {
-    color: $gray-500;
   }
 }

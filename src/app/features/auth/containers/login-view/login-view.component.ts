@@ -45,7 +45,7 @@ export class LoginViewComponent {
         this.processing = false;
         this.messageService.add({
           severity: MessageType.Danger,
-          detail: getErrorMessage(error.code),
+          detail: getErrorMessage(String(error.code)),
           closable: true,
         });
       },
@@ -62,7 +62,7 @@ export class LoginViewComponent {
     }).catch((error) => {
       this.messageService.add({
         severity: MessageType.Danger,
-        detail: getErrorMessage(error.code),
+        detail: getErrorMessage(String(error.code)),
         closable: true,
       });
     });
@@ -74,7 +74,7 @@ export class LoginViewComponent {
     }).catch((error) => {
       this.messageService.add({
         severity: MessageType.Danger,
-        detail: getErrorMessage(error.code),
+        detail: getErrorMessage(String(error.code)),
         closable: true,
       });
     });
