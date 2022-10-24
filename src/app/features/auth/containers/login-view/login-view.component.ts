@@ -74,7 +74,7 @@ export class LoginViewComponent {
     }).catch((error) => {
       this.messageService.add({
         severity: MessageType.Danger,
-        detail: getErrorMessage(String(error.code)),
+        detail: getErrorMessage(error.code),
         closable: true,
       });
     });
