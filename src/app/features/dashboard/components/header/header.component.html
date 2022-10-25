@@ -20,25 +20,21 @@
 
     <div class="flex align-items-center flex-shrink-0 ml-3">
       <button pButton class="btn-icon btn-active-color-primary btn-color-white ml-1">
-        <app-svg-icon icon="comment"></app-svg-icon>
         <span class="bullet bg-success absolute top-0 left-50 translate-middle animation-blink"></span>
       </button>
 
       <button pButton class="btn-icon btn-active-color-primary btn-color-white ml-1" (click)="themeMenu.toggle($event)">
-        <app-svg-icon icon="sun"></app-svg-icon>
       </button>
 
       <p-overlayPanel #themeMenu [showCloseIcon]="false" [style]="{ minWidth: '175px' }">
         <div class="py-3">
           <div class="menu-item px-2">
             <a href="#" class="menu-link py-2 px-3 text-gray-700 active">
-              <app-svg-icon icon="sun" size="sm" class="inline-block mr-3"></app-svg-icon>
               Light
             </a>
           </div>
           <div class="menu-item px-2">
             <a class="menu-link py-2 px-3 text-gray-700 bg-transparent text-hover-primary" (click)="themeMenu.hide()">
-              <app-svg-icon icon="moon" size="sm" class="inline-block mr-3"></app-svg-icon>
               Dark
             </a>
           </div>
@@ -64,8 +60,6 @@
               <div>
                 <div class="flex mb-1">
                   <h3 class="mb-0">{{ user.displayName }}</h3>
-
-                  <app-svg-icon *ngIf="user.emailVerified" icon="verified" size="sm" class="ml-2 text-primary"></app-svg-icon>
                 </div>
                 <span class="text-muted">{{ user.email }}</span>
               </div>

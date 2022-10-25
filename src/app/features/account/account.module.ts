@@ -6,7 +6,6 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 
-import { SvgIconModule } from '../../shared/modules/svg-icon';
 import { ValidationErrorsModule } from '../../shared/modules/validation-errors';
 
 import { AccountRoutingModule } from './account-routing.module';
@@ -20,7 +19,6 @@ import { AccountViewComponent } from './containers';
     CommonModule,
     ReactiveFormsModule,
     AccountRoutingModule,
-    SvgIconModule,
     ValidationErrorsModule,
     AvatarModule,
     ButtonModule,

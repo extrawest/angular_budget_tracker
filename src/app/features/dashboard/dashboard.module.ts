@@ -8,7 +8,6 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { SidebarModule } from 'primeng/sidebar';
 
 import { BreadcrumbsModule } from '../../shared/modules/breadcrumbs';
-import { SvgIconModule } from '../../shared/modules/svg-icon';
 
 import { HeaderComponent } from './components';
 import { DashboardViewComponent } from './containers';
@@ -22,7 +21,6 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
     AvatarModule,
     ButtonModule,
     MenubarModule,
-    SvgIconModule,
     MenuModule,
     OverlayPanelModule,
     SidebarModule,

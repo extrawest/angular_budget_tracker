@@ -7,7 +7,6 @@ import { TagModule } from 'primeng/tag';
 
 import { DataCardModule } from '../../shared/modules/data-card';
 import { DataPlaceholderModule } from '../../shared/modules/data-placeholder';
-import { SvgIconModule } from '../../shared/modules/svg-icon';
 
 import { CategoriesComponent, TransactionsComponent } from './components';
 import { HomeViewComponent } from './containers';
@@ -28,7 +27,6 @@ import { HomeRoutingModule } from './home-routing.module';
     TagModule,
     DataCardModule,
     DataPlaceholderModule,
-    SvgIconModule,
   ],
 })
 export class HomeModule { }
