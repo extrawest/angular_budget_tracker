@@ -58,11 +58,11 @@ export class ValidationErrorsDirective implements OnInit, OnDestroy, DoCheck {
 
     for (const errorName of Object.keys(errors)) {
       const errorBuilder = this.config[errorName] || (() => errorName);
-      const errorElement = this.renderer.createElement('span');
+      const errorElement = this.renderer.createElement('small');
       const errorMessage = errorBuilder(errors[errorName], this.field);
 
       this.renderer.setProperty(errorElement, 'innerHTML', errorMessage);
-      this.renderer.addClass(errorElement, 'error-message');
+      this.renderer.addClass(errorElement, 'p-error');
       this.renderer.appendChild(this.viewContainerRef.element.nativeElement, errorElement);
     }
   }

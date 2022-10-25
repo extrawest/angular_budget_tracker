@@ -14,9 +14,7 @@ import { SvgIconModule } from '../../shared/modules/svg-icon';
 import { ValidationErrorsModule } from '../../shared/modules/validation-errors';
 
 import { AuthRoutingModule } from './auth-routing.module';
-import { LoginViewComponent } from './containers/login-view';
-import { RegisterViewComponent } from './containers/register-view';
-import { VerifyEmailViewComponent } from './containers/verify-email-view';
+import { LoginViewComponent, RegisterViewComponent, VerifyEmailViewComponent } from './containers';
 
 @NgModule({
   declarations: [
