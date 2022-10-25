@@ -10,7 +10,6 @@ import { MessagesModule } from 'primeng/messages';
 import { PasswordModule } from 'primeng/password';
 
 import { AuthViewComponent } from '../../containers/auth-view';
-import { SvgIconModule } from '../../shared/modules/svg-icon';
 import { ValidationErrorsModule } from '../../shared/modules/validation-errors';
 
 import { AuthRoutingModule } from './auth-routing.module';
@@ -35,7 +34,6 @@ import { LoginViewComponent, RegisterViewComponent, VerifyEmailViewComponent } f
     ValidationErrorsModule,
     MessagesModule,
     MessageModule,
-    SvgIconModule,
   ],
 })
 export class AuthModule { }
