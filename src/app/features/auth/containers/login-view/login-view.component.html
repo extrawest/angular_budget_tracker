@@ -17,7 +17,7 @@
         aria-describedby="email"
         class="w-full"
       />
-      <app-error [control]="form.controls.email" field="Email address" class="block mt-2"></app-error>
+      <app-error [control]="form.controls.email" field="Email address"></app-error>
     </div>
 
     <div class="mb-3">
@@ -34,7 +34,7 @@
         inputStyleClass="w-full"
         (onBlur)="form.controls.password.markAsTouched()"
       ></p-password>
-      <app-error [control]="form.controls.password" field="Password" class="block mt-2"></app-error>
+      <app-error [control]="form.controls.password" field="Password"></app-error>
     </div>
 
     <div class="mb-3">

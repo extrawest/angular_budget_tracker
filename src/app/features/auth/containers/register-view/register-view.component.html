@@ -1,113 +1,110 @@
-<div class="register-card">
-  <div class="text-center mb-6">
-    <h1 class="mb-3">Create an Account</h1>
-    <div class="text-gray-400 text-lg">
-      Already have an account?
-      <a [routerLink]="['../', AuthRoute.Login]" class="font-semibold">Sign in here</a>
-    </div>
+<div class="surface-card px-6 py-5 shadow-2 border-round" style="width: 600px">
+  <div class="text-center mb-5">
+    <div class="text-900 text-3xl font-medium mb-3">Create an Account</div>
+    <span class="text-600 font-medium line-height-3">Already have an account?</span>
+    <a [routerLink]="['../', AuthRoute.Login]" class="font-medium no-underline ml-2 text-blue-500">Sign in here</a>
   </div>
 
   <p-messages class="block mb-5"></p-messages>
 
-  <div class="grid">
-    <div class="col-6">
-      <button pButton (click)="onSignUpWithGoogle()" class="btn-light btn-lg w-full">
-        <app-svg-icon icon="google"></app-svg-icon>
-        Sign up with Google
-      </button>
-    </div>
-    <div class="col-6">
-      <button pButton (click)="onSignUpWithFacebook()" class="btn-light btn-lg w-full">
-        <app-svg-icon icon="facebook"></app-svg-icon>
-        Sign up with Facebook
-      </button>
-    </div>
-  </div>
-
-  <p-divider align="center" class="col-12">OR</p-divider>
-
   <form [formGroup]="form" autocomplete="off">
     <div class="grid">
-
       <div class="col-6">
-        <div class="form-control form-control-lg mb-3">
-          <label class="form-label">Firstname</label>
-          <input
-            pInputText
-            formControlName="firstname"
-            type="text"
-            aria-describedby="firstname"
-          />
-          <app-error [control]="form.controls.firstname" field="Firstname"></app-error>
-        </div>
+        <button
+          pButton
+          label="Sign up with Google"
+          icon="pi pi-google"
+          iconPos="left"
+          class="w-full p-button-outlined"
+          (click)="onSignUpWithGoogle()"
+        ></button>
       </div>
 
       <div class="col-6">
-        <div class="form-control form-control-lg mb-3">
-          <label class="form-label">Lastname</label>
-          <input
-            pInputText
-            formControlName="lastname"
-            type="text"
-            aria-describedby="lastname"
-          />
-          <app-error [control]="form.controls.lastname" field="Lastname"></app-error>
-        </div>
+        <button
+          pButton
+          label="Sign up with Facebook"
+          icon="pi pi-facebook"
+          iconPos="left"
+          class="w-full p-button-outlined"
+          (click)="onSignUpWithFacebook()"
+        ></button>
+      </div>
+
+      <p-divider align="center" class="col-12">OR</p-divider>
+
+      <div class="col-6">
+        <label class="block text-900 font-medium text-sm mb-2">Firstname</label>
+        <input
+          pInputText
+          formControlName="firstname"
+          type="text"
+          aria-describedby="firstname"
+          class="w-full"
+        />
+        <app-error [control]="form.controls.firstname" field="Firstname"></app-error>
+      </div>
+
+      <div class="col-6">
+        <label class="block text-900 font-medium text-sm mb-2">Lastname</label>
+        <input
+          pInputText
+          formControlName="lastname"
+          type="text"
+          aria-describedby="lastname"
+          class="w-full"
+        />
+        <app-error [control]="form.controls.lastname" field="Lastname"></app-error>
       </div>
 
       <div class="col-12">
-        <div class="form-control form-control-lg mb-3">
-          <label class="form-label">Email</label>
-          <input
-            pInputText
-            formControlName="email"
-            type="email"
-            aria-describedby="email"
-          />
-          <app-error [control]="form.get('email')!" field="Email address"></app-error>
-        </div>
+        <label class="block text-900 font-medium text-sm mb-2">Email</label>
+        <input
+          pInputText
+          formControlName="email"
+          type="email"
+          aria-describedby="email"
+          class="w-full"
+        />
+        <app-error [control]="form.get('email')!" field="Email address"></app-error>
       </div>
 
       <div class="col-12">
-        <div class="form-control form-control-lg mb-3">
-          <label class="form-label">Password</label>
-          <p-password
-            [feedback]="false"
-            [toggleMask]="true"
-            formControlName="password"
-            aria-describedby="password"
-            (onBlur)="form.controls.password.markAsTouched()"
-          ></p-password>
-          <app-error [control]="form.controls.password" field="Password"></app-error>
-        </div>
+        <label class="block text-900 font-medium text-sm mb-2">Password</label>
+        <input
+          pInputText
+          formControlName="password"
+          type="password"
+          aria-describedby="password"
+          class="w-full"
+        />
+        <app-error [control]="form.controls.password" field="Password"></app-error>
       </div>
 
       <div class="col-12">
-        <div class="form-control form-control-lg mb-4">
-          <label class="form-label">Confirm Password</label>
-          <input
-            pPassword
-            [feedback]="false"
-            formControlName="confirmPassword"
-            type="password"
-            aria-describedby="password"
-          />
-          <app-error [control]="form.get('confirmPassword')!" field="Password confirmation"></app-error>
-          <app-error [control]="form" field="password"></app-error>
-        </div>
+        <label class="block text-900 font-medium text-sm mb-2">Confirm Password</label>
+        <input
+          pInputText
+          formControlName="confirmPassword"
+          type="password"
+          aria-describedby="password"
+          class="w-full"
+        />
+        <app-error [control]="form.get('confirmPassword')!" field="Password confirmation"></app-error>
+        <app-error [control]="form" field="password"></app-error>
       </div>
-    </div>
 
-    <div class="text-center">
-      <button
-        pButton
-        [loading]="processing"
-        [label]="processing ? 'Processing...' : 'Continue'"
-        [iconPos]="'right'"
-        (click)="onSubmit()"
-        class="btn-lg btn-primary"
-        type="submit"
-      ></button>
+      <div class="col-12 text-center">
+        <button
+          pButton
+          [loading]="processing"
+          [label]="processing ? 'Processing...' : 'Continue'"
+          [iconPos]="'right'"
+          (click)="onSubmit()"
+          class="btn-lg btn-primary"
+          type="submit"
+        ></button>
+      </div>
     </div>
   </form>
 </div>

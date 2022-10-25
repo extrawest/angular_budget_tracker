@@ -63,6 +63,8 @@ export class ValidationErrorsDirective implements OnInit, OnDestroy, DoCheck {
 
       this.renderer.setProperty(errorElement, 'innerHTML', errorMessage);
       this.renderer.addClass(errorElement, 'p-error');
+      this.renderer.addClass(errorElement, 'mt-2');
+      this.renderer.addClass(errorElement, 'block');
       this.renderer.appendChild(this.viewContainerRef.element.nativeElement, errorElement);
     }
   }
