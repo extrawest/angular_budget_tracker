@@ -32,18 +32,16 @@ export class AuthService {
     return from(createUserWithEmailAndPassword(this.auth, email, password)).pipe(
       switchMap(({ user }) => forkJoin([
         this.sendEmailVerification(user),
-        updateProfile(user, {
-          displayName,
-        }),
+        updateProfile(user, { displayName }),
       ])),
     );
   }
 
-  public async signInWithGoogle(): Promise<User> {
+  public signInWithGoogle(): Observable<UserCredential> {
     return this.signInWithPopup(new GoogleAuthProvider());
   }
 
-  public async signInWithFacebook(): Promise<User> {
+  public signInWithFacebook(): Observable<UserCredential> {
     return this.signInWithPopup(new FacebookAuthProvider());
   }
 
@@ -55,9 +53,7 @@ export class AuthService {
     return from(signOut(this.auth));
   }
 
-  private async signInWithPopup(provider: AuthProvider): Promise<User> {
-    const { user } = await signInWithPopup(this.auth, provider);
-
-    return user;
+  private signInWithPopup(provider: AuthProvider): Observable<UserCredential> {
+    return from(signInWithPopup(this.auth, provider));
   }
 }

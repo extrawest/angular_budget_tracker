@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { finalize } from 'rxjs';
 
 import { AppRoute } from '../../../../enums/app-route.enum';
 import { MessageType } from '../../../../enums/message-type.enum';
@@ -44,39 +45,33 @@ export class RegisterViewComponent {
     const { email, password, firstname, lastname } = this.form.getRawValue();
 
     this.processing = true;
-    this.authService.register(email, password, `${firstname} ${lastname}`).subscribe({
-      error: (error) => {
-        this.processing = false;
-        this.messageService.add({
-          severity: MessageType.Danger,
-          detail: getErrorMessage(String(error.code)),
-          closable: true,
-        });
-      },
+    this.authService.register(email, password, `${firstname} ${lastname}`).pipe(
+      finalize(() => this.processing = false),
+    ).subscribe({
+      error: ({ code }) => this.showErrorMessage(String(code)),
       complete: () => {
-        this.processing = false;
         this.router.navigate(['../', AppRoute.Auth, AuthRoute.VerifyEmail]);
       },
     });
   }
 
   public onSignUpWithGoogle(): void {
-    this.authService.signInWithGoogle().catch((error) => {
-      this.messageService.add({
-        severity: MessageType.Danger,
-        detail: getErrorMessage(String(error.code)),
-        closable: true,
-      });
+    this.authService.signInWithGoogle().subscribe({
+      error: ({ code }) => this.showErrorMessage(String(code)),
     });
   }
 
   public onSignUpWithFacebook(): void {
-    this.authService.signInWithFacebook().catch((error) => {
-      this.messageService.add({
-        severity: MessageType.Danger,
-        detail: getErrorMessage(String(error.code)),
-        closable: true,
-      });
+    this.authService.signInWithFacebook().subscribe({
+      error: ({ code }) => this.showErrorMessage(String(code)),
+    });
+  }
+
+  private showErrorMessage(error: string): void {
+    this.messageService.add({
+      severity: MessageType.Error,
+      detail: getErrorMessage(error),
+      closable: false,
     });
   }
 }

@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { finalize } from 'rxjs';
 
 import { MessageType } from '../../../../enums/message-type.enum';
 import { getErrorMessage } from '../../../../shared/helpers/get-error-message';
@@ -40,47 +41,38 @@ export class LoginViewComponent {
 
     this.processing = true;
     this.messageService.clear();
-    this.authService.login(email, password).subscribe({
-      error: (error) => {
-        this.processing = false;
-        this.messageService.add({
-          severity: MessageType.Danger,
-          detail: getErrorMessage(String(error.code)),
-          closable: true,
-        });
-      },
-      complete: () => {
-        this.processing = false;
-        this.redirectToHomePage();
-      },
+
+    this.authService.login(email, password).pipe(
+      finalize(() => this.processing = false),
+    ).subscribe({
+      error: ({ code }) => this.showErrorMessage(String(code)),
+      complete: () => this.redirectToHomePage(),
     });
   }
 
-  public onSignUpWithGoogle(): void {
-    this.authService.signInWithGoogle().then(() => {
-      this.redirectToHomePage();
-    }).catch((error) => {
-      this.messageService.add({
-        severity: MessageType.Danger,
-        detail: getErrorMessage(String(error.code)),
-        closable: true,
-      });
+  public onSignInWithGoogle(): void {
+    this.authService.signInWithGoogle().subscribe({
+      error: ({ code }) => this.showErrorMessage(String(code)),
+      complete: () => this.redirectToHomePage(),
     });
   }
 
-  public onSignUpWithFacebook(): void {
-    this.authService.signInWithFacebook().then(() => {
-      this.redirectToHomePage();
-    }).catch((error) => {
-      this.messageService.add({
-        severity: MessageType.Danger,
-        detail: getErrorMessage(String(error.code)),
-        closable: true,
-      });
+  public onSignInWithFacebook(): void {
+    this.authService.signInWithFacebook().subscribe({
+      error: ({ code }) => this.showErrorMessage(String(code)),
+      complete: () => this.redirectToHomePage(),
     });
   }
 
   private redirectToHomePage(): void {
     this.router.navigate(['/']);
+  }
+
+  private showErrorMessage(error: string): void {
+    this.messageService.add({
+      severity: MessageType.Error,
+      detail: getErrorMessage(error),
+      closable: false,
+    });
   }
 }
