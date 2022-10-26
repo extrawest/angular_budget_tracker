@@ -7,8 +7,6 @@ import { MenubarModule } from 'primeng/menubar';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { SidebarModule } from 'primeng/sidebar';
 
-import { BreadcrumbsModule } from '../../shared/modules/breadcrumbs';
-
 import { HeaderComponent } from './components';
 import { DashboardViewComponent } from './containers';
 import { DashboardRoutingModule } from './dashboard-routing.module';
@@ -24,7 +22,6 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
     MenuModule,
     OverlayPanelModule,
     SidebarModule,
-    BreadcrumbsModule,
   ],
 })
 export class DashboardModule { }

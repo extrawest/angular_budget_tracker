@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'firebase/auth';
 import { MenuItem } from 'primeng/api';
-import { filter, Observable } from 'rxjs';
+import { filter, map, Observable } from 'rxjs';
 
 import { AppRoute } from '../../../../enums/app-route.enum';
 import { isNotNullOrUndefined } from '../../../../shared/helpers/not-null-or-undefined';
@@ -23,8 +23,14 @@ export class HeaderComponent {
     { label: 'Salary card' },
   ];
 
+  public title$: Observable<string> = this.activatedRoute.firstChild?.data.pipe(
+    filter(isNotNullOrUndefined),
+    map((data) => data['title']),
+  );
+
   constructor(
     private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute,
     private readonly authService: AuthService,
   ) {}
 

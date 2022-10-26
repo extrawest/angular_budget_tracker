@@ -1,0 +1,31 @@
+.p-tabmenu {
+  &.p-tabmenu-transparent {
+    .p-tabmenu-nav,
+    .p-menuitem-link {
+      background-color: transparent !important;
+    }
+
+    .p-menuitem-link {
+      box-shadow: none !important;
+      border-top: none !important;
+      border-left: none !important;
+      border-right: none !important;
+    }
+
+    .p-highlight {
+      .p-menuitem-link {
+        color: var(--primary-color) !important;
+      }
+    }
+  }
+
+  &.p-tabmenu-fluid {
+    .p-tabmenuitem {
+      width: 100% !important;
+    }
+
+    .p-menuitem-link {
+      justify-content: center !important;
+    }
+  }
+}

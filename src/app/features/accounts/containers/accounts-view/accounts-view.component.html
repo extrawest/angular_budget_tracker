@@ -1,0 +1,80 @@
+<p-tabMenu [model]="items" styleClass="p-tabmenu-transparent p-tabmenu-fluid"></p-tabMenu>
+
+<div class="py-3">
+  <div *ngIf="!(accountsLoading$ | async) && (accountsLoaded$ | async) && (accounts$ | async) as accounts" class="flex flex-column">
+    <div *ngFor="let account of accounts" class="surface-card shadow-1 border-round p-3 mb-3">
+      <div class="mb-2">{{ account.name }}</div>
+      <div class="font-medium text-3xl text-green-500">{{ account.balance }}</div>
+    </div>
+  </div>
+
+  <ng-container *ngIf="(accountsLoading$ | async) && !(accountsLoaded$ | async)">
+    <div *ngFor="let item of [0, 1, 2, 3, 4]" class="surface-card shadow-1 border-round p-3 mb-3">
+      <p-skeleton width="100%" height="1.5rem" class="block mb-2"></p-skeleton>
+      <p-skeleton width="40%" height="2rem"></p-skeleton>
+    </div>
+  </ng-container>
+
+  <app-data-placeholder
+    *ngIf="!(accounts$ | async)?.length && !(accountsLoading$ | async) && !(accountsError$ | async)"
+    icon="no-data"
+    description="There are no accounts yet"
+  >
+    <button pButton class="btn-primary" (click)="onAddAccount()">Create new one</button>
+  </app-data-placeholder>
+
+  <app-data-placeholder
+    *ngIf="accountsError$ | async"
+    icon="no-data"
+    description="Something went wrong!"
+  >
+    <button pButton class="btn-primary" (click)="loadAccounts()">Retry</button>
+  </app-data-placeholder>
+
+</div>
+
+<!--<app-data-card-->
+<!--  [title]="'Transactions'"-->
+<!--  [subtitle]="'Transactions list'"-->
+<!--  [loading]="transactionsLoading$ | async"-->
+<!--  [loaded]="transactionsLoaded$ | async"-->
+<!--  [error]="transactionsError$ | async"-->
+<!--  styleClass="p-card-flush"-->
+<!--&gt;-->
+<!--  <ng-container header-actions>-->
+<!--    <button pButton type="button" class="btn-sm btn-primary ml-3" (click)="onAddTransaction()">Add transaction</button>-->
+<!--  </ng-container>-->
+
+<!--  <app-transactions [transactions]="transactions$ | async"></app-transactions>-->
+
+<!--  <app-data-placeholder no-data icon="no-data" description="There are no transactions yet">-->
+<!--    <button pButton class="btn-primary" (click)="onAddTransaction()">Add new transaction</button>-->
+<!--  </app-data-placeholder>-->
+<!--</app-data-card>-->
+
+<!--  <div class="col-4">-->
+<!--    <app-data-card-->
+<!--      [title]="'Categories'"-->
+<!--      [subtitle]="'Categories list & statistics'"-->
+<!--      [loading]="categoriesLoading$ | async"-->
+<!--      [loaded]="categoriesLoaded$ | async"-->
+<!--      [error]="categoriesError$ | async"-->
+<!--      styleClass="p-card-flush"-->
+<!--    >-->
+<!--      <ng-container header-actions>-->
+<!--        <button pButton type="button" class="btn-sm btn-light btn-icon ml-3" (click)="popup.toggle($event)">-->
+<!--          <span class="material-icons-outlined">more_vert</span>-->
+<!--        </button>-->
+<!--        <p-menu #popup [popup]="true" [model]="menu"></p-menu>-->
+<!--      </ng-container>-->
+
+<!--      <app-categories-->
+<!--        [categories]="categories$ | async"-->
+<!--      ></app-categories>-->
+
+<!--      <app-data-placeholder no-data icon="no-data" description="There are no categories yet">-->
+<!--        <button pButton class="btn-primary" (click)="onAddCategory()">Create new one</button>-->
+<!--      </app-data-placeholder>-->
+<!--    </app-data-card>-->
+<!--  </div>-->
+<!--</div>-->
