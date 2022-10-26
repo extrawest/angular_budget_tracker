@@ -40,7 +40,6 @@ export class LoginViewComponent {
     const { email, password } = this.form.getRawValue();
 
     this.processing = true;
-    this.messageService.clear();
 
     this.authService.login(email, password).pipe(
       finalize(() => this.processing = false),
@@ -69,6 +68,7 @@ export class LoginViewComponent {
   }
 
   private showErrorMessage(error: string): void {
+    this.messageService.clear();
     this.messageService.add({
       severity: MessageType.Error,
       detail: getErrorMessage(error),

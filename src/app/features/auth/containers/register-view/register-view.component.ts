@@ -68,6 +68,7 @@ export class RegisterViewComponent {
   }
 
   private showErrorMessage(error: string): void {
+    this.messageService.clear();
     this.messageService.add({
       severity: MessageType.Error,
       detail: getErrorMessage(error),
