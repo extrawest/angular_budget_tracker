@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { distinctUntilChanged } from 'rxjs';
-import { debounceTime, map, startWith } from 'rxjs/operators';
 
 import { CategoryService } from '../../services/category.service';
 

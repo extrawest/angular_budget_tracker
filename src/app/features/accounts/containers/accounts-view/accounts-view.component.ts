@@ -1,10 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 
-import { AddCategoryDialogComponent } from '../../../../shared/modules/add-category-dialog';
-import { AddTransactionDialogComponent } from '../../../../shared/modules/add-transaction-dialog';
-import { AccountsFacade, CategoriesFacade, TransactionsFacade } from '../../../../state';
+import { AddAccountDialogComponent } from '../../../../shared/modules/add-account-dialog';
+import { AccountsFacade } from '../../../../state';
 
 @Component({
   selector: 'app-accounts-view',
@@ -37,8 +35,9 @@ export class AccountsViewComponent implements OnInit {
   }
 
   public onAddAccount(): void {
-    this.dialogService.open(AddCategoryDialogComponent, {
+    this.dialogService.open(AddAccountDialogComponent, {
       header: 'Add account',
+      width: '400px',
     });
   }
 

@@ -2,7 +2,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { createAction, props } from '@ngrx/store';
 
 import { Account } from '../../models/account.model';
-import { Category } from '../../models/category.model';
 
 export enum AccountsActionTypes {
   LoadAccounts = '[Accounts] Load Accounts',
