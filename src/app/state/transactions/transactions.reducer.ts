@@ -6,7 +6,9 @@ import { Transaction } from '../../models/transaction.model';
 
 import { loadTransactions, loadTransactionsError, loadTransactionsSuccess } from './transactions.actions';
 
-export type TransactionsState = ItemState<EntityState<Transaction>>;
+export interface TransactionsState extends ItemState<EntityState<Transaction>> {
+  totalBalance: number;
+}
 
 export const transactionsAdapter: EntityAdapter<Transaction> = createEntityAdapter<Transaction>({
   selectId: (transaction) => transaction.uid,
@@ -17,6 +19,7 @@ export const initialTransactionsState: TransactionsState = {
   loading: false,
   loaded: false,
   error: null,
+  totalBalance: 0,
 };
 
 export const transactionsReducer = createReducer(
@@ -38,6 +41,7 @@ export const transactionsReducer = createReducer(
       loaded: true,
       loading: false,
       error: null,
+      totalBalance: transactions.reduce((acc, { amount }) => acc + amount, 0),
     }),
   ),
   on(

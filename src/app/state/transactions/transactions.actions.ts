@@ -3,6 +3,7 @@ import { createAction, props } from '@ngrx/store';
 
 import { AddCategoryParams } from '../../models/add-category-params';
 import { Transaction } from '../../models/transaction.model';
+import { TransactionsParams } from '../../models/transactions-params';
 
 export enum TransactionsActionTypes {
   LoadTransactions = '[Transactions] Load Transactions',
@@ -20,6 +21,7 @@ export enum TransactionsActionTypes {
 
 export const loadTransactions = createAction(
   TransactionsActionTypes.LoadTransactions,
+  props<{ params: Partial<TransactionsParams> }>(),
 );
 
 export const loadTransactionsSuccess = createAction(

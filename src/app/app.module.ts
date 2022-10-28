@@ -14,13 +14,16 @@ import { SharedModule } from 'primeng/api';
 import { environment } from '../environments/environment';
 
 import { AppRoutingModule } from './app-routing.module';
+import { DashboardViewComponent } from './containers/dashboard-view';
 import { ErrorViewComponent } from './containers/error-view';
 import { RootViewComponent } from './containers/root-view';
+import { HeaderModule } from './shared/modules/header';
 import { StateModule } from './state/state.module';
 
 @NgModule({
   declarations: [
     RootViewComponent,
+    DashboardViewComponent,
     ErrorViewComponent,
   ],
   imports: [
@@ -36,6 +39,7 @@ import { StateModule } from './state/state.module';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
+    HeaderModule,
     StateModule,
     SharedModule,
   ],

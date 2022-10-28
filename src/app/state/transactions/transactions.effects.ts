@@ -23,10 +23,10 @@ export class TransactionsEffects {
   public readonly loadTransactions$ = createEffect(() => this.actions$.pipe(
     ofType(TransactionsActionTypes.LoadTransactions),
     fetch({
-      run: () => {
+      run: ({ params }: ReturnType<typeof loadTransactions>) => {
         return this.authService.currentUser$.pipe(
           take(1),
-          switchMap((user) => this.transactionsApiService.fetchTransactions(user.uid)),
+          switchMap((user) => this.transactionsApiService.fetchTransactions({ ...params, userId: user.uid })),
           map((transactions) => loadTransactionsSuccess({ transactions })),
         );
       },

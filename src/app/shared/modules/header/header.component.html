@@ -30,7 +30,7 @@
           <div class="separator my-2"></div>
 
           <div class="py-2">
-            <a [routerLink]="DashboardRoute.Account" (click)="settings.hide()" class="text-primary no-underline">My Profile</a>
+            <a [routerLink]="AppRoute.Profile" (click)="settings.hide()" class="text-primary no-underline">My Profile</a>
           </div>
 
           <div class="py-2">
@@ -48,19 +48,12 @@
     </div>
 
     <div class="flex align-items-center flex-shrink-0 ml-3">
-      <p-button styleClass="p-button-link p-button-sm flex justify-content-center">
+      <p-button styleClass="p-button-link p-button-sm flex justify-content-center" (click)="menu.toggle($event)">
         <ng-template pTemplate="content">
           <span class="pi pi-plus text-xl"></span>
         </ng-template>
       </p-button>
-
-<!--      <ng-container *ngIf="user$ | async as user">-->
-<!--        <p-avatar-->
-<!--          [label]="user.displayName?.charAt(0)"-->
-<!--          (click)="userMenu.toggle($event)"-->
-<!--          class="ml-3 cursor-pointer"-->
-<!--        ></p-avatar>-->
-<!--      </ng-container>-->
+      <p-menu #menu [popup]="true" [model]="addItemMenu"></p-menu>
     </div>
   </div>
 </header>

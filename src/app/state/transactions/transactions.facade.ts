@@ -3,7 +3,8 @@ import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { AddCategoryParams } from '../../models/add-category-params';
+import { Transaction } from '../../models/transaction.model';
+import { TransactionsParams } from '../../models/transactions-params';
 
 import {
   addTransaction,
@@ -17,7 +18,7 @@ import {
   getTransactions,
   getTransactionsError,
   getTransactionsLoaded,
-  getTransactionsLoading,
+  getTransactionsLoading, getTransactionsTotalBalance,
 } from './transactions.selectors';
 
 @Injectable({ providedIn: 'root' })
@@ -26,11 +27,12 @@ export class TransactionsFacade {
   public readonly transactionsLoading$ = this.store.select(getTransactionsLoading);
   public readonly transactionsLoaded$ = this.store.select(getTransactionsLoaded);
   public readonly transactionsError$ = this.store.select(getTransactionsError);
+  public readonly transactionsTotalBalance$ = this.store.select(getTransactionsTotalBalance);
 
-  public readonly onAddCategorySuccess$: Observable<ReturnType<typeof addTransactionSuccess>> = this.actions$.pipe(
+  public readonly onAddTransactionSuccess$: Observable<ReturnType<typeof addTransactionSuccess>> = this.actions$.pipe(
     ofType(TransactionsActionTypes.AddTransactionSuccess),
   );
-  public readonly onAddCategoryError$: Observable<ReturnType<typeof addTransactionError>> = this.actions$.pipe(
+  public readonly onAddTransactionError$: Observable<ReturnType<typeof addTransactionError>> = this.actions$.pipe(
     ofType(TransactionsActionTypes.AddTransactionError),
   );
 
@@ -39,11 +41,11 @@ export class TransactionsFacade {
     private readonly store: Store<TransactionsState>,
   ) {}
 
-  public loadTransactions(): void {
-    this.store.dispatch(loadTransactions());
+  public loadTransactions(params: Partial<TransactionsParams>): void {
+    this.store.dispatch(loadTransactions({ params }));
   }
 
-  public addTransaction(params: AddCategoryParams): void {
+  public addTransaction(params: Partial<Transaction>): void {
     this.store.dispatch(addTransaction({ params }));
   }
 }

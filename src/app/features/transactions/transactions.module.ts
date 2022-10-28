@@ -13,20 +13,15 @@ import { TagModule } from 'primeng/tag';
 import { DataCardModule } from '../../shared/modules/data-card';
 import { DataPlaceholderModule } from '../../shared/modules/data-placeholder';
 
-import { AccountsRoutingModule } from './accounts-routing.module';
-import { CategoriesComponent, TransactionsComponent } from './components';
-import { AccountsViewComponent } from './containers';
+import { TransactionsViewComponent } from './containers';
+import { TransactionsRoutingModule } from './transactions-routing.module';
 
 @NgModule({
-  declarations: [
-    AccountsViewComponent,
-    TransactionsComponent,
-    CategoriesComponent,
-  ],
+  declarations: [TransactionsViewComponent],
   imports: [
     CommonModule,
+    TransactionsRoutingModule,
     LetModule,
-    AccountsRoutingModule,
     AvatarModule,
     ButtonModule,
     MenuModule,
@@ -39,4 +34,4 @@ import { AccountsViewComponent } from './containers';
     DataPlaceholderModule,
   ],
 })
-export class AccountsModule { }
+export class TransactionsModule { }

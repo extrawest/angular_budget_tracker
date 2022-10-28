@@ -7,6 +7,9 @@ const routes: Routes = [
   {
     path: '',
     component: AccountsViewComponent,
+    data: {
+      title: 'Accounts',
+    },
   },
 ];
 

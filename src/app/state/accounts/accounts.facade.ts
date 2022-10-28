@@ -7,7 +7,13 @@ import { Account } from '../../models/account.model';
 
 import { AccountsActionTypes, addAccount, addAccountError, addAccountSuccess, loadAccounts } from './accounts.actions';
 import { AccountsState } from './accounts.reducer';
-import { getAccounts, getAccountsError, getAccountsLoaded, getAccountsLoading } from './accounts.selectors';
+import {
+  getAccounts,
+  getAccountsError,
+  getAccountsLoaded,
+  getAccountsLoading,
+  getAccountsTotalBalance,
+} from './accounts.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class AccountsFacade {
@@ -15,6 +21,7 @@ export class AccountsFacade {
   public readonly accountsLoading$ = this.store.select(getAccountsLoading);
   public readonly accountsLoaded$ = this.store.select(getAccountsLoaded);
   public readonly accountsError$ = this.store.select(getAccountsError);
+  public readonly accountsTotalBalance$ = this.store.select(getAccountsTotalBalance);
 
   public readonly onAddAccountSuccess$: Observable<ReturnType<typeof addAccountSuccess>> = this.actions$.pipe(
     ofType(AccountsActionTypes.AddAccountSuccess),

@@ -4,6 +4,7 @@ import { filter, from, Observable, switchMap, take } from 'rxjs';
 
 import { Category } from '../../../models/category.model';
 import { Transaction } from '../../../models/transaction.model';
+import { TransactionsParams } from '../../../models/transactions-params';
 import { isNotNullOrUndefined } from '../../helpers/not-null-or-undefined';
 
 @Injectable({ providedIn: 'root' })
@@ -12,11 +13,13 @@ export class TransactionsApiService {
 
   constructor(private readonly firestore: AngularFirestore) {}
 
-  public fetchTransactions(userId: string): Observable<Transaction[]> {
+  public fetchTransactions({ userId, accountId }: Partial<TransactionsParams>): Observable<Transaction[]> {
     return this.firestore.collection<Transaction>(
       this.collectionPath,
-      (ref) => ref.where('userId', '==', userId),
-    ).valueChanges();
+      (ref) => ref
+        .where('userId', '==', userId)
+        .where('accountId', '==', accountId),
+    ).valueChanges({ idField: 'uid' });
   }
 
   public addTransaction(transaction: Partial<Category>): Observable<Transaction> {

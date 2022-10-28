@@ -2,10 +2,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { fetch, pessimisticUpdate } from '@nrwl/angular';
-import { take } from 'rxjs';
+import { forkJoin, take } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import { AccountsApiService } from '../../shared/services/api/accounts.service';
+import { TransactionsApiService } from '../../shared/services/api/transactions.service';
 import { AuthService } from '../../shared/services/auth.service';
 
 import {
@@ -24,7 +25,20 @@ export class AccountsEffects {
       run: () => {
         return this.authService.currentUser$.pipe(
           take(1),
-          switchMap((user) => this.accountsApiService.fetchAccounts(user.uid)),
+          switchMap((user) => this.accountsApiService.fetchAccounts({ userId: user.uid })),
+          switchMap((accounts) => forkJoin(
+            accounts.map((account) => this.transactionsApiService.fetchTransactions({
+              userId: account.userId,
+              accountId: account.uid,
+            }).pipe(
+              take(1),
+              map((transactions) => ({
+                ...account,
+                balance: transactions.reduce((acc, { amount }) => acc + amount, 0),
+              })),
+            ),
+            ),
+          )),
           map((accounts) => loadAccountsSuccess({ accounts })),
         );
       },
@@ -53,6 +67,7 @@ export class AccountsEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly accountsApiService: AccountsApiService,
+    private readonly transactionsApiService: TransactionsApiService,
     private readonly authService: AuthService,
   ) {}
 }

@@ -1,11 +1,9 @@
-import { Category } from './category.model';
-
 export interface Transaction {
   uid: string;
   title: string;
   description: string;
   amount: number;
-  createdAt: number;
+  createdAt: Date;
   userId: string;
-  category: Category;
+  category: string;
 }

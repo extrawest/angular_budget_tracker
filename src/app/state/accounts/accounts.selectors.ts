@@ -25,3 +25,8 @@ export const getAccountsError = createSelector(
   getState,
   (state) => state.error,
 );
+
+export const getAccountsTotalBalance = createSelector(
+  getState,
+  (state) => state.totalBalance,
+);

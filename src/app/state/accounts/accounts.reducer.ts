@@ -5,13 +5,16 @@ import { ItemState } from '../../models/item-state.model';
 
 import { addAccountError, loadAccounts, loadAccountsError, loadAccountsSuccess } from './accounts.actions';
 
-export type AccountsState = ItemState<Account[]>;
+export interface AccountsState extends ItemState<Account[]> {
+  totalBalance: number;
+}
 
 export const initialAccountsState: AccountsState = {
   data: [],
   loaded: false,
   loading: false,
   error: null,
+  totalBalance: 0,
 };
 
 export const accountsReducer = createReducer(
@@ -33,6 +36,7 @@ export const accountsReducer = createReducer(
       loaded: true,
       loading: false,
       error: null,
+      totalBalance: accounts.reduce((acc, { balance }) => acc + balance, 0),
     }),
   ),
   on(

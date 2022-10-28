@@ -1,19 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AccountViewComponent } from './containers';
+import { TransactionsViewComponent } from './containers';
 
 const routes: Routes = [
   {
-    path: '',
-    component: AccountViewComponent,
+    path: ':accountId',
+    component: TransactionsViewComponent,
     data: {
-      title: 'Profile',
+      title: 'Transactions',
     },
-  }];
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class AccountRoutingModule { }
+export class TransactionsRoutingModule { }

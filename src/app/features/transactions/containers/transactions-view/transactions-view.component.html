@@ -1,0 +1,53 @@
+<p-tabMenu
+  [model]="datePeriods"
+  [activeItem]="activeDatePeriod"
+  styleClass="p-tabmenu-transparent p-tabmenu-fluid"
+></p-tabMenu>
+
+<div class="py-3">
+  <ng-container *ngIf="!(transactionsLoading$ | async) && (transactionsLoaded$ | async) && (transactions$ | async) as transactions">
+    <div *ngIf="transactions.length; else noData" class="flex flex-column">
+      <div class="text-center py-4">
+        <div class="uppercase opacity-40 font-medium text-sm">Balance</div>
+        <div
+          *ngrxLet="transactionsTotalBalance$ as totalBalance"
+          [class.text-green-400]="totalBalance > 0"
+          [class.text-red-400]="totalBalance < 0"
+          [class.text-gray-400]="totalBalance === 0"
+          class="text-5xl font-bold my-2"
+        >$ {{ totalBalance }}</div>
+        <div class="">+4.28%</div>
+
+        <button pButton (click)="onAddTransaction()" label="Add new" class="mt-4"></button>
+      </div>
+      <div *ngFor="let transaction of transactions" class="surface-card shadow-1 border-round p-3 mb-3">
+        <div class="mb-2">{{ transaction.title }}</div>
+        <div class="font-medium text-3xl text-green-400">{{ transaction.amount }}</div>
+      </div>
+    </div>
+
+    <ng-template #noData>
+      <app-data-placeholder
+        icon="no-data"
+        description="There are no transactions yet"
+      >
+        <button pButton class="btn-primary" (click)="onAddTransaction()">Create new one</button>
+      </app-data-placeholder>
+    </ng-template>
+  </ng-container>
+
+  <ng-container *ngIf="(transactionsLoading$ | async) && !(transactionsLoaded$ | async)">
+    <div *ngFor="let item of [0, 1, 2, 3, 4]" class="surface-card shadow-1 border-round p-3 mb-3">
+      <p-skeleton width="100%" height="1.5rem" class="block mb-2"></p-skeleton>
+      <p-skeleton width="40%" height="2rem"></p-skeleton>
+    </div>
+  </ng-container>
+
+  <app-data-placeholder
+    *ngIf="transactionsError$ | async"
+    icon="no-data"
+    description="Something went wrong!"
+  >
+    <button pButton class="btn-primary" (click)="loadTransactions()">Retry</button>
+  </app-data-placeholder>
+</div>

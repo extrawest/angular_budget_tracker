@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
 
+import { AppRoute } from '../../../../enums/app-route.enum';
 import { AddAccountDialogComponent } from '../../../../shared/modules/add-account-dialog';
 import { AccountsFacade } from '../../../../state';
 
 @Component({
-  selector: 'app-accounts-view',
+  selector: 'app-transactions-view',
   templateUrl: './accounts-view.component.html',
   styleUrls: ['./accounts-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -16,7 +17,9 @@ export class AccountsViewComponent implements OnInit {
   public readonly accountsLoading$ = this.accountsFacade.accountsLoading$;
   public readonly accountsLoaded$ = this.accountsFacade.accountsLoaded$;
   public readonly accountsError$ = this.accountsFacade.accountsError$;
+  public readonly accountsTotalBalance$ = this.accountsFacade.accountsTotalBalance$;
 
+  public readonly AppRoute = AppRoute;
   public readonly items = [
     { label: 'Daily' },
     { label: 'Weekly' },
@@ -27,8 +30,7 @@ export class AccountsViewComponent implements OnInit {
   constructor(
     private readonly accountsFacade: AccountsFacade,
     private readonly dialogService: DialogService,
-  ) {
-  }
+  ) {}
 
   public ngOnInit(): void {
     this.loadAccounts();

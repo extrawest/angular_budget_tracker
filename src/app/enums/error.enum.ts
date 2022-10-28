@@ -1,4 +1,0 @@
-export enum Error {
-  EMAIL_NOT_FOUND = 'EMAIL_NOT_FOUND',
-  INVALID_PASSWORD = 'INVALID_PASSWORD',
-}
