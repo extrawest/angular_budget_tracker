@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { AppRoute } from '../../enums/app-route.enum';
+
 import { TransactionsViewComponent } from './containers';
 
 const routes: Routes = [
@@ -9,6 +11,10 @@ const routes: Routes = [
     component: TransactionsViewComponent,
     data: {
       title: 'Transactions',
+      backLink: {
+        route: `../${AppRoute.Accounts}`,
+        title: 'Accounts',
+      },
     },
   },
 ];

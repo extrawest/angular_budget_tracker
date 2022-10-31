@@ -3,7 +3,6 @@ import { AuthPipe, canActivate, redirectLoggedInTo, redirectUnauthorizedTo } fro
 import { RouterModule, Routes } from '@angular/router';
 
 import { DashboardViewComponent } from './containers/dashboard-view';
-import { ErrorViewComponent } from './containers/error-view';
 import { AppRoute } from './enums/app-route.enum';
 
 const redirectUnauthorizedToLogin = (): AuthPipe => redirectUnauthorizedTo([AppRoute.Auth]);
@@ -36,7 +35,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    component: ErrorViewComponent,
+    redirectTo: '/',
   },
 ];
 

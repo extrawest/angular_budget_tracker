@@ -1,9 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
+import slugify from 'slugify';
 
 import { AppRoute } from '../../../../enums/app-route.enum';
+import { Account } from '../../../../models/account.model';
 import { AddAccountDialogComponent } from '../../../../shared/modules/add-account-dialog';
 import { AccountsFacade } from '../../../../state';
+import {MenuItem} from "primeng/api";
 
 @Component({
   selector: 'app-transactions-view',
@@ -19,15 +23,8 @@ export class AccountsViewComponent implements OnInit {
   public readonly accountsError$ = this.accountsFacade.accountsError$;
   public readonly accountsTotalBalance$ = this.accountsFacade.accountsTotalBalance$;
 
-  public readonly AppRoute = AppRoute;
-  public readonly items = [
-    { label: 'Daily' },
-    { label: 'Weekly' },
-    { label: 'Monthly' },
-    { label: 'Yearly' },
-  ];
-
   constructor(
+    private readonly router: Router,
     private readonly accountsFacade: AccountsFacade,
     private readonly dialogService: DialogService,
   ) {}
@@ -45,5 +42,9 @@ export class AccountsViewComponent implements OnInit {
 
   public loadAccounts(): void {
     this.accountsFacade.loadAccounts();
+  }
+
+  public onSelectAccount(account: Account): void {
+    this.router.navigate([AppRoute.Transactions, slugify(account.name, { lower: true })]);
   }
 }

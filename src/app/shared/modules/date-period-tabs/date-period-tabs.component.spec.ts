@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ErrorViewComponent } from './error-view.component';
+import { DatePeriodTabsComponent } from './date-period-tabs.component';
 
-describe('ErrorViewComponent', () => {
-  let component: ErrorViewComponent;
-  let fixture: ComponentFixture<ErrorViewComponent>;
+describe('PeriodTabsComponent', () => {
+  let component: DatePeriodTabsComponent;
+  let fixture: ComponentFixture<DatePeriodTabsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ErrorViewComponent],
+      declarations: [DatePeriodTabsComponent],
     })
       .compileComponents();
 
-    fixture = TestBed.createComponent(ErrorViewComponent);
+    fixture = TestBed.createComponent(DatePeriodTabsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

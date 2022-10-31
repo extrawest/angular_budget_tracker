@@ -23,6 +23,7 @@ export class TransactionsEffects {
   public readonly loadTransactions$ = createEffect(() => this.actions$.pipe(
     ofType(TransactionsActionTypes.LoadTransactions),
     fetch({
+      id: (action) => action.type,
       run: ({ params }: ReturnType<typeof loadTransactions>) => {
         return this.authService.currentUser$.pipe(
           take(1),

@@ -1,53 +1,62 @@
 <header class="py-2">
   <div class="flex justify-content-between align-items-center">
-    <div class="flex align-items-center flex-shrink-0 mr-3">
-      <p-button styleClass="p-button-link p-button-sm flex justify-content-center" (click)="settings.toggle($event)">
-        <ng-template pTemplate="content">
-          <span class="pi pi-cog text-xl"></span>
-        </ng-template>
-      </p-button>
+    <div class="flex align-items-center flex-shrink-0 mr-1 w-5rem">
+      <ng-container *ngIf="backLink; else settings">
+        <a [routerLink]="backLink.route" class="flex align-items-center no-underline text-gray-900 hover:text-primary">
+          <span class="pi pi-chevron-left mr-2"></span>
+          <span>{{ backLink.title }}</span>
+        </a>
+      </ng-container>
 
-      <p-overlayPanel #settings [showCloseIcon]="false">
-        <div>
-          <div class="flex align-items-center mb-4">
-          <ng-container *ngIf="user$ | async as user">
-              <p-avatar
-                [label]="user.displayName?.charAt(0)"
-                size="large"
-                class="mr-3"
-                styleClass="bg-dark text-light"
-              ></p-avatar>
-              <div>
-                <div class="flex mb-1">
-                  <span class="font-medium">{{ user.displayName }}</span>
-                  <span class="pi pi-check ml-2 text-primary"></span>
+      <ng-template #settings>
+        <p-button styleClass="p-button-link p-button-sm flex justify-content-center" (click)="settingsMenu.toggle($event)">
+          <ng-template pTemplate="content">
+            <span class="pi pi-cog text-xl"></span>
+          </ng-template>
+        </p-button>
+
+        <p-overlayPanel #settingsMenu [showCloseIcon]="false">
+          <div>
+            <div class="flex align-items-center mb-4">
+            <ng-container *ngIf="user$ | async as user">
+                <p-avatar
+                  [label]="user.displayName?.charAt(0)"
+                  size="large"
+                  class="mr-3"
+                  styleClass="bg-dark text-light"
+                ></p-avatar>
+                <div>
+                  <div class="flex mb-1">
+                    <span class="font-medium">{{ user.displayName }}</span>
+                    <span class="pi pi-check ml-2 text-primary"></span>
+                  </div>
+                  <span class="text-gray-500">{{ user.email }}</span>
                 </div>
-                <span class="text-gray-500">{{ user.email }}</span>
-              </div>
-            </ng-container>
-          </div>
+              </ng-container>
+            </div>
 
-          <div class="separator my-2"></div>
+            <div class="separator my-2"></div>
 
-          <div class="py-2">
-            <a [routerLink]="AppRoute.Profile" (click)="settings.hide()" class="text-primary no-underline">My Profile</a>
-          </div>
+            <div class="py-2">
+              <a [routerLink]="AppRoute.Profile" (click)="settingsMenu.hide()" class="text-primary no-underline">My Profile</a>
+            </div>
 
-          <div class="py-2">
-            <a routerLink="/" class="text-primary no-underline">Settings</a>
+            <div class="py-2">
+              <a routerLink="/" class="text-primary no-underline">Settings</a>
+            </div>
+            <div class="py-2">
+              <a (click)="onLogout()" class="text-primary no-underline cursor-pointer">Sign Out</a>
+            </div>
           </div>
-          <div class="py-2">
-            <a (click)="onLogout()" class="text-primary no-underline cursor-pointer">Sign Out</a>
-          </div>
-        </div>
-      </p-overlayPanel>
+        </p-overlayPanel>
+      </ng-template>
     </div>
 
     <div class="px-2 font-medium text-lg">
-      {{ title$ | async }}
+      {{ title }}
     </div>
 
-    <div class="flex align-items-center flex-shrink-0 ml-3">
+    <div class="flex align-items-center justify-content-end flex-shrink-0 ml-1 w-5rem">
       <p-button styleClass="p-button-link p-button-sm flex justify-content-center" (click)="menu.toggle($event)">
         <ng-template pTemplate="content">
           <span class="pi pi-plus text-xl"></span>

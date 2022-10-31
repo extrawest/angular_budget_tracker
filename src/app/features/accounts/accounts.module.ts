@@ -16,6 +16,7 @@ import { DataPlaceholderModule } from '../../shared/modules/data-placeholder';
 import { AccountsRoutingModule } from './accounts-routing.module';
 import { CategoriesComponent, TransactionsComponent } from './components';
 import { AccountsViewComponent } from './containers';
+import {DatePeriodTabsModule} from "../../shared/modules/date-period-tabs";
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { AccountsViewComponent } from './containers';
     MessageModule,
     DataCardModule,
     DataPlaceholderModule,
+    DatePeriodTabsModule,
   ],
 })
 export class AccountsModule { }

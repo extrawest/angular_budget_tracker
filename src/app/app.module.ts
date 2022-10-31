@@ -8,24 +8,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LetModule, PushModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
 import { SharedModule } from 'primeng/api';
 
 import { environment } from '../environments/environment';
 
 import { AppRoutingModule } from './app-routing.module';
-import { DashboardViewComponent } from './containers/dashboard-view';
-import { ErrorViewComponent } from './containers/error-view';
+import { DashboardViewModule } from './containers/dashboard-view';
 import { RootViewComponent } from './containers/root-view';
-import { HeaderModule } from './shared/modules/header';
 import { StateModule } from './state/state.module';
 
 @NgModule({
-  declarations: [
-    RootViewComponent,
-    DashboardViewComponent,
-    ErrorViewComponent,
-  ],
+  declarations: [RootViewComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -37,11 +30,10 @@ import { StateModule } from './state/state.module';
     AngularFirestoreModule,
     AngularFireStorageModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
-    HeaderModule,
     StateModule,
     SharedModule,
+    DashboardViewModule,
   ],
   bootstrap: [RootViewComponent],
 })

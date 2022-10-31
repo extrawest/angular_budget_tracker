@@ -14,7 +14,7 @@ export class AccountsApiService {
     private readonly firestore: AngularFirestore,
   ) {}
 
-  public fetchAccounts({ userId, period }: Partial<AccountsParams>): Observable<Account[]> {
+  public fetchAccounts({ userId }: Partial<AccountsParams>): Observable<Account[]> {
     return this.firestore.collection<Account>(
       this.collectionPath,
       (ref) => ref.where('userId', '==', userId),

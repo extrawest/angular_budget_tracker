@@ -1,48 +1,51 @@
-<p-tabMenu [model]="items" styleClass="p-tabmenu-transparent p-tabmenu-fluid"></p-tabMenu>
+<app-date-period-tabs (selectPeriod)="onSelectPeriod($event)"></app-date-period-tabs>
 
 <div class="py-3">
-  <div *ngIf="!(accountsLoading$ | async) && (accountsLoaded$ | async) && (accounts$ | async) as accounts" class="flex flex-column">
-    <div class="text-center py-4">
-      <div class="uppercase opacity-40 font-medium text-sm">Balance</div>
-      <div
-        *ngrxLet="accountsTotalBalance$ as totalBalance"
-        [class.text-green-400]="totalBalance > 0"
-        [class.text-red-400]="totalBalance < 0"
-        [class.text-gray-400]="totalBalance === 0"
-        class="text-5xl font-bold my-2"
-      >$ {{ totalBalance }}</div>
-      <div class="">+4.28%</div>
+  <ng-container *ngIf="!(accountsLoading$ | async) && (accountsLoaded$ | async) && (accounts$ | async) as accounts">
+    <div *ngIf="accounts.length; else noData" class="flex flex-column">
+      <div class="text-center py-4">
+        <div class="uppercase opacity-40 font-medium text-sm">Balance</div>
+        <div
+          *ngrxLet="accountsTotalBalance$; let totalBalance"
+          [class.text-green-400]="totalBalance > 0"
+          [class.text-red-400]="totalBalance < 0"
+          [class.text-gray-400]="totalBalance === 0"
+          class="text-5xl font-bold my-2"
+        >{{ totalBalance | currency }}</div>
+        <div class="">+4.28%</div>
 
-      <button pButton (click)="onAddAccount()" label="Add new" class="mt-4"></button>
+        <button pButton (click)="onAddAccount()" label="Add new" class="mt-4"></button>
+      </div>
+
+      <ng-container *ngFor="let account of accounts">
+        <div (click)="onSelectAccount(account)" class="surface-card shadow-1 border-round p-3 mb-3 no-underline">
+          <div class="mb-2 text-gray-900">{{ account.name }}</div>
+          <div
+            [class.text-green-400]="account.balance > 0"
+            [class.text-red-400]="account.balance < 0"
+            [class.text-gray-400]="account.balance === 0"
+            class="font-medium text-3xl"
+          >{{ account.balance | currency }}</div>
+        </div>
+      </ng-container>
     </div>
 
-    <ng-container *ngFor="let account of accounts">
-      <a [routerLink]="[AppRoute.Transactions, account.uid]" class="surface-card shadow-1 border-round p-3 mb-3 no-underline">
-        <div class="mb-2 text-gray-900">{{ account.name }}</div>
-        <div
-          [class.text-green-400]="account.balance > 0"
-          [class.text-red-400]="account.balance < 0"
-          [class.text-gray-400]="account.balance === 0"
-          class="font-medium text-3xl"
-        >$ {{ account.balance }}</div>
-      </a>
-    </ng-container>
-  </div>
+    <ng-template #noData>
+      <app-data-placeholder
+        icon="no-data"
+        description="There are no accounts yet"
+      >
+        <button pButton class="btn-primary" (click)="onAddAccount()">Create new one</button>
+      </app-data-placeholder>
+    </ng-template>
+  </ng-container>
 
-  <ng-container *ngIf="(accountsLoading$ | async) && !(accountsLoaded$ | async)">
+  <ng-container *ngIf="(accountsLoading$ | async) && !(accountsLoaded$ | async) && !(accounts$ | async)?.length">
     <div *ngFor="let item of [0, 1, 2, 3, 4]" class="surface-card shadow-1 border-round p-3 mb-3">
       <p-skeleton width="100%" height="1.5rem" class="block mb-2"></p-skeleton>
       <p-skeleton width="40%" height="2rem"></p-skeleton>
     </div>
   </ng-container>
-
-  <app-data-placeholder
-    *ngIf="!(accounts$ | async)?.length && !(accountsLoading$ | async) && !(accountsError$ | async)"
-    icon="no-data"
-    description="There are no accounts yet"
-  >
-    <button pButton class="btn-primary" (click)="onAddAccount()">Create new one</button>
-  </app-data-placeholder>
 
   <app-data-placeholder
     *ngIf="accountsError$ | async"
