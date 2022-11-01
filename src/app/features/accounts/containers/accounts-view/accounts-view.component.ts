@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
 import slugify from 'slugify';
@@ -16,7 +16,7 @@ import {MenuItem} from "primeng/api";
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DialogService],
 })
-export class AccountsViewComponent implements OnInit {
+export class AccountsViewComponent {
   public readonly accounts$ = this.accountsFacade.accounts$;
   public readonly accountsLoading$ = this.accountsFacade.accountsLoading$;
   public readonly accountsLoaded$ = this.accountsFacade.accountsLoaded$;
@@ -29,10 +29,6 @@ export class AccountsViewComponent implements OnInit {
     private readonly dialogService: DialogService,
   ) {}
 
-  public ngOnInit(): void {
-    this.loadAccounts();
-  }
-
   public onAddAccount(): void {
     this.dialogService.open(AddAccountDialogComponent, {
       header: 'Add account',
@@ -40,8 +36,8 @@ export class AccountsViewComponent implements OnInit {
     });
   }
 
-  public loadAccounts(): void {
-    this.accountsFacade.loadAccounts();
+  public loadAccounts(period?: number): void {
+    this.accountsFacade.loadAccounts({ period });
   }
 
   public onSelectAccount(account: Account): void {

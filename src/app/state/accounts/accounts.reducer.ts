@@ -3,17 +3,33 @@ import { Action, createReducer, on } from '@ngrx/store';
 import { Account } from '../../models/account.model';
 import { ItemState } from '../../models/item-state.model';
 
-import { addAccountError, loadAccounts, loadAccountsError, loadAccountsSuccess } from './accounts.actions';
+import {
+  loadAccount,
+  loadAccounts,
+  loadAccountsError,
+  loadAccountsSuccess,
+  loadAccountSuccess
+} from './accounts.actions';
 
-export interface AccountsState extends ItemState<Account[]> {
+export interface AccountsState {
+  accounts: ItemState<Account[]>;
   totalBalance: number;
+  selectedAccount: ItemState<Account>;
 }
 
 export const initialAccountsState: AccountsState = {
-  data: [],
-  loaded: false,
-  loading: false,
-  error: null,
+  accounts: {
+    data: null,
+    loaded: false,
+    loading: false,
+    error: null,
+  },
+  selectedAccount: {
+    data: null,
+    loaded: false,
+    loading: false,
+    error: null,
+  },
   totalBalance: 0,
 };
 
@@ -23,30 +39,69 @@ export const accountsReducer = createReducer(
     loadAccounts,
     state => ({
       ...state,
-      loaded: false,
-      loading: true,
-      error: null,
+      accounts: {
+        ...state.accounts,
+        loaded: false,
+        loading: true,
+        error: null,
+      },
     }),
   ),
   on(
     loadAccountsSuccess,
     (state, { accounts }) => ({
       ...state,
-      data: accounts,
-      loaded: true,
-      loading: false,
-      error: null,
+      accounts: {
+        ...state.accounts,
+        data: accounts,
+        loaded: true,
+        loading: false,
+        error: null,
+      },
       totalBalance: accounts.reduce((acc, { balance }) => acc + balance, 0),
     }),
   ),
   on(
-    addAccountError,
     loadAccountsError,
     (state, { error }) => ({
       ...state,
       loaded: false,
       loading: false,
       error,
+    }),
+  ),
+  on(
+    loadAccount,
+    state => ({
+      ...state,
+      loaded: false,
+      loading: true,
+      error: null,
+    }),
+  ),
+  on(
+    loadAccountSuccess,
+    (state, { account }) => ({
+      ...state,
+      selectedAccount: {
+        ...state.selectedAccount,
+        data: account,
+        loaded: true,
+        loading: false,
+        error: null,
+      },
+    }),
+  ),
+  on(
+    loadAccountsError,
+    (state, { error }) => ({
+      ...state,
+      selectedAccount: {
+        ...state.selectedAccount,
+        loaded: false,
+        loading: false,
+        error,
+      },
     }),
   ),
 );

@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { filter, from, Observable, switchMap, take } from 'rxjs';
+import {filter, from, Observable, switchMap, take} from 'rxjs';
 
 import { Account } from '../../../models/account.model';
-import { AccountsParams } from '../../../models/accounts-params';
 import { isNotNullOrUndefined } from '../../helpers/not-null-or-undefined';
+import {AccountParams} from "../../../models/account-params.model";
+import {map} from "rxjs/operators";
+import {AddAccountParams} from "../../../models/add-account-params.model";
+import {AccountsParams} from "../../../models/accounts-params.model";
 
 @Injectable({ providedIn: 'root' })
 export class AccountsApiService {
@@ -14,18 +17,46 @@ export class AccountsApiService {
     private readonly firestore: AngularFirestore,
   ) {}
 
-  public fetchAccounts({ userId }: Partial<AccountsParams>): Observable<Account[]> {
+  public fetchAccounts(params: AccountsParams): Observable<Account[]> {
     return this.firestore.collection<Account>(
       this.collectionPath,
-      (ref) => ref.where('userId', '==', userId),
+      (ref) => {
+        const query = ref.where('userId', '==', params.userId);
+
+        if (params.period) {
+          query.where('createdAt', '<=', params.period);
+        }
+
+        return query;
+      },
     ).valueChanges({ idField: 'uid' });
   }
 
-  public addAccount(account: Partial<Account>): Observable<Account> {
-    return from(this.firestore.collection(this.collectionPath).add(account)).pipe(
-      switchMap((docRef) => this.firestore.doc<Account>(docRef.path).valueChanges({ idField: 'uid' })),
-      take(1),
-      filter(isNotNullOrUndefined),
+  public fetchAccount({ userId, alias }: AccountParams): Observable<Account> {
+    return this.firestore.collection<Account>(
+      this.collectionPath,
+      (ref) => ref
+        .where('userId', '==', userId)
+        .where('alias', '==', alias),
+    )
+      .valueChanges({ idField: 'uid' })
+      .pipe(
+      map(([account]) => {
+        if (!account) {
+          throw new Error('There are no accounts with provided alias!');
+        }
+
+        return account;
+      }),
     );
+  }
+
+  public addAccount(account: AddAccountParams): Observable<Account> {
+    return from(this.firestore.collection(this.collectionPath).add(account))
+      .pipe(
+        switchMap(({ path }) => this.firestore.doc<Account>(path).valueChanges({ idField: 'uid' })),
+        take(1),
+        filter(isNotNullOrUndefined),
+      );
   }
 }

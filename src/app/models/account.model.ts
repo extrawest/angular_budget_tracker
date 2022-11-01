@@ -1,7 +1,8 @@
 export interface Account {
   uid: string;
   name: string;
-  balance?: number;
+  alias: string;
+  balance: number;
   createdAt: string;
   userId: string;
 }

@@ -7,7 +7,7 @@ import { TransactionsViewComponent } from './containers';
 
 const routes: Routes = [
   {
-    path: ':accountId',
+    path: ':accountName',
     component: TransactionsViewComponent,
     data: {
       title: 'Transactions',

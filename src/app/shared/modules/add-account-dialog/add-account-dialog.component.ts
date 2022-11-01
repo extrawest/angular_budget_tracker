@@ -4,6 +4,7 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { mergeWith, take, tap } from 'rxjs';
 
 import { AccountsFacade } from '../../../state';
+import slugify from "slugify";
 
 @Component({
   selector: 'app-add-transaction-dialog',
@@ -29,8 +30,14 @@ export class AddAccountDialogComponent {
       return;
     }
 
+    const { name } = this.form.getRawValue();
+
     this.processing = true;
-    this.accountsFacade.addAccount({ ...this.form.getRawValue() });
+    this.accountsFacade.addAccount({
+      name,
+      alias: slugify(name, { lower: true }),
+      createdAt: Date.now(),
+    });
 
     this.accountsFacade.onAddAccountError$.pipe(
       mergeWith(this.accountsFacade.onAddAccountSuccess$.pipe(

@@ -1,15 +1,17 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { Subject, take, takeUntil } from 'rxjs';
+import {Subject, take, takeUntil} from 'rxjs';
 
 import {
   DEFAULT_ACTIVE_DATE_PERIOD,
   DEFAULT_DATE_PERIODS,
 } from '../../../../shared/constants/date-periods';
 import { AddTransactionDialogComponent } from '../../../../shared/modules/add-transaction-dialog';
-import { TransactionsFacade } from '../../../../state';
+import {AccountsFacade, TransactionsFacade} from '../../../../state';
+import {RouterFacade} from "../../../../state/router";
+import {Router} from "@angular/router";
+import {AppRoute} from "../../../../enums/app-route.enum";
 
 @Component({
   selector: 'app-transactions-view',
@@ -31,13 +33,31 @@ export class TransactionsViewComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
 
   constructor(
+    private readonly router: Router,
+    private readonly accountsFacade: AccountsFacade,
     private readonly transactionsFacade: TransactionsFacade,
-    private readonly activatedRoute: ActivatedRoute,
+    private readonly routerFacade: RouterFacade,
     private readonly dialogService: DialogService,
   ) {}
 
   public ngOnInit(): void {
-    this.loadTransactions();
+    this.routerFacade.getParam('accountName')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((alias) => {
+        this.accountsFacade.loadAccount(alias);
+      });
+
+    this.accountsFacade.onLoadAccountSuccess$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(({ account }) => {
+        this.transactionsFacade.loadTransactions({ accountId: account.uid });
+      });
+
+    this.accountsFacade.onLoadAccountError$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.router.navigate([AppRoute.Accounts]);
+      });
   }
 
   public ngOnDestroy(): void {
@@ -53,11 +73,10 @@ export class TransactionsViewComponent implements OnInit, OnDestroy {
   }
 
   public loadTransactions(): void {
-    this.activatedRoute.paramMap.pipe(
-      take(1),
-      takeUntil(this.destroy$),
-    ).subscribe((params) => {
-      this.transactionsFacade.loadTransactions({ accountId: params.get('accountId') });
-    });
+    this.accountsFacade.selectedAccount$
+      .pipe(take(1))
+      .subscribe(({ uid }) => {
+        this.transactionsFacade.loadTransactions({ accountId: uid });
+      });
   }
 }

@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { fetch, pessimisticUpdate } from '@nrwl/angular';
-import { forkJoin, take } from 'rxjs';
+import {defaultIfEmpty, forkJoin, take, tap} from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import { AccountsApiService } from '../../shared/services/api/accounts.service';
@@ -11,10 +11,10 @@ import { AuthService } from '../../shared/services/auth.service';
 
 import {
   AccountsActionTypes,
-  addAccount, addAccountError, addAccountSuccess,
+  addAccount, addAccountError, addAccountSuccess, loadAccount, loadAccountError,
   loadAccounts,
   loadAccountsError,
-  loadAccountsSuccess,
+  loadAccountsSuccess, loadAccountSuccess,
 } from './accounts.actions';
 
 @Injectable()
@@ -27,24 +27,43 @@ export class AccountsEffects {
         return this.authService.currentUser$.pipe(
           take(1),
           switchMap((user) => this.accountsApiService.fetchAccounts({ userId: user.uid })),
-          switchMap((accounts) => forkJoin(
-            accounts.map((account) => this.transactionsApiService.fetchTransactions({
-              userId: account.userId,
-              accountId: account.uid,
-            }).pipe(
-              take(1),
-              map((transactions) => ({
-                ...account,
-                balance: transactions.reduce((acc, { amount }) => acc + amount, 0),
-              })),
-            ),
-            ),
-          )),
+          switchMap((accounts) => {
+            return forkJoin(accounts.map((account) => this.transactionsApiService.fetchTransactions({
+                userId: account.userId,
+                accountId: account.uid,
+              }).pipe(
+                take(1),
+                map((transactions) => ({
+                  ...account,
+                  balance: transactions.reduce((acc, { amount }) => acc + amount, 0),
+                })),
+              ),
+            )).pipe(defaultIfEmpty([]));
+          }),
           map((accounts) => loadAccountsSuccess({ accounts })),
         );
       },
       onError: (action: ReturnType<typeof loadAccounts>, error: HttpErrorResponse) => {
         return loadAccountsError({ error });
+      },
+    }),
+  ));
+
+  public readonly account$ = createEffect(() => this.actions$.pipe(
+    ofType(AccountsActionTypes.LoadAccount),
+    fetch({
+      run: (action) => {
+        return this.authService.currentUser$.pipe(
+          take(1),
+          switchMap((user) => this.accountsApiService.fetchAccount({
+            userId: user.uid,
+            alias: action.alias,
+          })),
+          map((account) => loadAccountSuccess({ account })),
+        );
+      },
+      onError: (action: ReturnType<typeof loadAccount>, error: HttpErrorResponse) => {
+        return loadAccountError({ error });
       },
     }),
   ));
