@@ -1,6 +1,6 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { DateTime, DateTimeUnit } from 'luxon';
 import { MenuItem } from 'primeng/api';
-import {DateTime, DateTimeUnit} from "luxon";
 
 @Component({
   selector: 'app-date-period-tabs',

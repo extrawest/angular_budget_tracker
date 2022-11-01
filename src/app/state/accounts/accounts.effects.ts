@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { fetch, pessimisticUpdate } from '@nrwl/angular';
-import {defaultIfEmpty, forkJoin, take, tap} from 'rxjs';
+import { defaultIfEmpty, forkJoin, take } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import { AccountsApiService } from '../../shared/services/api/accounts.service';
@@ -29,15 +29,15 @@ export class AccountsEffects {
           switchMap((user) => this.accountsApiService.fetchAccounts({ userId: user.uid })),
           switchMap((accounts) => {
             return forkJoin(accounts.map((account) => this.transactionsApiService.fetchTransactions({
-                userId: account.userId,
-                accountId: account.uid,
-              }).pipe(
-                take(1),
-                map((transactions) => ({
-                  ...account,
-                  balance: transactions.reduce((acc, { amount }) => acc + amount, 0),
-                })),
-              ),
+              userId: account.userId,
+              accountId: account.uid,
+            }).pipe(
+              take(1),
+              map((transactions) => ({
+                ...account,
+                balance: transactions.reduce((acc, { amount }) => acc + amount, 0),
+              })),
+            ),
             )).pipe(defaultIfEmpty([]));
           }),
           map((accounts) => loadAccountsSuccess({ accounts })),

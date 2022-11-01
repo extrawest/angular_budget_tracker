@@ -1,17 +1,17 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import {Subject, take, takeUntil} from 'rxjs';
+import { Subject, take, takeUntil } from 'rxjs';
 
+import { AppRoute } from '../../../../enums/app-route.enum';
 import {
   DEFAULT_ACTIVE_DATE_PERIOD,
   DEFAULT_DATE_PERIODS,
 } from '../../../../shared/constants/date-periods';
 import { AddTransactionDialogComponent } from '../../../../shared/modules/add-transaction-dialog';
-import {AccountsFacade, TransactionsFacade} from '../../../../state';
-import {RouterFacade} from "../../../../state/router";
-import {Router} from "@angular/router";
-import {AppRoute} from "../../../../enums/app-route.enum";
+import { AccountsFacade, TransactionsFacade } from '../../../../state';
+import { RouterFacade } from '../../../../state/router';
 
 @Component({
   selector: 'app-transactions-view',

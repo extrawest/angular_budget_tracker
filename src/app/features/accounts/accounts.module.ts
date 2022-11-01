@@ -12,11 +12,11 @@ import { TagModule } from 'primeng/tag';
 
 import { DataCardModule } from '../../shared/modules/data-card';
 import { DataPlaceholderModule } from '../../shared/modules/data-placeholder';
+import { DatePeriodTabsModule } from '../../shared/modules/date-period-tabs';
 
 import { AccountsRoutingModule } from './accounts-routing.module';
 import { CategoriesComponent, TransactionsComponent } from './components';
 import { AccountsViewComponent } from './containers';
-import {DatePeriodTabsModule} from "../../shared/modules/date-period-tabs";
 
 @NgModule({
   declarations: [

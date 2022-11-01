@@ -3,7 +3,8 @@ import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { Account } from '../../models/account.model';
+import { AccountsParams } from '../../models/accounts-params.model';
+import { AddAccountParams } from '../../models/add-account-params.model';
 
 import {
   AccountsActionTypes,
@@ -11,7 +12,7 @@ import {
   addAccountError,
   addAccountSuccess,
   loadAccount, loadAccountError,
-  loadAccounts, loadAccountSuccess
+  loadAccounts, loadAccountSuccess,
 } from './accounts.actions';
 import { AccountsState } from './accounts.reducer';
 import {
@@ -25,8 +26,6 @@ import {
   getSelectedAccountLoaded,
   getSelectedAccountLoading,
 } from './accounts.selectors';
-import {AddAccountParams} from "../../models/add-account-params.model";
-import {AccountsParams} from "../../models/accounts-params.model";
 
 @Injectable({ providedIn: 'root' })
 export class AccountsFacade {

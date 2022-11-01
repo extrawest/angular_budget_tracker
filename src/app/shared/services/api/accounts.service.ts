@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import {filter, from, Observable, switchMap, take} from 'rxjs';
+import { filter, from, Observable, switchMap, take } from 'rxjs';
+import { map } from 'rxjs/operators';
 
+import { AccountParams } from '../../../models/account-params.model';
 import { Account } from '../../../models/account.model';
+import { AccountsParams } from '../../../models/accounts-params.model';
+import { AddAccountParams } from '../../../models/add-account-params.model';
 import { isNotNullOrUndefined } from '../../helpers/not-null-or-undefined';
-import {AccountParams} from "../../../models/account-params.model";
-import {map} from "rxjs/operators";
-import {AddAccountParams} from "../../../models/add-account-params.model";
-import {AccountsParams} from "../../../models/accounts-params.model";
 
 @Injectable({ providedIn: 'root' })
 export class AccountsApiService {
@@ -41,14 +41,14 @@ export class AccountsApiService {
     )
       .valueChanges({ idField: 'uid' })
       .pipe(
-      map(([account]) => {
-        if (!account) {
-          throw new Error('There are no accounts with provided alias!');
-        }
+        map(([account]) => {
+          if (!account) {
+            throw new Error('There are no accounts with provided alias!');
+          }
 
-        return account;
-      }),
-    );
+          return account;
+        }),
+      );
   }
 
   public addAccount(account: AddAccountParams): Observable<Account> {

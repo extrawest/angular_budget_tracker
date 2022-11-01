@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { mergeWith, take, tap } from 'rxjs';
+import slugify from 'slugify';
 
 import { AccountsFacade } from '../../../state';
-import slugify from "slugify";
 
 @Component({
   selector: 'app-add-transaction-dialog',

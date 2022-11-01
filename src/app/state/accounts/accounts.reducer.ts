@@ -8,7 +8,7 @@ import {
   loadAccounts,
   loadAccountsError,
   loadAccountsSuccess,
-  loadAccountSuccess
+  loadAccountSuccess,
 } from './accounts.actions';
 
 export interface AccountsState {
