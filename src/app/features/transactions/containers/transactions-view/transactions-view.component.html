@@ -5,7 +5,12 @@
 ></p-tabMenu>
 
 <div class="py-3">
-  <ng-container *ngIf="!(transactionsLoading$ | async) && (transactionsLoaded$ | async) && (transactions$ | async) as transactions">
+  <ng-container *ngIf="
+    (categories$ | async).length
+    && !(transactionsLoading$ | async)
+    && (transactionsLoaded$ | async)
+    && (transactions$ | async) as transactions
+  ">
     <div *ngIf="transactions.length; else noData" class="flex flex-column">
       <div class="text-center py-4">
         <div class="uppercase opacity-40 font-medium text-sm">Balance</div>
@@ -22,7 +27,14 @@
       </div>
       <div *ngFor="let transaction of transactions" class="surface-card shadow-1 border-round p-3 mb-3">
         <div class="mb-2">{{ transaction.title }}</div>
-        <div class="font-medium text-3xl text-green-400">{{ transaction.amount | currency }}</div>
+        <div
+          [class.text-green-400]="transaction.amount > 0"
+          [class.text-red-400]="transaction.amount < 0"
+          [class.text-gray-400]="transaction.amount === 0"
+          class="font-medium text-3xl"
+        >
+          {{ transaction.amount | currency }}
+        </div>
       </div>
     </div>
 
@@ -49,5 +61,13 @@
     description="Something went wrong!"
   >
     <button pButton class="btn-primary" (click)="loadTransactions()">Retry</button>
+  </app-data-placeholder>
+
+  <app-data-placeholder
+    *ngIf="(categoriesLoaded$ | async) && !(categories$ | async).length"
+    icon="no-data"
+    description="There are no categories yet"
+  >
+    <button pButton class="btn-primary" (click)="onAddCategory()">Add new one</button>
   </app-data-placeholder>
 </div>

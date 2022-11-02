@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { createAction, props } from '@ngrx/store';
 
 import { AddCategoryParams } from '../../models/add-category-params';
+import { AddTransactionParams } from '../../models/add-transaction-params.model';
 import { Transaction } from '../../models/transaction.model';
 import { TransactionsParams } from '../../models/transactions-params';
 
@@ -36,7 +37,7 @@ export const loadTransactionsError = createAction(
 
 export const addTransaction = createAction(
   TransactionsActionTypes.AddTransaction,
-  props<{ params: AddCategoryParams }>(),
+  props<{ params: AddTransactionParams }>(),
 );
 
 export const addTransactionSuccess = createAction(

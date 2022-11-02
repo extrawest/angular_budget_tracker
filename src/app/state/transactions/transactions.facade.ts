@@ -3,7 +3,7 @@ import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { Transaction } from '../../models/transaction.model';
+import { AddTransactionParams } from '../../models/add-transaction-params.model';
 import { TransactionsParams } from '../../models/transactions-params';
 
 import {
@@ -45,7 +45,7 @@ export class TransactionsFacade {
     this.store.dispatch(loadTransactions({ params }));
   }
 
-  public addTransaction(params: Partial<Transaction>): void {
+  public addTransaction(params: AddTransactionParams): void {
     this.store.dispatch(addTransaction({ params }));
   }
 }

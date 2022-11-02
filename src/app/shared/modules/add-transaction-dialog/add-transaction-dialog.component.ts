@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { mergeWith, take, tap } from 'rxjs';
 
-import { AccountsFacade, TransactionsFacade } from '../../../state';
+import { AddTransactionDialogParams } from '../../../models/add-transaction-dialog-params.model';
+import { AccountsFacade, CategoriesFacade, TransactionsFacade } from '../../../state';
 
 @Component({
   selector: 'app-add-transaction-dialog',
@@ -14,27 +14,32 @@ import { AccountsFacade, TransactionsFacade } from '../../../state';
 })
 export class AddTransactionDialogComponent implements OnInit {
   public readonly accounts$ = this.accountsFacade.accounts$;
+  public readonly categories$ = this.categoriesFacade.categories$;
 
   public readonly form = new FormGroup({
-    amount: new FormControl(null, [Validators.required]),
-    category: new FormControl(null, [Validators.required]),
-    accountId: new FormControl(this.activatedRoute.snapshot.paramMap.get('accountId'), [Validators.required]),
+    amount: new FormControl(0, [Validators.required]),
+    income: new FormControl(false, [Validators.required]),
+    currency: new FormControl('EUR', [Validators.required]),
+    categoryId: new FormControl(null, [Validators.required]),
+    accountId: new FormControl(this.dialogConfig.data.selectedAccountId, [Validators.required]),
     description: new FormControl(''),
-    createdAt: new FormControl(new Date(), [Validators.required]),
+    date: new FormControl(new Date(), [Validators.required]),
   });
 
-  // TODO: Remove when Categories API will be ready
-  public readonly categories = [
-    { name: 'Food' },
-    { name: 'Car' },
+  // TODO: Remove when Currency API will be ready
+  public readonly currencies = [
+    { name: 'UAH' },
+    { name: 'USD' },
+    { name: 'EUR' },
   ];
 
   public processing = false;
 
   constructor(
     private readonly dialogRef: DynamicDialogRef,
-    private readonly activatedRoute: ActivatedRoute,
+    private readonly dialogConfig: DynamicDialogConfig<AddTransactionDialogParams>,
     private readonly accountsFacade: AccountsFacade,
+    private readonly categoriesFacade: CategoriesFacade,
     private readonly transactionsFacade: TransactionsFacade,
   ) {}
 
@@ -48,8 +53,18 @@ export class AddTransactionDialogComponent implements OnInit {
       return;
     }
 
+    const { amount, income, date, description, currency, accountId, categoryId } = this.form.getRawValue();
+
     this.processing = true;
-    this.transactionsFacade.addTransaction({ ...this.form.getRawValue() });
+    this.transactionsFacade.addTransaction({
+      amount: income ? amount : -amount,
+      income,
+      currency,
+      createdAt: date.valueOf(),
+      accountId,
+      categoryId,
+      description,
+    });
 
     this.transactionsFacade.onAddTransactionError$.pipe(
       mergeWith(this.transactionsFacade.onAddTransactionSuccess$.pipe(

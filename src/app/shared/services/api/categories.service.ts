@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { filter, from, Observable, switchMap, take } from 'rxjs';
 
+import { AddCategoryParams } from '../../../models/add-category-params';
 import { Category } from '../../../models/category.model';
 import { isNotNullOrUndefined } from '../../helpers/not-null-or-undefined';
 
@@ -15,11 +16,11 @@ export class CategoriesApiService {
     return this.firestore.collection<Category>(
       this.collectionPath,
       (ref) => ref.where('userId', '==', userId),
-    ).valueChanges();
+    ).valueChanges({ idField: 'uid' });
   }
 
-  public addCategory(category: Partial<Category>): Observable<Category> {
-    return from(this.firestore.collection(this.collectionPath).add(category)).pipe(
+  public addCategory(params: AddCategoryParams): Observable<Category> {
+    return from(this.firestore.collection(this.collectionPath).add(params)).pipe(
       switchMap((docRef) => this.firestore.doc<Category>(docRef.path).valueChanges()),
       take(1),
       filter(isNotNullOrUndefined),

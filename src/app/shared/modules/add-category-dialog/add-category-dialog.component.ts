@@ -1,33 +1,27 @@
-import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { mergeWith, take, tap } from 'rxjs';
 
 import { CategoriesFacade } from '../../../state';
-
-import { STEPPER_CONFIG, STEPPER_MENU_CONFIG } from './constants/stepper';
-import { CategoryService } from './services/category.service';
 
 @Component({
   selector: 'app-add-category-dialog',
   templateUrl: './add-category-dialog.component.html',
   styleUrls: ['./add-category-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CategoryService],
 })
 export class AddCategoryDialogComponent {
-  public readonly stepperMenuConfig = STEPPER_MENU_CONFIG;
-  public readonly stepperConfig = STEPPER_CONFIG;
+  public readonly form = new FormGroup({
+    name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    icon: new FormControl(''),
+  });
 
-  public stepperSelectedIndex = 0;
   public processing = false;
-
-  private readonly form = this.categoryService.form;
 
   constructor(
     private readonly dialogRef: DynamicDialogRef,
     private readonly categoriesFacade: CategoriesFacade,
-    private readonly categoryService: CategoryService,
   ) {}
 
   public onSubmit(): void {
@@ -47,9 +41,5 @@ export class AddCategoryDialogComponent {
     ).pipe(
       take(1),
     ).subscribe();
-  }
-
-  public onSelectionChange(event: StepperSelectionEvent): void {
-    this.stepperSelectedIndex = event.selectedIndex;
   }
 }

@@ -6,6 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 
@@ -22,6 +23,7 @@ import { AddTransactionDialogComponent } from './add-transaction-dialog.componen
     CalendarModule,
     DropdownModule,
     InputNumberModule,
+    InputSwitchModule,
     InputTextModule,
     InputTextareaModule,
     SharedModule,

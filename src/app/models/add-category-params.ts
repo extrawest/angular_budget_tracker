@@ -1,7 +1,5 @@
 export interface AddCategoryParams {
-  name?: string;
-  description?: string;
-  color?: string;
+  name: string;
   icon?: string;
   userId?: string;
 }

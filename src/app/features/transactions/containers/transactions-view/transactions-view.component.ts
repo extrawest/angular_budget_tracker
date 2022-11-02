@@ -5,12 +5,14 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { Subject, take, takeUntil } from 'rxjs';
 
 import { AppRoute } from '../../../../enums/app-route.enum';
+import { AddTransactionDialogParams } from '../../../../models/add-transaction-dialog-params.model';
 import {
   DEFAULT_ACTIVE_DATE_PERIOD,
   DEFAULT_DATE_PERIODS,
 } from '../../../../shared/constants/date-periods';
+import { AddCategoryDialogComponent } from '../../../../shared/modules/add-category-dialog';
 import { AddTransactionDialogComponent } from '../../../../shared/modules/add-transaction-dialog';
-import { AccountsFacade, TransactionsFacade } from '../../../../state';
+import { AccountsFacade, CategoriesFacade, TransactionsFacade } from '../../../../state';
 import { RouterFacade } from '../../../../state/router';
 
 @Component({
@@ -27,6 +29,9 @@ export class TransactionsViewComponent implements OnInit, OnDestroy {
   public readonly transactionsError$ = this.transactionsFacade.transactionsError$;
   public readonly transactionsTotalBalance$ = this.transactionsFacade.transactionsTotalBalance$;
 
+  public readonly categories$ = this.categoriesFacade.categories$;
+  public readonly categoriesLoaded$ = this.categoriesFacade.categoriesLoaded$;
+
   public readonly datePeriods: MenuItem[] = DEFAULT_DATE_PERIODS;
   public readonly activeDatePeriod: MenuItem = DEFAULT_ACTIVE_DATE_PERIOD;
 
@@ -35,6 +40,7 @@ export class TransactionsViewComponent implements OnInit, OnDestroy {
   constructor(
     private readonly router: Router,
     private readonly accountsFacade: AccountsFacade,
+    private readonly categoriesFacade: CategoriesFacade,
     private readonly transactionsFacade: TransactionsFacade,
     private readonly routerFacade: RouterFacade,
     private readonly dialogService: DialogService,
@@ -58,6 +64,8 @@ export class TransactionsViewComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.router.navigate([AppRoute.Accounts]);
       });
+
+    this.categoriesFacade.loadCategories();
   }
 
   public ngOnDestroy(): void {
@@ -65,18 +73,32 @@ export class TransactionsViewComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  public onAddTransaction(): void {
-    this.dialogService.open(AddTransactionDialogComponent, {
-      header: 'Add transaction',
-      width: '400px',
-    });
-  }
-
   public loadTransactions(): void {
     this.accountsFacade.selectedAccount$
       .pipe(take(1))
       .subscribe(({ uid }) => {
         this.transactionsFacade.loadTransactions({ accountId: uid });
+      });
+  }
+
+  public onAddCategory(): void {
+    this.dialogService.open(AddCategoryDialogComponent, {
+      header: 'Add category',
+      width: '500px',
+    });
+  }
+
+  public onAddTransaction(): void {
+    this.accountsFacade.selectedAccount$
+      .pipe(take(1))
+      .subscribe(({ uid }) => {
+        this.dialogService.open(AddTransactionDialogComponent, {
+          header: 'Add transaction',
+          width: '500px',
+          data: {
+            selectedAccountId: uid,
+          } as AddTransactionDialogParams,
+        });
       });
   }
 }

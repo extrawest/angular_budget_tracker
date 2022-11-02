@@ -1,26 +1,55 @@
 <div [formGroup]="form">
   <div class="grid">
     <div class="col-12">
-      <label class="block text-900 font-medium text-sm mb-2">Amount</label>
-      <p-inputNumber
-        formControlName="amount"
-        styleClass="block"
-        inputStyleClass="w-full"
-        class="block"
-      ></p-inputNumber>
-      <app-error [control]="form.controls.amount" field="Amount"></app-error>
+      <div class="grid">
+        <div class="col-6">
+          <label class="block text-900 font-medium text-sm mb-2">Amount</label>
+          <p-inputNumber
+            min="0"
+            formControlName="amount"
+            styleClass="block"
+            inputStyleClass="w-full"
+            mode="currency"
+            [currency]="form.controls.currency.value"
+            class="block"
+          ></p-inputNumber>
+          <app-error [control]="form.controls.amount" field="Amount"></app-error>
+        </div>
+
+        <div class="col-4">
+          <label class="block text-900 font-medium text-sm mb-2">Currency</label>
+          <p-dropdown
+            [options]="currencies"
+            styleClass="w-full"
+            formControlName="currency"
+            optionLabel="name"
+            optionValue="name"
+          ></p-dropdown>
+          <app-error [control]="form.controls.currency" field="Currency"></app-error>
+        </div>
+
+        <div class="col-2 flex flex-column">
+          <label class="block text-900 font-medium text-sm mb-2">Income</label>
+          <div class="h-full flex align-items-center">
+            <p-inputSwitch
+              formControlName="income"
+            ></p-inputSwitch>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="col-12">
       <label class="block text-900 font-medium text-sm mb-2">Category</label>
       <p-dropdown
-        [options]="categories"
+        [options]="categories$ | async"
         styleClass="w-full"
-        formControlName="category"
+        formControlName="categoryId"
+        placeholder="Select category"
         optionLabel="name"
-        optionValue="name"
+        optionValue="uid"
       ></p-dropdown>
-      <app-error [control]="form.controls.category" field="Category"></app-error>
+      <app-error [control]="form.controls.categoryId" field="Category"></app-error>
     </div>
 
     <div class="col-12">
@@ -29,6 +58,7 @@
         [options]="accounts$ | async"
         styleClass="w-full"
         formControlName="accountId"
+        placeholder="Select account"
         optionLabel="name"
         optionValue="uid"
       ></p-dropdown>
@@ -38,10 +68,10 @@
     <div class="col-12">
       <label class="block text-900 font-medium text-sm mb-2">Date</label>
       <p-calendar
-        formControlName="createdAt"
+        formControlName="date"
         styleClass="w-full"
       ></p-calendar>
-      <app-error [control]="form.controls.createdAt" field="Date"></app-error>
+      <app-error [control]="form.controls.date" field="Date"></app-error>
     </div>
 
     <div class="col-12">
