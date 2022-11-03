@@ -1,6 +1,16 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { DateTime, DateTimeUnit } from 'luxon';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { MenuItem } from 'primeng/api';
+
+import { DatePeriod } from '../../../enums/date-period.enum';
+
+import { DATE_PERIODS_CONFIG } from './constants/date-periods-config';
 
 @Component({
   selector: 'app-date-period-tabs',
@@ -9,21 +19,32 @@ import { MenuItem } from 'primeng/api';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DatePeriodTabsComponent implements OnInit {
-  public readonly periods: MenuItem[] = [
-    { label: 'Daily', command: () => this.onSelectPeriod('day') },
-    { label: 'Weekly', command: () => this.onSelectPeriod('week') },
-    { label: 'Monthly', command: () => this.onSelectPeriod('month') },
-    { label: 'Yearly', command: () => this.onSelectPeriod('year') },
-  ];
-  public readonly defaultActivePeriod: MenuItem = this.periods[2];
+  @Input()
+  public activePeriod: DatePeriod;
 
-  @Output() public readonly selectPeriod = new EventEmitter<number>();
+  @Output()
+  public readonly activePeriodChange = new EventEmitter<DatePeriod>();
+
+  public periods: MenuItem[];
+  public activePeriodValue: MenuItem;
+
+  private readonly datePeriodsConfig = DATE_PERIODS_CONFIG;
 
   public ngOnInit(): void {
-    this.defaultActivePeriod.command();
+    this.periods = this.buildDatePeriods();
+    this.activePeriodValue = this.periods.find(({ label }) => this.datePeriodsConfig[this.activePeriod]?.label === label);
   }
 
-  public onSelectPeriod(period: DateTimeUnit): void {
-    this.selectPeriod.emit(DateTime.local().startOf(period).valueOf());
+  public onSelectPeriod(period: DatePeriod): void {
+    this.activePeriodChange.emit(period);
+  }
+
+  private buildDatePeriods(): MenuItem[] {
+    return Object.values(this.datePeriodsConfig).map(({ label, value }) => {
+      return {
+        label,
+        command: () => this.onSelectPeriod(value),
+      };
+    });
   }
 }
