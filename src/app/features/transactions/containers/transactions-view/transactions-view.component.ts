@@ -1,19 +1,27 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MenuItem } from 'primeng/api';
+import { keyBy } from 'lodash';
 import { DialogService } from 'primeng/dynamicdialog';
-import { Subject, take, takeUntil } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatestWith,
+  filter,
+  Subject,
+  take,
+  takeUntil,
+  withLatestFrom,
+} from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { AppRoute } from '../../../../enums/app-route.enum';
-import { AddTransactionDialogParams } from '../../../../models/add-transaction-dialog-params.model';
-import {
-  DEFAULT_ACTIVE_DATE_PERIOD,
-  DEFAULT_DATE_PERIODS,
-} from '../../../../shared/constants/date-periods';
+import { DatePeriod } from '../../../../enums/date-period.enum';
+import { datePeriodToTimestamp } from '../../../../shared/helpers/date-period-to-timestamp';
+import { isNotNullOrUndefined } from '../../../../shared/helpers/not-null-or-undefined';
 import { AddCategoryDialogComponent } from '../../../../shared/modules/add-category-dialog';
 import { AddTransactionDialogComponent } from '../../../../shared/modules/add-transaction-dialog';
 import { AccountsFacade, CategoriesFacade, TransactionsFacade } from '../../../../state';
 import { RouterFacade } from '../../../../state/router';
+import { groupTransactionsByDate } from '../../mappers/group-transactions-by-date.mapper';
 
 @Component({
   selector: 'app-transactions-view',
@@ -23,17 +31,20 @@ import { RouterFacade } from '../../../../state/router';
   providers: [DialogService],
 })
 export class TransactionsViewComponent implements OnInit, OnDestroy {
-  public readonly transactions$ = this.transactionsFacade.transactions$;
+  public readonly transactions$ = this.transactionsFacade.transactions$.pipe(
+    map((transactions) => groupTransactionsByDate(transactions)),
+  );
   public readonly transactionsLoading$ = this.transactionsFacade.transactionsLoading$;
   public readonly transactionsLoaded$ = this.transactionsFacade.transactionsLoaded$;
   public readonly transactionsError$ = this.transactionsFacade.transactionsError$;
   public readonly transactionsTotalBalance$ = this.transactionsFacade.transactionsTotalBalance$;
 
-  public readonly categories$ = this.categoriesFacade.categories$;
+  public readonly categories$ = this.categoriesFacade.categories$.pipe(
+    map((categories) => keyBy(categories, 'uid')),
+  );
   public readonly categoriesLoaded$ = this.categoriesFacade.categoriesLoaded$;
 
-  public readonly datePeriods: MenuItem[] = DEFAULT_DATE_PERIODS;
-  public readonly activeDatePeriod: MenuItem = DEFAULT_ACTIVE_DATE_PERIOD;
+  public readonly period$ = new BehaviorSubject<DatePeriod>(DatePeriod.Month);
 
   private readonly destroy$ = new Subject<void>();
 
@@ -53,10 +64,17 @@ export class TransactionsViewComponent implements OnInit, OnDestroy {
         this.accountsFacade.loadAccount(alias);
       });
 
-    this.accountsFacade.onLoadAccountSuccess$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(({ account }) => {
-        this.transactionsFacade.loadTransactions({ accountId: account.uid });
+    this.accountsFacade.selectedAccount$
+      .pipe(
+        filter(isNotNullOrUndefined),
+        combineLatestWith(this.period$),
+        takeUntil(this.destroy$),
+      )
+      .subscribe(([{ uid }, period]) => {
+        this.transactionsFacade.loadTransactions({
+          accountId: uid,
+          period: datePeriodToTimestamp(period),
+        });
       });
 
     this.accountsFacade.onLoadAccountError$
@@ -75,9 +93,15 @@ export class TransactionsViewComponent implements OnInit, OnDestroy {
 
   public loadTransactions(): void {
     this.accountsFacade.selectedAccount$
-      .pipe(take(1))
-      .subscribe(({ uid }) => {
-        this.transactionsFacade.loadTransactions({ accountId: uid });
+      .pipe(
+        withLatestFrom(this.period$),
+        take(1),
+      )
+      .subscribe(([{ uid }, period]) => {
+        this.transactionsFacade.loadTransactions({
+          accountId: uid,
+          period: datePeriodToTimestamp(period),
+        });
       });
   }
 
@@ -97,7 +121,7 @@ export class TransactionsViewComponent implements OnInit, OnDestroy {
           width: '500px',
           data: {
             selectedAccountId: uid,
-          } as AddTransactionDialogParams,
+          },
         });
       });
   }

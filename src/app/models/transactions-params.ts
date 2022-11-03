@@ -1,5 +1,5 @@
 export interface TransactionsParams {
-  userId: string;
+  userId?: string;
   accountId: string;
-  period: string;
+  period: number;
 }

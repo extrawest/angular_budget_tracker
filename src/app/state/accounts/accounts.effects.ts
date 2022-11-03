@@ -52,6 +52,7 @@ export class AccountsEffects {
   public readonly account$ = createEffect(() => this.actions$.pipe(
     ofType(AccountsActionTypes.LoadAccount),
     fetch({
+      id: (action) => action.type,
       run: (action) => {
         return this.authService.currentUser$.pipe(
           take(1),

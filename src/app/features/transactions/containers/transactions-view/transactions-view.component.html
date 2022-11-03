@@ -1,51 +1,69 @@
-<p-tabMenu
-  [model]="datePeriods"
-  [activeItem]="activeDatePeriod"
-  styleClass="p-tabmenu-transparent p-tabmenu-fluid"
-></p-tabMenu>
 
-<div class="py-3">
-  <ng-container *ngIf="
-    (categories$ | async).length
-    && !(transactionsLoading$ | async)
-    && (transactionsLoaded$ | async)
-    && (transactions$ | async) as transactions
-  ">
-    <div *ngIf="transactions.length; else noData" class="flex flex-column">
-      <div class="text-center py-4">
-        <div class="uppercase opacity-40 font-medium text-sm">Balance</div>
-        <div
-          *ngrxLet="transactionsTotalBalance$; let totalBalance"
-          [class.text-green-400]="totalBalance > 0"
-          [class.text-red-400]="totalBalance < 0"
-          [class.text-gray-400]="totalBalance === 0"
-          class="text-5xl font-bold my-2"
-        >{{ totalBalance | currency }}</div>
-        <div class="">+4.28%</div>
+<app-date-period-tabs
+  [activePeriod]="period$ | async"
+  (activePeriodChange)="period$.next($event)"
+></app-date-period-tabs>
 
-        <button pButton (click)="onAddTransaction()" label="Add new" class="mt-4"></button>
-      </div>
-      <div *ngFor="let transaction of transactions" class="surface-card shadow-1 border-round p-3 mb-3">
-        <div class="mb-2">{{ transaction.title }}</div>
-        <div
-          [class.text-green-400]="transaction.amount > 0"
-          [class.text-red-400]="transaction.amount < 0"
-          [class.text-gray-400]="transaction.amount === 0"
-          class="font-medium text-3xl"
-        >
-          {{ transaction.amount | currency }}
+<div class="px-2 md:px-4">
+  <ng-container *ngIf="categories$ | async as categories">
+    <ng-container *ngIf="
+      (categories | keyvalue).length
+      && !(transactionsLoading$ | async)
+      && (transactionsLoaded$ | async)
+      && (transactions$ | async) as transactions
+    ">
+      <div *ngIf="transactions.length; else noData">
+        <div class="text-center py-5">
+          <div class="uppercase opacity-40 font-medium text-sm">Balance</div>
+          <div
+            *ngrxLet="transactionsTotalBalance$; let totalBalance"
+            [class.text-green-400]="totalBalance > 0"
+            [class.text-red-400]="totalBalance < 0"
+            [class.text-gray-400]="totalBalance === 0"
+            class="text-5xl font-bold my-2"
+          >{{ totalBalance | currency }}</div>
+          <div class="">+4.28%</div>
+
+          <button pButton (click)="onAddTransaction()" label="Add new" class="mt-4"></button>
         </div>
-      </div>
-    </div>
 
-    <ng-template #noData>
-      <app-data-placeholder
-        icon="no-data"
-        description="There are no transactions yet"
-      >
-        <button pButton class="btn-primary" (click)="onAddTransaction()">Create new one</button>
-      </app-data-placeholder>
-    </ng-template>
+        <section class="surface-section py-1 border-round-xl flex-auto border-1 border-gray-300">
+          <ng-container *ngFor="let group of transactions; let first = first; let lastGroup = last">
+            <div *ngIf="!first" class="px-4 pt-4 pb-3 border-bottom-1 border-gray-300">
+              <span class="text-xs text-gray-600 uppercase">{{ group.date }}</span>
+            </div>
+
+            <ng-container *ngFor="let transaction of group.transactions; let lastTransaction = last">
+              <div
+                [class.border-bottom-1]="!(lastGroup && lastTransaction)"
+                class="flex align-items-center py-2 px-4 border-bottom-1 border-gray-300"
+              >
+                <div class="w-3rem h-3rem border-circle bg-blue-100 mr-4"></div>
+                <div class="text-lg">{{ categories[transaction.categoryId]?.name }}</div>
+                <div
+                  [class.text-green-400]="transaction.amount > 0"
+                  [class.text-red-400]="transaction.amount < 0"
+                  [class.text-gray-400]="transaction.amount === 0"
+                  class="font-medium text-2xl ml-auto"
+                >
+                  {{ transaction.amount | currency }}
+                </div>
+              </div>
+            </ng-container>
+
+          </ng-container>
+        </section>
+      </div>
+
+      <ng-template #noData>
+        <app-data-placeholder
+          icon="no-data"
+          description="There are no transactions yet"
+        >
+          <button pButton class="btn-primary" (click)="onAddTransaction()">Create new one</button>
+        </app-data-placeholder>
+      </ng-template>
+    </ng-container>
   </ng-container>
 
   <ng-container *ngIf="(transactionsLoading$ | async) && !(transactionsLoaded$ | async)">
@@ -64,7 +82,7 @@
   </app-data-placeholder>
 
   <app-data-placeholder
-    *ngIf="(categoriesLoaded$ | async) && !(categories$ | async).length"
+    *ngIf="(categoriesLoaded$ | async) && !(categories$ | async | keyvalue).length"
     icon="no-data"
     description="There are no categories yet"
   >

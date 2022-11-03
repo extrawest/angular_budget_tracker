@@ -1,17 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { LetModule } from '@ngrx/component';
-import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
-import { MenuModule } from 'primeng/menu';
-import { MessageModule } from 'primeng/message';
-import { MessagesModule } from 'primeng/messages';
 import { SkeletonModule } from 'primeng/skeleton';
-import { TabMenuModule } from 'primeng/tabmenu';
-import { TagModule } from 'primeng/tag';
 
-import { DataCardModule } from '../../shared/modules/data-card';
 import { DataPlaceholderModule } from '../../shared/modules/data-placeholder';
+import { DatePeriodTabsModule } from '../../shared/modules/date-period-tabs';
 
 import { TransactionsViewComponent } from './containers';
 import { TransactionsRoutingModule } from './transactions-routing.module';
@@ -20,17 +15,12 @@ import { TransactionsRoutingModule } from './transactions-routing.module';
   declarations: [TransactionsViewComponent],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     TransactionsRoutingModule,
     LetModule,
-    AvatarModule,
     ButtonModule,
-    MenuModule,
-    TagModule,
-    TabMenuModule,
+    DatePeriodTabsModule,
     SkeletonModule,
-    MessagesModule,
-    MessageModule,
-    DataCardModule,
     DataPlaceholderModule,
   ],
 })

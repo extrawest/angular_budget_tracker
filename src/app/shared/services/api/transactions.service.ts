@@ -13,12 +13,20 @@ export class TransactionsApiService {
 
   constructor(private readonly firestore: AngularFirestore) {}
 
-  public fetchTransactions({ userId, accountId }: Partial<TransactionsParams>): Observable<Transaction[]> {
+  public fetchTransactions({ userId, accountId, period }: Partial<TransactionsParams>): Observable<Transaction[]> {
     return this.firestore.collection<Transaction>(
       this.collectionPath,
-      (ref) => ref
-        .where('userId', '==', userId)
-        .where('accountId', '==', accountId),
+      (ref) => {
+        let query = ref
+          .where('userId', '==', userId)
+          .where('accountId', '==', accountId);
+
+        if (period) {
+          query = query.where('createdAt', '>=', period);
+        }
+
+        return query;
+      },
     ).valueChanges({ idField: 'uid' });
   }
 
@@ -29,12 +37,4 @@ export class TransactionsApiService {
       filter(isNotNullOrUndefined),
     );
   }
-
-  // public deleteTransaction(transaction: Partial<Category>): Observable<Category> {
-  //   return from(this.firestore.collection(this.collectionPath).(category)).pipe(
-  //     switchMap((docRef) => this.firestore.doc<Category>(docRef.path).valueChanges()),
-  //     take(1),
-  //     filter(isNotNullOrUndefined),
-  //   );
-  // }
 }

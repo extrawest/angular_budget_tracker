@@ -41,7 +41,7 @@ export class TransactionsFacade {
     private readonly store: Store<TransactionsState>,
   ) {}
 
-  public loadTransactions(params: Partial<TransactionsParams>): void {
+  public loadTransactions(params: TransactionsParams): void {
     this.store.dispatch(loadTransactions({ params }));
   }
 

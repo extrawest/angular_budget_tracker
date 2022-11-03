@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { fetch, pessimisticUpdate } from '@nrwl/angular';
-import { take, tap } from 'rxjs';
+import { take } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import { CategoriesApiService } from '../../shared/services/api/categories.service';

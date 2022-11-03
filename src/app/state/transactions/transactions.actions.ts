@@ -22,7 +22,7 @@ export enum TransactionsActionTypes {
 
 export const loadTransactions = createAction(
   TransactionsActionTypes.LoadTransactions,
-  props<{ params: Partial<TransactionsParams> }>(),
+  props<{ params: TransactionsParams }>(),
 );
 
 export const loadTransactionsSuccess = createAction(
