@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { DialogService } from 'primeng/dynamicdialog';
-import { BehaviorSubject } from 'rxjs';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { AppRoute } from '../../../../enums/app-route.enum';
 import { DatePeriod } from '../../../../enums/date-period.enum';
-import { AddAccountDialogComponent } from '../../../../shared/modules/add-account-dialog';
+import { datePeriodToTimestamp } from '../../../../shared/helpers/date-period-to-timestamp';
+import { DialogService } from '../../../../shared/services/dialog.service';
 import { AccountsFacade } from '../../../../state';
 
 @Component({
@@ -12,9 +13,8 @@ import { AccountsFacade } from '../../../../state';
   templateUrl: './accounts-view.component.html',
   styleUrls: ['./accounts-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DialogService],
 })
-export class AccountsViewComponent implements OnInit {
+export class AccountsViewComponent implements OnInit, OnDestroy {
   public readonly accounts$ = this.accountsFacade.accounts$;
   public readonly accountsLoading$ = this.accountsFacade.accountsLoading$;
   public readonly accountsLoaded$ = this.accountsFacade.accountsLoaded$;
@@ -25,20 +25,31 @@ export class AccountsViewComponent implements OnInit {
 
   public readonly AppRoute = AppRoute;
 
+  private readonly destroy$ = new Subject<void>();
+
   constructor(
     private readonly accountsFacade: AccountsFacade,
     private readonly dialogService: DialogService,
   ) {}
 
   public ngOnInit(): void {
-    this.loadAccounts();
+    this.period$
+      .pipe(
+        takeUntil(this.destroy$),
+        map(datePeriodToTimestamp),
+      )
+      .subscribe((period) => {
+        this.accountsFacade.loadAccounts({ period });
+      });
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   public onAddAccount(): void {
-    this.dialogService.open(AddAccountDialogComponent, {
-      header: 'Add account',
-      width: '400px',
-    });
+    this.dialogService.openAddAccountDialog();
   }
 
   public loadAccounts(): void {

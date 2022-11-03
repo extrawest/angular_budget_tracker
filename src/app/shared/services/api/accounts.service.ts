@@ -29,7 +29,9 @@ export class AccountsApiService {
 
         return query;
       },
-    ).valueChanges({ idField: 'uid' });
+    )
+      .valueChanges({ idField: 'uid' })
+      .pipe(take(1));
   }
 
   public fetchAccount({ userId, alias }: AccountParams): Observable<Account> {
@@ -41,6 +43,7 @@ export class AccountsApiService {
     )
       .valueChanges({ idField: 'uid' })
       .pipe(
+        take(1),
         map(([account]) => {
           if (!account) {
             throw new Error('There are no accounts with provided alias!');

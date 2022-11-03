@@ -27,14 +27,17 @@ export class TransactionsApiService {
 
         return query;
       },
-    ).valueChanges({ idField: 'uid' });
+    )
+      .valueChanges({ idField: 'uid' })
+      .pipe(take(1));
   }
 
   public addTransaction(transaction: AddTransactionParams): Observable<Transaction> {
-    return from(this.firestore.collection(this.collectionPath).add(transaction)).pipe(
-      switchMap((docRef) => this.firestore.doc<Transaction>(docRef.path).valueChanges()),
-      take(1),
-      filter(isNotNullOrUndefined),
-    );
+    return from(this.firestore.collection(this.collectionPath).add(transaction))
+      .pipe(
+        switchMap((docRef) => this.firestore.doc<Transaction>(docRef.path).valueChanges()),
+        take(1),
+        filter(isNotNullOrUndefined),
+      );
   }
 }

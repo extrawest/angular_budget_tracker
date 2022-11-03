@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LetModule, PushModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 import { SharedModule } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
 
 import { environment } from '../environments/environment';
 
@@ -34,6 +35,9 @@ import { StateModule } from './state/state.module';
     StateModule,
     SharedModule,
     DashboardViewModule,
+  ],
+  providers: [
+    DialogService,
   ],
   bootstrap: [RootViewComponent],
 })

@@ -23,22 +23,28 @@ export class AccountsEffects {
     ofType(AccountsActionTypes.LoadAccounts),
     fetch({
       id: (action) => action.type,
-      run: () => {
+      run: (action) => {
         return this.authService.currentUser$.pipe(
           take(1),
           switchMap((user) => this.accountsApiService.fetchAccounts({ userId: user.uid })),
+          take(1),
           switchMap((accounts) => {
             return forkJoin(accounts.map((account) => this.transactionsApiService.fetchTransactions({
               userId: account.userId,
               accountId: account.uid,
-            }).pipe(
-              take(1),
-              map((transactions) => ({
-                ...account,
-                balance: transactions.reduce((acc, { amount }) => acc + amount, 0),
-              })),
-            ),
-            )).pipe(defaultIfEmpty([]));
+              period: action.params.period,
+            })
+              .pipe(
+                take(1),
+                map((transactions) => {
+                  return {
+                    ...account,
+                    balance: transactions.reduce((acc, { amount }) => acc + amount, 0),
+                  };
+                }),
+              ),
+            ))
+              .pipe(defaultIfEmpty([]));
           }),
           map((accounts) => loadAccountsSuccess({ accounts })),
         );

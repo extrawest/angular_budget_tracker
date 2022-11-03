@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { keyBy } from 'lodash';
-import { DialogService } from 'primeng/dynamicdialog';
 import {
   BehaviorSubject,
   combineLatestWith,
@@ -17,8 +16,7 @@ import { AppRoute } from '../../../../enums/app-route.enum';
 import { DatePeriod } from '../../../../enums/date-period.enum';
 import { datePeriodToTimestamp } from '../../../../shared/helpers/date-period-to-timestamp';
 import { isNotNullOrUndefined } from '../../../../shared/helpers/not-null-or-undefined';
-import { AddCategoryDialogComponent } from '../../../../shared/modules/add-category-dialog';
-import { AddTransactionDialogComponent } from '../../../../shared/modules/add-transaction-dialog';
+import { DialogService } from '../../../../shared/services/dialog.service';
 import { AccountsFacade, CategoriesFacade, TransactionsFacade } from '../../../../state';
 import { RouterFacade } from '../../../../state/router';
 import { groupTransactionsByDate } from '../../mappers/group-transactions-by-date.mapper';
@@ -28,7 +26,6 @@ import { groupTransactionsByDate } from '../../mappers/group-transactions-by-dat
   templateUrl: './transactions-view.component.html',
   styleUrls: ['./transactions-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DialogService],
 })
 export class TransactionsViewComponent implements OnInit, OnDestroy {
   public readonly transactions$ = this.transactionsFacade.transactions$.pipe(
@@ -106,23 +103,14 @@ export class TransactionsViewComponent implements OnInit, OnDestroy {
   }
 
   public onAddCategory(): void {
-    this.dialogService.open(AddCategoryDialogComponent, {
-      header: 'Add category',
-      width: '500px',
-    });
+    this.dialogService.openAddCategoryDialog();
   }
 
   public onAddTransaction(): void {
     this.accountsFacade.selectedAccount$
       .pipe(take(1))
       .subscribe(({ uid }) => {
-        this.dialogService.open(AddTransactionDialogComponent, {
-          header: 'Add transaction',
-          width: '500px',
-          data: {
-            selectedAccountId: uid,
-          },
-        });
+        this.dialogService.openAddTransactionDialog(uid);
       });
   }
 }
