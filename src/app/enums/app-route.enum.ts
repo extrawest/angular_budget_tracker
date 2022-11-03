@@ -3,4 +3,5 @@ export enum AppRoute {
   Accounts = 'accounts',
   Profile = 'profile',
   Transactions = 'transactions',
+  Settings = 'settings',
 }

@@ -20,11 +20,15 @@ const routes: Routes = [
       },
       {
         path: AppRoute.Profile,
-        loadChildren: () => import('./features/account/account.module').then(m => m.AccountModule),
+        loadChildren: () => import('./features/profile/profile.module').then(m => m.ProfileModule),
       },
       {
         path: AppRoute.Transactions,
         loadChildren: () => import('./features/transactions/transactions.module').then((m) => m.TransactionsModule),
+      },
+      {
+        path: AppRoute.Settings,
+        loadChildren: () => import('./features/settings/settings.module').then(m => m.SettingsModule),
       },
     ],
   },
