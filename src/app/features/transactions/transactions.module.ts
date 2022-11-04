@@ -5,14 +5,16 @@ import { LetModule } from '@ngrx/component';
 import { ButtonModule } from 'primeng/button';
 import { SkeletonModule } from 'primeng/skeleton';
 
+import { AccountBalanceModule } from '../../shared/modules/account-balance';
 import { DataPlaceholderModule } from '../../shared/modules/data-placeholder';
 import { DatePeriodTabsModule } from '../../shared/modules/date-period-tabs';
 
+import { TransactionsComponent } from './components/transactions/transactions.component';
 import { TransactionsViewComponent } from './containers';
 import { TransactionsRoutingModule } from './transactions-routing.module';
 
 @NgModule({
-  declarations: [TransactionsViewComponent],
+  declarations: [TransactionsViewComponent, TransactionsComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -21,6 +23,7 @@ import { TransactionsRoutingModule } from './transactions-routing.module';
     ButtonModule,
     DatePeriodTabsModule,
     SkeletonModule,
+    AccountBalanceModule,
     DataPlaceholderModule,
   ],
 })

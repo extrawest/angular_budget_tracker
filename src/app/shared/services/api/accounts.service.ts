@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { filter, from, Observable, switchMap, take } from 'rxjs';
+import { sumBy } from 'lodash';
+import { defaultIfEmpty, filter, forkJoin, from, Observable, switchMap, take } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { AccountParams } from '../../../models/account-params.model';
@@ -9,29 +10,37 @@ import { AccountsParams } from '../../../models/accounts-params.model';
 import { AddAccountParams } from '../../../models/add-account-params.model';
 import { isNotNullOrUndefined } from '../../helpers/not-null-or-undefined';
 
+import { TransactionsApiService } from './transactions.service';
+
 @Injectable({ providedIn: 'root' })
 export class AccountsApiService {
   private readonly collectionPath = 'accounts';
 
   constructor(
     private readonly firestore: AngularFirestore,
+    private readonly transactionsApiService: TransactionsApiService,
   ) {}
 
   public fetchAccounts(params: AccountsParams): Observable<Account[]> {
     return this.firestore.collection<Account>(
       this.collectionPath,
-      (ref) => {
-        const query = ref.where('userId', '==', params.userId);
-
-        if (params.period) {
-          query.where('createdAt', '<=', params.period);
-        }
-
-        return query;
-      },
+      (ref) => ref.where('userId', '==', params.userId),
     )
       .valueChanges({ idField: 'uid' })
-      .pipe(take(1));
+      .pipe(
+        switchMap((accounts) => {
+          return forkJoin(
+            accounts.map((account) => this.transactionsApiService
+              .fetchTransactions({ ...params, accountId: account.uid })
+              .pipe(
+                take(1),
+                map((transactions) => ({ ...account, balance: sumBy(transactions, ({ amount }) => amount) })),
+              ),
+            ),
+          ).pipe(defaultIfEmpty([]));
+        }),
+        take(1),
+      );
   }
 
   public fetchAccount({ userId, alias }: AccountParams): Observable<Account> {

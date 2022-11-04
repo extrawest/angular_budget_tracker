@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subject, takeUntil, tap } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { AppRoute } from '../../../../enums/app-route.enum';
 import { DatePeriod } from '../../../../enums/date-period.enum';
 import { datePeriodToTimestamp } from '../../../../shared/helpers/date-period-to-timestamp';
 import { DialogService } from '../../../../shared/services/dialog.service';
@@ -23,8 +22,6 @@ export class AccountsViewComponent implements OnInit, OnDestroy {
 
   public readonly period$ = new BehaviorSubject<DatePeriod>(DatePeriod.Month);
 
-  public readonly AppRoute = AppRoute;
-
   private readonly destroy$ = new Subject<void>();
 
   constructor(
@@ -33,14 +30,7 @@ export class AccountsViewComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.period$
-      .pipe(
-        takeUntil(this.destroy$),
-        map(datePeriodToTimestamp),
-      )
-      .subscribe((period) => {
-        this.accountsFacade.loadAccounts({ period });
-      });
+    this.loadAccounts();
   }
 
   public ngOnDestroy(): void {
@@ -53,6 +43,16 @@ export class AccountsViewComponent implements OnInit, OnDestroy {
   }
 
   public loadAccounts(): void {
-    this.accountsFacade.loadAccounts();
+    this.period$
+      .pipe(
+        map(datePeriodToTimestamp),
+        takeUntil(this.accountsFacade.onAddAccountSuccess$.pipe(
+          tap(() => this.loadAccounts()),
+        )),
+        takeUntil(this.destroy$),
+      )
+      .subscribe((period) => {
+        this.accountsFacade.loadAccounts({ period });
+      });
   }
 }

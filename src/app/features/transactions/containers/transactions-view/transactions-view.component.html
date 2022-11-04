@@ -1,91 +1,30 @@
-
 <app-date-period-tabs
   [activePeriod]="period$ | async"
   (activePeriodChange)="period$.next($event)"
 ></app-date-period-tabs>
 
 <div class="px-2 md:px-4">
-  <ng-container *ngIf="categories$ | async as categories">
-    <ng-container *ngIf="
-      (categories | keyvalue).length
-      && !(transactionsLoading$ | async)
-      && (transactionsLoaded$ | async)
-      && (transactions$ | async) as transactions
-    ">
-      <div *ngIf="transactions.length; else noData">
-        <div class="text-center py-5">
-          <div class="uppercase opacity-40 font-medium text-sm">Balance</div>
-          <div
-            *ngrxLet="transactionsTotalBalance$; let totalBalance"
-            [class.text-green-400]="totalBalance > 0"
-            [class.text-red-400]="totalBalance < 0"
-            [class.text-gray-400]="totalBalance === 0"
-            class="text-5xl font-bold my-2"
-          >{{ totalBalance | currency }}</div>
-          <div class="">+4.28%</div>
+  <div class="py-5 text-center">
+    <app-account-balance
+      [balance]="transactionsTotalBalance$ | async"
+      [loading]="transactionsLoading$ | async"
+    ></app-account-balance>
 
-          <button pButton (click)="onAddTransaction()" label="Add new" class="mt-4"></button>
-        </div>
+    <button pButton (click)="onAddTransaction()" label="Add new" class="mt-4"></button>
+  </div>
 
-        <section class="surface-section py-1 border-round-xl flex-auto border-1 border-gray-300">
-          <ng-container *ngFor="let group of transactions; let first = first; let lastGroup = last">
-            <div *ngIf="!first" class="px-4 pt-4 pb-3 border-bottom-1 border-gray-300">
-              <span class="text-xs text-gray-600 uppercase">{{ group.date }}</span>
-            </div>
-
-            <ng-container *ngFor="let transaction of group.transactions; let lastTransaction = last">
-              <div
-                [class.border-bottom-1]="!(lastGroup && lastTransaction)"
-                class="flex align-items-center py-2 px-4 border-bottom-1 border-gray-300"
-              >
-                <div class="w-3rem h-3rem border-circle bg-blue-100 mr-4"></div>
-                <div class="text-lg">{{ categories[transaction.categoryId]?.name }}</div>
-                <div
-                  [class.text-green-400]="transaction.amount > 0"
-                  [class.text-red-400]="transaction.amount < 0"
-                  [class.text-gray-400]="transaction.amount === 0"
-                  class="font-medium text-2xl ml-auto"
-                >
-                  {{ transaction.amount | currency }}
-                </div>
-              </div>
-            </ng-container>
-
-          </ng-container>
-        </section>
-      </div>
-
-      <ng-template #noData>
-        <app-data-placeholder
-          icon="no-data"
-          description="There are no transactions yet"
-        >
-          <button pButton class="btn-primary" (click)="onAddTransaction()">Create new one</button>
-        </app-data-placeholder>
-      </ng-template>
-    </ng-container>
-  </ng-container>
-
-  <ng-container *ngIf="(transactionsLoading$ | async) && !(transactionsLoaded$ | async)">
-    <div *ngFor="let item of [0, 1, 2, 3, 4]" class="surface-card shadow-1 border-round p-3 mb-3">
-      <p-skeleton width="100%" height="1.5rem" class="block mb-2"></p-skeleton>
-      <p-skeleton width="40%" height="2rem"></p-skeleton>
-    </div>
-  </ng-container>
-
-  <app-data-placeholder
-    *ngIf="transactionsError$ | async"
-    icon="no-data"
-    description="Something went wrong!"
-  >
-    <button pButton class="btn-primary" (click)="loadTransactions()">Retry</button>
-  </app-data-placeholder>
+  <app-transactions
+    [transactions]="transactions$ | async"
+    [categories]="categories$ | async"
+    [loading]="transactionsLoading$ | async"
+    [loaded]="transactionsLoaded$ | async"
+    [error]="transactionsError$ | async"
+    class="block mb-3 md:mb-5"
+  ></app-transactions>
 
   <app-data-placeholder
     *ngIf="(categoriesLoaded$ | async) && !(categories$ | async | keyvalue).length"
     icon="no-data"
     description="There are no categories yet"
-  >
-    <button pButton class="btn-primary" (click)="onAddCategory()">Add new one</button>
-  </app-data-placeholder>
+  ></app-data-placeholder>
 </div>

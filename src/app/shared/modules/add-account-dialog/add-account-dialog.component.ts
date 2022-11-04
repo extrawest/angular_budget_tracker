@@ -39,11 +39,14 @@ export class AddAccountDialogComponent {
       createdAt: Date.now(),
     });
 
-    this.accountsFacade.onAddAccountError$.pipe(
-      mergeWith(this.accountsFacade.onAddAccountSuccess$.pipe(
-        tap(() => this.dialogRef.close())),
-      ),
-      tap(() => this.processing = false),
-    ).pipe(take(1)).subscribe();
+    this.accountsFacade.onAddAccountError$
+      .pipe(
+        mergeWith(this.accountsFacade.onAddAccountSuccess$.pipe(
+          tap(() => this.dialogRef.close())),
+        ),
+        tap(() => this.processing = false),
+        take(1),
+      )
+      .subscribe();
   }
 }

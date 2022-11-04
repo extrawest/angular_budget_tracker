@@ -1,5 +1,7 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
+import { AppRoute } from '../../../../enums/app-route.enum';
 import { Account } from '../../../../models/account.model';
 
 @Component({
@@ -9,5 +11,10 @@ import { Account } from '../../../../models/account.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountsComponent {
-  @Input() accounts: Account[];
+  @Input() public accounts: Account[];
+  @Input() public loading: boolean;
+  @Input() public loaded: boolean;
+  @Input() public error: HttpErrorResponse;
+
+  public readonly AppRoute = AppRoute;
 }

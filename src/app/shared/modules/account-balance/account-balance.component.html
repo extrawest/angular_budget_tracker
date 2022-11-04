@@ -1,0 +1,16 @@
+<div class="flex flex-column align-items-center w-full py-1">
+  <div class="uppercase opacity-40 font-medium text-sm mb-2">Balance</div>
+  <div
+    [class.text-green-400]="balance > 0"
+    [class.text-red-400]="balance < 0"
+    [class.text-gray-400]="balance === 0"
+    class="text-5xl font-bold my-2"
+  >
+    <ng-container *ngIf="!loading">{{ balance | currency }}</ng-container>
+    <p-skeleton *ngIf="loading" width="12rem" height="2.5rem"></p-skeleton>
+  </div>
+  <div class="uppercase text-gray-700">
+    <ng-container *ngIf="!loading">+4.28%</ng-container>
+    <p-skeleton *ngIf="loading" width="4rem" height="1.5rem"></p-skeleton>
+  </div>
+</div>

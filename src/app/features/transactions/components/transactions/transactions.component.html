@@ -1,0 +1,56 @@
+
+<ng-container *ngIf="!loading && loaded && transactions">
+  <div *ngIf="transactions.length; else noData">
+    <section class="surface-section py-1 border-round-xl flex-auto border-1 border-gray-300">
+      <ng-container *ngFor="let group of transactions; let first = first; let lastGroup = last">
+        <div *ngIf="!first" class="px-4 pt-4 pb-3 border-bottom-1 border-gray-300">
+          <span class="text-xs text-gray-600 uppercase">{{ group.date }}</span>
+        </div>
+
+        <ng-container *ngFor="let transaction of group.transactions; let lastTransaction = last">
+          <div
+            [class.border-bottom-1]="!(lastGroup && lastTransaction)"
+            class="flex align-items-center py-2 px-4 border-bottom-1 border-gray-300"
+          >
+            <div class="w-3rem h-3rem border-circle bg-blue-100 mr-4"></div>
+            <div class="text-lg mr-3">{{ categories[transaction.categoryId]?.name }}</div>
+            <div
+              [class.text-green-400]="transaction.amount > 0"
+              [class.text-red-400]="transaction.amount < 0"
+              [class.text-gray-400]="transaction.amount === 0"
+              class="font-medium text-2xl ml-auto"
+            >
+              {{ transaction.amount | currency }}
+            </div>
+          </div>
+        </ng-container>
+
+      </ng-container>
+    </section>
+  </div>
+
+  <ng-template #noData>
+    <app-data-placeholder
+      icon="no-data"
+      description="There are no transactions yet"
+    ></app-data-placeholder>
+  </ng-template>
+</ng-container>
+
+<ng-container *ngIf="loading && !loaded">
+  <div
+    *ngFor="let item of [0, 1, 2, 3, 4, 5]; let last = last"
+    [class.border-bottom-1]="!last"
+    class="flex align-items-center py-2 px-4 border-gray-300"
+  >
+    <p-skeleton shape="circle" width="3rem" height="3rem" class="mr-4"></p-skeleton>
+    <p-skeleton width="100%" height="1.75rem" class="flex-1 mr-4"></p-skeleton>
+    <p-skeleton width="4.5rem" height="2rem" class="flex-shrink-0"></p-skeleton>
+  </div>
+</ng-container>
+
+<app-data-placeholder
+  *ngIf="error"
+  icon="no-data"
+  description="Something went wrong!"
+></app-data-placeholder>

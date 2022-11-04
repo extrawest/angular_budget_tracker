@@ -13,16 +13,16 @@ export class TransactionsApiService {
 
   constructor(private readonly firestore: AngularFirestore) {}
 
-  public fetchTransactions({ userId, accountId, period }: Partial<TransactionsParams>): Observable<Transaction[]> {
+  public fetchTransactions(params: TransactionsParams): Observable<Transaction[]> {
     return this.firestore.collection<Transaction>(
       this.collectionPath,
       (ref) => {
         let query = ref
-          .where('userId', '==', userId)
-          .where('accountId', '==', accountId);
+          .where('userId', '==', params.userId)
+          .where('accountId', '==', params.accountId);
 
-        if (period) {
-          query = query.where('createdAt', '>=', period);
+        if (params.period) {
+          query = query.where('createdAt', '>=', params.period);
         }
 
         return query;
