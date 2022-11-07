@@ -7,7 +7,7 @@ import {
   filter,
   Subject,
   take,
-  takeUntil,
+  takeUntil, tap,
   withLatestFrom,
 } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -61,19 +61,6 @@ export class TransactionsViewComponent implements OnInit, OnDestroy {
         this.accountsFacade.loadAccount(alias);
       });
 
-    this.accountsFacade.selectedAccount$
-      .pipe(
-        filter(isNotNullOrUndefined),
-        combineLatestWith(this.period$),
-        takeUntil(this.destroy$),
-      )
-      .subscribe(([{ uid }, period]) => {
-        this.transactionsFacade.loadTransactions({
-          accountId: uid,
-          period: datePeriodToTimestamp(period),
-        });
-      });
-
     this.accountsFacade.onLoadAccountError$
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
@@ -81,6 +68,7 @@ export class TransactionsViewComponent implements OnInit, OnDestroy {
       });
 
     this.categoriesFacade.loadCategories();
+    this.loadTransactions();
   }
 
   public ngOnDestroy(): void {
@@ -91,8 +79,12 @@ export class TransactionsViewComponent implements OnInit, OnDestroy {
   public loadTransactions(): void {
     this.accountsFacade.selectedAccount$
       .pipe(
-        withLatestFrom(this.period$),
-        take(1),
+        filter(isNotNullOrUndefined),
+        combineLatestWith(this.period$),
+        takeUntil(this.transactionsFacade.onAddTransactionSuccess$.pipe(
+          tap(() => this.loadTransactions()),
+        )),
+        takeUntil(this.destroy$),
       )
       .subscribe(([{ uid }, period]) => {
         this.transactionsFacade.loadTransactions({

@@ -5,7 +5,7 @@
         <p-avatar
           [image]="user.photoURL"
           [label]="user.displayName?.charAt(0)"
-          styleClass="text-4xl w-12rem h-12rem md:text-5xl surface-card"
+          styleClass="text-4xl w-12rem h-12rem md:text-5xl surface-card md:surface-ground"
           class="mb-5"
         ></p-avatar>
 
@@ -19,42 +19,40 @@
       </div>
     </div>
 
-    <div class="col-12">
-      <div class="surface-card border-round p-4 md:p-0">
-        <form [formGroup]="form">
-          <div class="grid">
-            <div class="col-12">
-              <label class="block text-900 font-medium text-sm mb-2">Firstname</label>
-              <input
-                pInputText
-                formControlName="firstname"
-                type="text"
-                aria-describedby="firstname"
-                class="w-full"
-              />
-              <app-error [control]="form.controls.lastname" field="Firstname"></app-error>
-            </div>
+    <div class="col-8 col-offset-2">
+      <form [formGroup]="form">
+        <div class="grid">
+          <div class="col-12">
+            <label class="block text-900 font-medium text-sm mb-2">Firstname</label>
+            <input
+              pInputText
+              formControlName="firstname"
+              type="text"
+              aria-describedby="firstname"
+              class="w-full"
+            />
+            <app-error [control]="form.controls.lastname" field="Firstname"></app-error>
+          </div>
 
-            <div class="col-12">
-              <label class="block text-900 font-medium text-sm mb-2">Lastname</label>
-              <input
-                pInputText
-                formControlName="firstname"
-                type="text"
-                aria-describedby="firstname"
-                class="w-full"
-              />
-              <app-error [control]="form.controls.lastname" field="Firstname"></app-error>
-            </div>
+          <div class="col-12">
+            <label class="block text-900 font-medium text-sm mb-2">Lastname</label>
+            <input
+              pInputText
+              formControlName="firstname"
+              type="text"
+              aria-describedby="firstname"
+              class="w-full"
+            />
+            <app-error [control]="form.controls.lastname" field="Firstname"></app-error>
+          </div>
 
-            <div class="col-12">
-              <div class="flex justify-content-end">
-                <button pButton type="button">Save Changes</button>
-              </div>
+          <div class="col-12">
+            <div class="flex justify-content-center">
+              <button pButton type="button">Save</button>
             </div>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>

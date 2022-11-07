@@ -29,7 +29,6 @@ export class TransactionsApiService {
       },
     )
       .valueChanges({ idField: 'uid' })
-      .pipe(take(1));
   }
 
   public addTransaction(transaction: AddTransactionParams): Observable<Transaction> {
