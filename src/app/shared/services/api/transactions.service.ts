@@ -28,7 +28,7 @@ export class TransactionsApiService {
         return query;
       },
     )
-      .valueChanges({ idField: 'uid' })
+      .valueChanges({ idField: 'uid' });
   }
 
   public addTransaction(transaction: AddTransactionParams): Observable<Transaction> {

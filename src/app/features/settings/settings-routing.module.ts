@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { SettingsComponent } from './containers';
-import {AppRoute} from "../../enums/app-route.enum";
+import { AppRoute } from '../../enums/app-route.enum';
+
+import { SettingsViewComponent } from './containers';
 
 const routes: Routes = [
   {
     path: '',
-    component: SettingsComponent,
+    component: SettingsViewComponent,
     data: {
       title: 'Settings',
       backLink: {

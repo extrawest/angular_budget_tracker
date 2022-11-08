@@ -1,34 +1,48 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
-import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, take } from 'rxjs';
 
-enum Theme {
-  Light = 'light',
-  Dark = 'dark',
-}
+import { Theme } from '../../enums/theme.enum';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
-  public readonly theme$ = new BehaviorSubject(Theme.Light);
-  public readonly themes$ = [Theme.Light, Theme.Dark];
+  public readonly currentTheme$: Observable<Theme>;
+  public readonly themes$: Observable<Theme[]>;
+
+  private readonly themesSubject$ = new BehaviorSubject([Theme.Light, Theme.Dark]);
+  private readonly currentThemeSubject$ = new BehaviorSubject(Theme.Light);
+  private readonly themeEl$ = new BehaviorSubject<HTMLLinkElement>(null);
 
   constructor(
-    private readonly domSanitizer: DomSanitizer,
     @Inject(DOCUMENT) private readonly document: Document,
-  ) {}
+  ) {
+    this.currentTheme$ = this.currentThemeSubject$.asObservable();
+    this.themes$ = this.themesSubject$.asObservable();
+  }
 
-  public setTheme(name: Theme): void {
+  public setTheme(theme: Theme): void {
+    this.currentThemeSubject$.next(theme);
+
+    this.themeEl$
+      .pipe(take(1))
+      .subscribe((el) => {
+        el.setAttribute('href', `theme-${theme.toLowerCase()}.css`);
+      });
+  }
+
+  public init(): void {
+    const el = this.createLinkElement();
+
+    this.document.head.appendChild(el);
+    this.themeEl$.next(el);
+  }
+
+  private createLinkElement(): HTMLLinkElement {
     const el = this.document.createElement('link');
 
-    el.setAttribute('href', this.getThemeUrl(name) as string);
     el.setAttribute('rel', 'stylesheet');
     el.setAttribute('type', 'text/css');
 
-    this.document.head.appendChild(el);
-  }
-
-  private getThemeUrl(name: Theme): SafeStyle {
-    return this.domSanitizer.bypassSecurityTrustStyle(name + '-theme');
+    return el;
   }
 }
