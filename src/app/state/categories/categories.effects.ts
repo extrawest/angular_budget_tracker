@@ -6,7 +6,7 @@ import { take } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import { CategoriesApiService } from '../../shared/services/api/categories.service';
-import { AuthService } from '../../shared/services/auth.service';
+import { UserService } from '../../shared/services/api/user.service';
 
 import {
   addCategory, addCategoryError, addCategorySuccess,
@@ -19,7 +19,7 @@ export class CategoriesEffects {
     ofType(CategoriesActionTypes.LoadCategories),
     fetch({
       run: () => {
-        return this.authService.currentUser$.pipe(
+        return this.userService.currentUser$.pipe(
           take(1),
           switchMap((user) => this.categoriesApiService.fetchCategories(user.uid)),
           map((categories) => loadCategoriesSuccess({ categories })),
@@ -35,7 +35,7 @@ export class CategoriesEffects {
     ofType(CategoriesActionTypes.AddCategory),
     pessimisticUpdate({
       run: ({ params }: ReturnType<typeof addCategory>) => {
-        return this.authService.currentUser$.pipe(
+        return this.userService.currentUser$.pipe(
           take(1),
           switchMap((user) => this.categoriesApiService.addCategory({ userId: user.uid, ...params })),
           map((category) => addCategorySuccess({ category })),
@@ -50,6 +50,6 @@ export class CategoriesEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly categoriesApiService: CategoriesApiService,
-    private readonly authService: AuthService,
+    private readonly userService: UserService,
   ) {}
 }

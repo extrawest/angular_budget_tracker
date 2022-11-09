@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
+import { Currency } from '../../../../enums/currency.enum';
 import { Theme } from '../../../../enums/theme.enum';
+import { CurrencyService } from '../../../../shared/services/currency.service';
 import { ThemeService } from '../../../../shared/services/theme.service';
 
 @Component({
@@ -11,12 +13,18 @@ import { ThemeService } from '../../../../shared/services/theme.service';
 })
 export class SettingsViewComponent {
   public readonly themes$ = this.themeService.themes$;
+  public readonly currencies$ = this.currencyService.currencies$;
 
   constructor(
-    public readonly themeService: ThemeService,
+    private readonly themeService: ThemeService,
+    private readonly currencyService: CurrencyService,
   ) {}
 
   public onThemeChange(theme: Theme): void {
     this.themeService.setTheme(theme);
+  }
+
+  public onCurrencyChange(currency: Currency): void {
+    this.currencyService.setCurrency(currency);
   }
 }

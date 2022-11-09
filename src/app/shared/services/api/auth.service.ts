@@ -6,22 +6,17 @@ import {
   signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile, UserCredential,
 } from '@angular/fire/auth';
 import { AuthProvider, FacebookAuthProvider, GoogleAuthProvider, User } from 'firebase/auth';
-import { BehaviorSubject, filter, forkJoin, from, Observable, switchMap } from 'rxjs';
+import { forkJoin, from, Observable, switchMap } from 'rxjs';
 
-import { isNotNullOrUndefined } from '../helpers/not-null-or-undefined';
+import { UserService } from './user.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  public currentUser$: Observable<User>;
-
-  private readonly currentUserSubject$ = new BehaviorSubject<User | null>(null);
-
-  constructor(private readonly auth: Auth) {
-    this.currentUser$ = this.currentUserSubject$.asObservable().pipe(filter(isNotNullOrUndefined));
-
-    onAuthStateChanged(this.auth, (user) => {
-      this.currentUserSubject$.next(user);
-    });
+  constructor(
+    private readonly auth: Auth,
+    private readonly userService: UserService,
+  ) {
+    onAuthStateChanged(this.auth, (user) => this.userService.setUser(user));
   }
 
   public login(email: string, password: string): Observable<UserCredential> {

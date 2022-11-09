@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { StorageMap } from '@ngx-pwa/local-storage';
-import { filter, Subject, take, takeUntil } from 'rxjs';
+import { filter, Subject, switchMap, take, takeUntil } from 'rxjs';
 
 import { Theme } from '../../enums/theme.enum';
 import { isNotNullOrUndefined } from '../../shared/helpers/not-null-or-undefined';
@@ -36,10 +36,10 @@ export class RootViewComponent implements OnInit, OnDestroy {
       });
 
     this.themeService.currentTheme$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((theme) => {
-        this.storage.set(LOCAL_STORAGE_THEME_KEY, theme);
-      });
+      .pipe(
+        switchMap((theme) => this.storage.set(LOCAL_STORAGE_THEME_KEY, theme)),
+        takeUntil(this.destroy$))
+      .subscribe();
   }
 
   public ngOnDestroy(): void {

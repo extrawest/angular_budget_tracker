@@ -8,7 +8,8 @@ import { AppRoute } from '../../../enums/app-route.enum';
 import { BackLink } from '../../../models/back-link.model';
 import { AccountsFacade } from '../../../state';
 import { isNotNullOrUndefined } from '../../helpers/not-null-or-undefined';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../services/api/auth.service';
+import { UserService } from '../../services/api/user.service';
 import { DialogService } from '../../services/dialog.service';
 
 @Component({
@@ -21,7 +22,7 @@ export class HeaderComponent {
   @Input() public backLink: BackLink;
   @Input() public title: string;
 
-  public readonly user$: Observable<User> = this.authService.currentUser$.pipe(
+  public readonly user$: Observable<User> = this.userService.currentUser$.pipe(
     filter(isNotNullOrUndefined),
   );
 
@@ -38,6 +39,7 @@ export class HeaderComponent {
     private readonly dialogService: DialogService,
     private readonly accountsFacade: AccountsFacade,
     private readonly authService: AuthService,
+    private readonly userService: UserService,
   ) {}
 
   public onLogout(): void {

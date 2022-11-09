@@ -6,7 +6,7 @@ import { take } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import { TransactionsApiService } from '../../shared/services/api/transactions.service';
-import { AuthService } from '../../shared/services/auth.service';
+import { UserService } from '../../shared/services/api/user.service';
 
 import {
   addTransaction,
@@ -25,7 +25,7 @@ export class TransactionsEffects {
     fetch({
       id: (action) => action.type,
       run: ({ params }: ReturnType<typeof loadTransactions>) => {
-        return this.authService.currentUser$.pipe(
+        return this.userService.currentUser$.pipe(
           take(1),
           switchMap(({ uid }) => this.transactionsApiService.fetchTransactions({ ...params, userId: uid })),
           map((transactions) => loadTransactionsSuccess({ transactions })),
@@ -41,7 +41,7 @@ export class TransactionsEffects {
     ofType(TransactionsActionTypes.AddTransaction),
     pessimisticUpdate({
       run: ({ params }: ReturnType<typeof addTransaction>) => {
-        return this.authService.currentUser$.pipe(
+        return this.userService.currentUser$.pipe(
           take(1),
           switchMap((user) => this.transactionsApiService.addTransaction({ userId: user.uid, ...params })),
           map((transaction) => addTransactionSuccess({ transaction })),
@@ -56,6 +56,6 @@ export class TransactionsEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly transactionsApiService: TransactionsApiService,
-    private readonly authService: AuthService,
+    private readonly userService: UserService,
   ) {}
 }

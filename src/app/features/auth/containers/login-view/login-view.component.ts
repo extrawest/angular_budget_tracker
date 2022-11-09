@@ -6,7 +6,7 @@ import { finalize } from 'rxjs';
 
 import { MessageType } from '../../../../enums/message-type.enum';
 import { getErrorMessage } from '../../../../shared/helpers/get-error-message';
-import { AuthService } from '../../../../shared/services/auth.service';
+import { AuthService } from '../../../../shared/services/api/auth.service';
 import { AuthRoute } from '../../enums/auth-route.enum';
 
 @Component({

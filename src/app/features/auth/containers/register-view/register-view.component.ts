@@ -7,7 +7,7 @@ import { finalize } from 'rxjs';
 import { AppRoute } from '../../../../enums/app-route.enum';
 import { MessageType } from '../../../../enums/message-type.enum';
 import { getErrorMessage } from '../../../../shared/helpers/get-error-message';
-import { AuthService } from '../../../../shared/services/auth.service';
+import { AuthService } from '../../../../shared/services/api/auth.service';
 import { passwordMatchingValidator } from '../../../../shared/validators/password-matching.validator';
 import { AuthRoute } from '../../enums/auth-route.enum';
 

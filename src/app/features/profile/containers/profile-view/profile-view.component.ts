@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { AuthService } from '../../../../shared/services/auth.service';
+import { UserService } from '../../../../shared/services/api/user.service';
 
 @Component({
   selector: 'app-profile-view',
@@ -10,7 +10,7 @@ import { AuthService } from '../../../../shared/services/auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileViewComponent {
-  public readonly user$ = this.authService.currentUser$;
+  public readonly user$ = this.userService.currentUser$;
 
   public readonly form = new FormGroup({
     firstname: new FormControl('', [Validators.required]),
@@ -20,6 +20,6 @@ export class ProfileViewComponent {
   public processing = false;
 
   constructor(
-    private readonly authService: AuthService,
+    private readonly userService: UserService,
   ) {}
 }

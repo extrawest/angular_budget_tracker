@@ -7,7 +7,7 @@ import { map, switchMap } from 'rxjs/operators';
 
 import { AccountsApiService } from '../../shared/services/api/accounts.service';
 import { TransactionsApiService } from '../../shared/services/api/transactions.service';
-import { AuthService } from '../../shared/services/auth.service';
+import { UserService } from '../../shared/services/api/user.service';
 
 import {
   AccountsActionTypes,
@@ -24,7 +24,7 @@ export class AccountsEffects {
     fetch({
       id: (action) => [action.type, action.params],
       run: ({ params }) => {
-        return this.authService.currentUser$.pipe(
+        return this.userService.currentUser$.pipe(
           take(1),
           switchMap((user) => this.accountsApiService.fetchAccounts({ ...params, userId: user.uid })),
           map((accounts) => loadAccountsSuccess({ accounts })),
@@ -41,7 +41,7 @@ export class AccountsEffects {
     fetch({
       id: (action) => action.type,
       run: (action) => {
-        return this.authService.currentUser$.pipe(
+        return this.userService.currentUser$.pipe(
           take(1),
           switchMap((user) => this.accountsApiService.fetchAccount({
             userId: user.uid,
@@ -60,7 +60,7 @@ export class AccountsEffects {
     ofType(AccountsActionTypes.AddAccount),
     pessimisticUpdate({
       run: ({ params }: ReturnType<typeof addAccount>) => {
-        return this.authService.currentUser$.pipe(
+        return this.userService.currentUser$.pipe(
           take(1),
           switchMap((user) => this.accountsApiService.addAccount({ userId: user.uid, ...params })),
           map((account) => addAccountSuccess({ account })),
@@ -76,6 +76,6 @@ export class AccountsEffects {
     private readonly actions$: Actions,
     private readonly accountsApiService: AccountsApiService,
     private readonly transactionsApiService: TransactionsApiService,
-    private readonly authService: AuthService,
+    private readonly userService: UserService,
   ) {}
 }

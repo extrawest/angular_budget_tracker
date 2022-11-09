@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { User } from 'firebase/auth';
 
-import { AuthService } from '../../../../shared/services/auth.service';
+import { AuthService } from '../../../../shared/services/api/auth.service';
+import { UserService } from '../../../../shared/services/api/user.service';
 import { AuthRoute } from '../../enums/auth-route.enum';
 
 @Component({
@@ -11,10 +12,14 @@ import { AuthRoute } from '../../enums/auth-route.enum';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VerifyEmailViewComponent {
-  public readonly currentUser$ = this.authService.currentUser$;
+  public readonly currentUser$ = this.userService.currentUser$;
+
   public readonly AuthRoute = AuthRoute;
 
-  constructor(private readonly authService: AuthService) { }
+  constructor(
+    private readonly authService: AuthService,
+    private readonly userService: UserService,
+  ) {}
 
   public onResendVerificationEmail(user: User): void {
     this.authService.sendEmailVerification(user).subscribe();
