@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { updateProfile } from '@angular/fire/auth';
+import { getAuth, updateProfile } from '@angular/fire/auth';
 import { User } from 'firebase/auth';
-import { BehaviorSubject, filter, Observable, switchMap, take } from 'rxjs';
+import { BehaviorSubject, filter, Observable, switchMap, take, tap } from 'rxjs';
 
 import { isNotNullOrUndefined } from '../../helpers/not-null-or-undefined';
 
@@ -23,6 +23,7 @@ export class UserService {
     return this.currentUser$.pipe(
       take(1),
       switchMap((user) => updateProfile(user, { displayName })),
+      tap(() => this.setUser(getAuth().currentUser)),
     );
   }
 
@@ -30,6 +31,7 @@ export class UserService {
     return this.currentUser$.pipe(
       take(1),
       switchMap((user) => updateProfile(user, { photoURL })),
+      tap(() => this.setUser(getAuth().currentUser)),
     );
   }
 }

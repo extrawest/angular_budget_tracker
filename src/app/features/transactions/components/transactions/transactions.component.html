@@ -20,7 +20,7 @@
               [class.text-gray-400]="transaction.amount === 0"
               class="font-medium text-2xl ml-auto"
             >
-              {{ transaction.amount | currency }}
+              {{ transaction.amount | currency : (currency$ | async) : 'symbol-narrow' }}
             </div>
           </div>
         </ng-container>

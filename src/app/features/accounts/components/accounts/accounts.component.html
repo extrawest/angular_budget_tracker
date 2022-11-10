@@ -11,7 +11,7 @@
           [class.text-red-400]="account.balance < 0"
           [class.text-gray-400]="account.balance === 0"
           class="font-medium text-3xl"
-        >{{ account.balance | currency }}</div>
+        >{{ account.balance | currency : (currency$ | async) : 'symbol-narrow' }}</div>
       </a>
     </ng-container>
   </div>

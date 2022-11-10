@@ -4,15 +4,17 @@
       <label class="block text-900 font-medium text-sm mb-2">Theme</label>
       <p-dropdown
         [options]="themes$ | async"
+        [ngModel]="selectedTheme$ | async"
         (onChange)="onThemeChange($event.value)"
         styleClass="w-full"
       ></p-dropdown>
     </div>
 
-    <div class="col-12">
+    <div *ngIf="selectedCurrency$" class="col-12">
       <label class="block text-900 font-medium text-sm mb-2">Currency</label>
       <p-dropdown
         [options]="currencies$ | async"
+        [ngModel]="selectedCurrency$ | async"
         (onChange)="onCurrencyChange($event.value)"
         styleClass="w-full"
       ></p-dropdown>

@@ -5,6 +5,7 @@ import { mergeWith, take, tap } from 'rxjs';
 
 import { AddTransactionDialogParams } from '../../../models/add-transaction-dialog-params.model';
 import { AccountsFacade, CategoriesFacade, TransactionsFacade } from '../../../state';
+import { CurrencyService } from '../../services/currency.service';
 
 @Component({
   selector: 'app-add-transaction-dialog',
@@ -15,23 +16,17 @@ import { AccountsFacade, CategoriesFacade, TransactionsFacade } from '../../../s
 export class AddTransactionDialogComponent implements OnInit {
   public readonly accounts$ = this.accountsFacade.accounts$;
   public readonly categories$ = this.categoriesFacade.categories$;
+  public readonly currencies$ = this.currencyService.currencies$;
 
   public readonly form = new FormGroup({
     amount: new FormControl(0, [Validators.required]),
     income: new FormControl(false, [Validators.required]),
-    currency: new FormControl('EUR', [Validators.required]),
+    currency: new FormControl(null, [Validators.required]),
     categoryId: new FormControl(null, [Validators.required]),
     accountId: new FormControl(this.dialogConfig.data.selectedAccountId, [Validators.required]),
     description: new FormControl(''),
     date: new FormControl(new Date(), [Validators.required]),
   });
-
-  // TODO: Remove when Currency API will be ready
-  public readonly currencies = [
-    { name: 'UAH' },
-    { name: 'USD' },
-    { name: 'EUR' },
-  ];
 
   public processing = false;
 
@@ -41,10 +36,17 @@ export class AddTransactionDialogComponent implements OnInit {
     private readonly accountsFacade: AccountsFacade,
     private readonly categoriesFacade: CategoriesFacade,
     private readonly transactionsFacade: TransactionsFacade,
+    private readonly currencyService: CurrencyService,
   ) {}
 
   public ngOnInit(): void {
     this.accountsFacade.loadAccounts();
+
+    this.currencyService.currentCurrency$
+      .pipe(take(1))
+      .subscribe((currency) => {
+        this.form.patchValue({ currency });
+      });
   }
 
   public onSubmit(): void {

@@ -1,25 +1,26 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { StorageMap } from '@ngx-pwa/local-storage';
-import { filter, Subject, switchMap, take, takeUntil } from 'rxjs';
+import { filter, take } from 'rxjs';
 
+import { Currency } from '../../enums/currency.enum';
 import { Theme } from '../../enums/theme.enum';
+import { LOCAL_STORAGE_CURRENCY_KEY, LOCAL_STORAGE_THEME_KEY } from '../../shared/constants/local-storage';
 import { isNotNullOrUndefined } from '../../shared/helpers/not-null-or-undefined';
+import { CurrencyService } from '../../shared/services/currency.service';
 import { ThemeService } from '../../shared/services/theme.service';
-
-const LOCAL_STORAGE_THEME_KEY = 'theme';
 
 @Component({
   selector: 'app-root',
   templateUrl: './root-view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RootViewComponent implements OnInit, OnDestroy {
+export class RootViewComponent implements OnInit {
   private readonly selectedTheme$ = this.storage.get<Theme>(LOCAL_STORAGE_THEME_KEY, { type: 'string' });
-
-  private readonly destroy$ = new Subject<void>();
+  private readonly selectedCurrency$ = this.storage.get<Currency>(LOCAL_STORAGE_CURRENCY_KEY, { type: 'string' });
 
   constructor(
     private readonly themeService: ThemeService,
+    private readonly currencyService: CurrencyService,
     private readonly storage: StorageMap,
   ) {}
 
@@ -35,15 +36,13 @@ export class RootViewComponent implements OnInit, OnDestroy {
         this.themeService.setTheme(theme);
       });
 
-    this.themeService.currentTheme$
+    this.selectedCurrency$
       .pipe(
-        switchMap((theme) => this.storage.set(LOCAL_STORAGE_THEME_KEY, theme)),
-        takeUntil(this.destroy$))
-      .subscribe();
-  }
-
-  public ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+        take(1),
+        filter(isNotNullOrUndefined),
+      )
+      .subscribe((currency) => {
+        this.currencyService.setCurrency(currency);
+      });
   }
 }
