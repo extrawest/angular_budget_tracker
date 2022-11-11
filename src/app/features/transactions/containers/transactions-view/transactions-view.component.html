@@ -1,0 +1,30 @@
+<app-date-period-tabs
+  [activePeriod]="period$ | async"
+  (activePeriodChange)="period$.next($event)"
+></app-date-period-tabs>
+
+<div class="px-2 md:px-4">
+  <div class="py-5 text-center">
+    <app-account-balance
+      [balance]="transactionsTotalBalance$ | async"
+      [loading]="transactionsLoading$ | async"
+    ></app-account-balance>
+
+    <button pButton (click)="onAddTransaction()" label="Add new" class="mt-4"></button>
+  </div>
+
+  <app-transactions
+    [transactions]="transactions$ | async"
+    [categories]="categories$ | async"
+    [loading]="transactionsLoading$ | async"
+    [loaded]="transactionsLoaded$ | async"
+    [error]="transactionsError$ | async"
+    class="block mb-3 md:mb-5"
+  ></app-transactions>
+
+  <app-data-placeholder
+    *ngIf="(categoriesLoaded$ | async) && !(categories$ | async | keyvalue).length"
+    icon="no-data"
+    description="There are no categories yet"
+  ></app-data-placeholder>
+</div>

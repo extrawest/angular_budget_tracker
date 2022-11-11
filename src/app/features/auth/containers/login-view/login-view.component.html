@@ -1,0 +1,79 @@
+<div class="surface-card p-6 shadow-2 border-round w-30rem">
+  <div class="text-center mb-6">
+    <div class="text-900 text-3xl font-medium mb-3">Welcome Back</div>
+    <span class="text-600 font-medium line-height-3">Don't have an account?</span>
+    <a [routerLink]="['../', AuthRoute.Register]" class="font-medium no-underline ml-2 text-blue-500">Create an Account</a>
+  </div>
+
+  <p-messages class="block mb-5"></p-messages>
+
+  <form [formGroup]="form">
+    <div class="mb-3">
+      <label class="block text-900 font-medium text-sm mb-2">Email</label>
+      <input
+        pInputText
+        formControlName="email"
+        type="email"
+        aria-describedby="email"
+        class="w-full"
+      />
+      <app-error [control]="form.controls.email" field="Email address"></app-error>
+    </div>
+
+    <div class="mb-3">
+      <div class="flex align-items-center mb-2">
+        <label class="block text-900 font-medium text-sm">Password</label>
+        <a routerLink="/register" class="ml-auto text-sm font-medium no-underline text-blue-500">Forgot password?</a>
+      </div>
+      <p-password
+        [feedback]="false"
+        [toggleMask]="true"
+        formControlName="password"
+        aria-describedby="password"
+        styleClass="block p-input-icon-right"
+        inputStyleClass="w-full"
+        (onBlur)="form.controls.password.markAsTouched()"
+      ></p-password>
+      <app-error [control]="form.controls.password" field="Password"></app-error>
+    </div>
+
+    <div class="mb-3">
+      <p-button
+        [disabled]="processing"
+        (click)="onSubmit()"
+        styleClass="flex align-items-center justify-content-center w-full"
+        type="submit"
+      >
+        <ng-template pTemplate="content">
+          <span class="font-medium">{{ processing ? 'Processing...' : 'Continue' }}</span>
+          <span *ngIf="processing" class="pi pi-spin pi-spinner ml-2"></span>
+        </ng-template>
+      </p-button>
+    </div>
+
+    <p-divider align="center" class="mb-3 font-medium text-sm text-600">OR</p-divider>
+
+    <div class="mb-3">
+      <button
+        pButton
+        label="Continue with Google"
+        icon="pi pi-google"
+        iconPos="left"
+        (click)="onSignInWithGoogle()"
+        class="w-full p-button-outlined"
+      >
+      </button>
+    </div>
+
+    <div class="mb-3">
+      <button
+        pButton
+        label="Continue with Facebook"
+        icon="pi pi-facebook"
+        iconPos="left"
+        (click)="onSignInWithFacebook()"
+        class="w-full p-button-outlined"
+      ></button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,84 @@
+<p-toast position="top-right" key="tl"></p-toast>
+
+<div *ngIf="user$ | async as user" class="px-2 md:px-4">
+  <div class="grid">
+    <div class="col-12">
+      <div class="flex flex-column align-items-center mb-5">
+        <div class="relative">
+          <p-avatar
+            [image]="user.photoURL"
+            [label]="!user.photoURL ? user.displayName?.charAt(0) : ''"
+            styleClass="text-4xl w-12rem h-12rem md:text-5xl"
+            class="mb-5"
+          ></p-avatar>
+
+          <p-fileUpload
+            #fileUpload
+            styleClass="p-button-sm w-1rem h-1rem p-3"
+            class="absolute top-0 right-0"
+            [auto]="true"
+            [customUpload]="true"
+            name="file"
+            mode="basic"
+            chooseIcon="pi pi-pencil"
+            accept="image/*"
+            maxFileSize="1000000"
+            (uploadHandler)="onUploadPhoto($event.files[0])"
+          ></p-fileUpload>
+        </div>
+
+        <h2 class="flex align-items-center mb-2 mt-2">
+          {{ user.displayName }}
+        </h2>
+
+        <div class="font-medium text-gray-400">
+          {{ user.email }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-8 col-offset-2">
+      <form [formGroup]="form">
+        <div class="grid">
+          <div class="col-12">
+            <label class="block font-medium text-sm mb-2">Firstname</label>
+            <input
+              pInputText
+              formControlName="firstname"
+              placeholder="Firstname"
+              type="text"
+              aria-describedby="firstname"
+              class="w-full"
+            />
+            <app-error [control]="form.controls.lastname" field="Firstname"></app-error>
+          </div>
+
+          <div class="col-12">
+            <label class="block font-medium text-sm mb-2">Lastname</label>
+            <input
+              pInputText
+              formControlName="lastname"
+              placeholder="Lastname"
+              [defaultValue]="123"
+              [value]="123"
+              type="text"
+              aria-describedby="lastname"
+              class="w-full"
+            />
+            <app-error [control]="form.controls.lastname" field="Lastname"></app-error>
+          </div>
+
+          <div class="col-12">
+            <div class="flex justify-content-center">
+              <p-button
+                label="Save"
+                [loading]="processing"
+                (click)="onUpdateInfo()"
+              ></p-button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

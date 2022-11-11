@@ -1,0 +1,21 @@
+<div class="surface-card px-6 py-5 shadow-2 border-round w-30rem">
+  <ng-container *ngIf="currentUser$ | async as user">
+    <div class="text-center mb-5">
+      <div class="text-900 text-3xl font-medium mb-3">Verify Your Email</div>
+      <div class="text-600 font-medium line-height-3 mb-5">
+          We have sent an email to <span class="text-primary">{{ user.email }}</span>
+          please follow a link to verify your email.
+      </div>
+    </div>
+
+    <div class="text-center">
+      <a pButton routerLink="/" type="button" class="mb-5 no-underline">
+        Go to the dashboard
+      </a>
+    </div>
+
+    <div class="text-center">
+      <a (click)="onResendVerificationEmail(user)" class="text-sm text-gray-500 cursor-pointer underline">Resend verification email</a>
+    </div>
+  </ng-container>
+</div>
