@@ -1,0 +1,71 @@
+<header class="px-2 py-3 md:px-4">
+  <div class="flex justify-content-between align-items-center">
+    <div class="flex align-items-center flex-shrink-0 mr-1 w-5rem">
+      <ng-container *ngIf="backLink; else settings">
+        <p-button
+          [routerLink]="backLink.route"
+          styleClass="p-button-text p-2"
+          icon="pi pi-chevron-left"
+          [label]="backLink.title"
+        >
+        </p-button>
+      </ng-container>
+
+      <ng-template #settings>
+        <p-button styleClass="p-button-text p-button-sm flex justify-content-center p-2" (click)="settingsMenu.toggle($event)">
+          <ng-template pTemplate="content">
+            <span class="pi pi-cog text-xl"></span>
+          </ng-template>
+        </p-button>
+
+        <p-overlayPanel #settingsMenu [showCloseIcon]="false">
+          <div>
+            <div class="flex align-items-center mb-4">
+            <ng-container *ngIf="user$ | async as user">
+                <p-avatar
+                  [label]="user.displayName?.charAt(0)"
+                  size="large"
+                  class="mr-3"
+                  styleClass="bg-dark text-light"
+                ></p-avatar>
+                <div>
+                  <div class="flex mb-1">
+                    <span class="font-medium">{{ user.displayName }}</span>
+                    <span class="pi pi-check ml-2 text-primary"></span>
+                  </div>
+                  <span class="text-gray-500">{{ user.email }}</span>
+                </div>
+              </ng-container>
+            </div>
+
+            <div class="separator my-2"></div>
+
+            <div class="py-2">
+              <a [routerLink]="AppRoute.Profile" (click)="settingsMenu.hide()" class="text-primary no-underline">My Profile</a>
+            </div>
+
+            <div class="py-2">
+              <a [routerLink]="AppRoute.Settings" class="text-primary no-underline">Settings</a>
+            </div>
+            <div class="py-2">
+              <a (click)="onLogout()" class="text-primary no-underline cursor-pointer">Sign Out</a>
+            </div>
+          </div>
+        </p-overlayPanel>
+      </ng-template>
+    </div>
+
+    <div class="px-2 font-medium text-lg">
+      {{ title }}
+    </div>
+
+    <div class="flex align-items-center justify-content-end flex-shrink-0 ml-1 w-5rem">
+      <p-button styleClass="p-button-text p-button-sm flex justify-content-center p-2" (click)="menu.toggle($event)">
+        <ng-template pTemplate="content">
+          <span class="pi pi-plus text-xl"></span>
+        </ng-template>
+      </p-button>
+      <p-menu #menu [popup]="true" [model]="addItemMenu"></p-menu>
+    </div>
+  </div>
+</header>

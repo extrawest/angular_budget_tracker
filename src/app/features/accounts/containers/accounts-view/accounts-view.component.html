@@ -1,0 +1,20 @@
+<app-date-period-tabs
+  [activePeriod]="period$ | async"
+  (activePeriodChange)="period$.next($event)"
+></app-date-period-tabs>
+
+<div class="px-2 md:px-4">
+  <div class="py-5">
+    <app-account-balance
+      [balance]="accountsTotalBalance$ | async"
+      [loading]="accountsLoading$ | async"
+    ></app-account-balance>
+  </div>
+
+  <app-accounts
+    [accounts]="accounts$ | async"
+    [loading]="accountsLoading$ | async"
+    [loaded]="accountsLoaded$ | async"
+    [error]="accountsError$ | async"
+  ></app-accounts>
+</div>
