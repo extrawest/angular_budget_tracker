@@ -1,27 +1,73 @@
-# BudgetTrackerApp
+# Budget Tracker angular app
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.3.
+![Maintaner](https://img.shields.io/badge/maintainer-extrawest.com-blue)
+![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)
+![GitHub release](https://img.shields.io/github/package-json/v/extrawest/angular_personal_budget_app)
 
-## Development server
+## Project info
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- **Budget Tracker based on Angular 14.2.3;**
 
-## Code scaffolding
+- **NgRx v14.3.2;**
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- **primeng v14.1.1;**
 
-## Build
+## Features
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- Authorization (by email & password / Google / Facebook)
+- Accounts
+- Categories
+- Transactions
+- User profile
+- Settings (Theme, Currency)
 
-## Running unit tests
+## Demo
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+[Demo](https://budget-tracker-beta.web.app/dashboard)
 
-## Running end-to-end tests
+### Installing:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+**1) Clone this repo to your folder:**
 
-## Further help
+```
+git clone https://github.com/extrawest/angular_budget_tracker
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+**2. Change current directory to the cloned folder:**
+
+```
+cd angular_budget_tracker
+```
+
+**3) You must have installed Node.js v16.15.0 or higher. Run in terminal in root project directory:**
+
+```
+# with npm
+npm install
+
+# with yarn
+yarn install
+
+# with pnpm
+pnpm install
+```
+
+**5) Start project. Run in terminal:**
+
+```
+# with npm
+npm run start
+
+# with yarn
+yarn run start
+
+# with pnpm
+pnpm run start
+```
+
+---
+
+Created by Extrawest Angular Team
+[Extrawest.com](https://www.extrawest.com), 2022
+
+---
